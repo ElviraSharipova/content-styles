@@ -1,0 +1,6 @@
+{
+  "name": "Cabinet",
+  "version": "1.0.0",
+  "private": true,
+  "main": "Cabinet.js"
+}
