@@ -1,0 +1,15 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\components",
+    "\\components\\Header",
+    "\\pages",
+    "\\pages\\cabinet",
+    "\\pages\\cabinet\\components",
+    "\\pages\\cabinet\\components\\BigStat",
+    "\\pages\\cabinet\\components\\Table",
+    "\\pages\\landing"
+  ],
+  "SelectedNode": "\\pages\\cabinet",
+  "PreviewInSolutionExplorer": false
+}
