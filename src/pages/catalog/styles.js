@@ -11,6 +11,17 @@ export default makeStyles(theme => ({
   card: {
     width: "100%"
   },
+  cardLink: {
+      color: "blue",
+      opacity: 1.0,
+    ":disabled": {
+        color: "grey"
+      }
+  },
+  cardLinkDisabled: {
+    color: "grey",
+    opacity: 0.3
+  },
   media: {
     height: 320,
     padding: theme.spacing(2)

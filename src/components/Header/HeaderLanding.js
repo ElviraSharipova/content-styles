@@ -7,6 +7,7 @@ import {
   Menu,
   MenuItem,
   Fab,
+  Grid,
   Link
 } from "@material-ui/core";
 import { useTheme } from "@material-ui/styles";
@@ -97,13 +98,21 @@ export default function Header(props) {
   return (
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
-        <a href="/#/" style={{ marginRight: "10vw" }}><img src={Logo} style={{ marginLeft: 24, marginRight: 24 }} /></a>
-        <Button component={Link} href="/#/app/catalog" color={"white"} style={{marginRight: 24}}>Каталог</Button>
-        <span style={{ color: "gray", textTransform: "uppercase" }}>Форум</span>
-        <div style={{ position: 'fixed', right: '1%' }}>
-        <Button href="/#/app/cabinet" variant="outlined" color="primary" size="large" style={{ marginRight: 24 }}><span style={{ marginLeft: 24, marginRight: 24 }}>Вход</span></Button>
-        <Button variant="contained" size="large" disabled><span style={{ color: "white" }}>Регистрация</span></Button>
-        </div>
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={5}>
+            <a href="/#/" style={{ marginRight: "10vw" }}><img src={Logo} style={{ marginLeft: 24, marginRight: 24, marginTop: 6 }} /></a>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Button component={Link} href="/#/app/catalog" color={"white"} style={{marginRight: 24}}>Каталог</Button>
+            <span style={{ color: "gray", textTransform: "uppercase" }}>Форум</span>
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <div style={{ position: 'fixed', right: '1%' }}>
+              <Button href="/#/app/cabinet" variant="outlined" color="primary" size="large" style={{ marginRight: 24 }}><span style={{ marginLeft: 24, marginRight: 24 }}>Вход</span></Button>
+              <Button variant="contained" size="large" disabled><span style={{ color: "white" }}>Регистрация</span></Button>
+            </div>
+          </Grid>
+        </Grid>
       </Toolbar>
     </AppBar>
   );

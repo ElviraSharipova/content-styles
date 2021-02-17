@@ -151,8 +151,8 @@ export default function Header(props) {
             classes={{ root: classes.headerIcon }}
           />
            </IconButton>
-          <Typography variant="body2" weight={"bold"} color="info">
-            {localStorage.getItem("email")}
+          <Typography variant="body2" weight={"bold"} color="primary" style={{ marginRight: 24 }}>
+            Пользователь
           </Typography>
         <Menu
           id="mail-menu"

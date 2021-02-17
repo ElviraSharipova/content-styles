@@ -14,11 +14,12 @@ import {
   Link
 } from "@material-ui/core";
 import { Star as StarIcon } from "@material-ui/icons";
+import Checkbox from '@material-ui/core/Checkbox';
 import { yellow } from "@material-ui/core/colors/index";
 import useStyles from "./styles";
 
 //components
-import { Typography, Chip } from "../../components/Wrappers";
+import { Typography, Chip, Button } from "../../components/Wrappers";
 
 //products array
 import { rows } from "./mock";
@@ -79,7 +80,6 @@ const Catalog = props => {
     sort: 0
   });
   React.useEffect(() => {
-    setWidth({ type: "TYPE", typeWidth: typeRef.current.offsetWidth });
     setWidth({ type: "BRANDS", brandsWidth: brandsRef.current.offsetWidth });
   }, []);
   const classes = useStyles();
@@ -131,39 +131,25 @@ const Catalog = props => {
     valueRange: "All",
     valueSort: "Favorite"
   });
+
+  const [checkedCourses, setCheckedCourses] = React.useState(true);
+  const [checkedEvents, setCheckedEvents] = React.useState(true);
+
+  const handleChangeCourses = (event) => {
+    setCheckedCourses(event.target.checked);
+  };
+  const handleChangeEvents = (event) => {
+    setCheckedEvents(event.target.checked);
+  };
+
   return (
     <>
       <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Box display="flex">
+        <Grid item xs={12} md={8}>
+          <Box display="flex" style={{ marginLeft: "2%" }}>
             <FormControl
               variant="outlined"
               className={classes.form}
-              style={{ marginRight: 15 }}
-            >
-              <InputLabel htmlFor="type_select" ref={typeRef}>
-                Тип
-              </InputLabel>
-              <Select
-                value={state.valueType}
-                onChange={e =>
-                  dispatch({ type: "SELECT_TYPE", valueType: e.target.value })
-                }
-                labelWidth={width.type}
-                inputProps={{
-                  name: "type",
-                  id: "type_select"
-                }}
-              >
-                <MenuItem value={"Shoes"}>Все типы</MenuItem>
-                <MenuItem value={"Boots"}>Курс</MenuItem>
-                <MenuItem value={"Trainers"}>Событие</MenuItem>
-              </Select>
-            </FormControl>
-            <FormControl
-              variant="outlined"
-              className={classes.form}
-              style={{ marginRight: 15 }}
             >
               <InputLabel htmlFor="brands_select" ref={brandsRef}>
                 Темы
@@ -189,13 +175,40 @@ const Catalog = props => {
             </FormControl>
           </Box>
         </Grid>
+        <Grid item xs={12} md={2}></Grid>
+        <Grid item xs={12} md={1}>
+          <Button variant="contained" size="large" fullWidth="true" style={{ marginTop: 12 }} disabled><span style={{ color: "white" }}>Создать</span></Button>
+        </Grid>
+        <Grid item xs={12} md={1}></Grid>
+        <Checkbox
+          checked={checkedCourses}
+          onChange={handleChangeCourses}
+          defaultChecked
+          color="primary"
+          inputProps={{ 'aria-label': 'primary checkbox' }}
+          style={{ marginLeft: "2%" }}
+        />
+        <Typography gutterBottom variant="h5" component="h2" style={{ marginTop: 7 }}>
+          Курсы
+            </Typography>
+        <Checkbox
+          checked={checkedEvents}
+          onChange={handleChangeEvents}
+          defaultChecked
+          color="primary"
+          inputProps={{ 'aria-label': 'primary checkbox' }}
+          style={{ marginLeft: "2%" }}
+        />
+        <Typography gutterBottom variant="h5" component="h2" style={{ marginTop: 7 }}>
+          События
+            </Typography>
         <Grid item xs={12}>
           <Box display={"flex"} flexWrap={"wrap"}>
             <Grid container item spacing={3}>
-              {rows.map(c => (
+              {rows.filter(c => checkedCourses && c.type === "Course" || checkedEvents && c.type === "Event").map(c => (
                 <Grid item xs={12} md={3} key={c.id}>
                   <Card className={classes.card}>
-                    <CardActionArea component={Link} href={`/#/app/catalog/product/${c.id}`}>
+                    <CardActionArea className={ c.active ? (classes.cardLink) : (classes.cardLinkDisabled)} component={Link} href={`/#/app/catalog/product/${c.id}`} disabled={ !c.active }>
 
 
                       <CardMedia
@@ -203,7 +216,7 @@ const Catalog = props => {
                         image={c.img}
                         title={c.title}
                       >
-                        {c.id % 2 ? (
+                        {c.type === "Course" ? (
                           <Chip label={"Курс"} color={"success"} />
                         ) : (
                           <Chip label={"Событие"} color={"secondary"} />

@@ -97,7 +97,7 @@ function useUserDispatch() {
   return context;
 }
 
-export { UserProvider, useUserState, useUserDispatch, loginUser, signOut };
+export { UserProvider, useUserState, useUserDispatch, loginUser, loginAsDefaultUser, signOut };
 
 // ###########################################################
 
@@ -131,6 +131,33 @@ function loginUser(
     } else {
       dispatch({ type: "LOGIN_FAILURE" });
     }
+}
+
+
+function loginAsDefaultUser(
+    dispatch,
+    history,
+    setIsLoading,
+    setError,
+    social = ""
+) {
+    setError(false);
+    setIsLoading(true);
+    axios
+        .post("/token/", { "username": "den", "password": "123" })
+        .then(res => {
+            const token = res.data;
+            setTimeout(() => {
+                setError(null);
+                setIsLoading(false);
+                receiveToken(token, dispatch);
+                doInit()(dispatch);
+            }, 2000);
+        })
+        .catch(() => {
+            setError(true);
+            setIsLoading(false);
+        });
 }
 
 export function sendPasswordResetEmail(email) {
