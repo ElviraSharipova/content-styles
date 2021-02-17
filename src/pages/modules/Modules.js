@@ -262,6 +262,7 @@ return (
 <Code>{`
 from robot.robot import Robot
 robot = Robot("1")
+robot.reset()
 robot.rotate_left()
 robot.move()
 robot.move()
@@ -275,7 +276,8 @@ robot.move()
 <Code>{`
 robot.move() - идти вперед
 robot.rotate_left() - поворот налево на 90°
-robot.rotate_right() - поворот направо на 90° 
+robot.rotate_right() - поворот направо на 90°
+robot.reset() - возвращает робота на исходную позицию 
 
 `}</Code>
 Управление с клавиатуры:
@@ -283,7 +285,8 @@ robot.rotate_right() - поворот направо на 90°
 <Code>{`
 W - идти вперед
 A - поворот налево на 90°
-D - поворот направо на 90° 
+D - поворот направо на 90°
+Space - вернуться в исходное положение 
 
 `}</Code>
 

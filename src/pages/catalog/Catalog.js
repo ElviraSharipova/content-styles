@@ -223,7 +223,7 @@ const Catalog = props => {
                         )}
                       </CardMedia>
                       <CardContent>
-                        <Typography gutterBottom variant="h5" component="h2">
+                        <Typography gutterBottom noWrap variant="h5" component="h2">
                           {c.title}
                         </Typography>
                         <Typography
@@ -231,6 +231,7 @@ const Catalog = props => {
                           color="text"
                           colorBrightness={"secondary"}
                           component="p"
+                          noWrap
                         >
                           {c.subtitle}
                         </Typography>
