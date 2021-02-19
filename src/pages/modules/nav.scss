@@ -1,0 +1,98 @@
+@charset "utf-8";
+
+@import "../../../node_modules/normalize.css/normalize.css";
+@import "./open_sans.css";
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
+}
+
+ul, ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: 'Open Sans', sans-serif;
+  align-items: center;
+}
+
+.wrapper {
+  background: #222;
+  color: #fff;
+}
+
+.main {
+}
+
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: -100vh;
+  background: #343B4D;
+  overflow: auto;
+  font-family: 'Open Sans', sans-serif;
+  width: 260px;
+  white-space: normal;
+  margin: 0;
+
+  &__h2 {
+    color: #FFFFFF;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 17px;
+    line-height: 120%;
+    padding-left: 20px;
+    padding-top: 25px;
+    padding-right: 30px;
+    padding-bottom: 17px;
+    margin: 0;
+  }
+
+  &__h4 {
+    color: #B4B8CC;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 120%;
+    /* identical to box height, or 16px */
+    padding-left: 20px;
+    padding-top: 23px;
+    padding-right: 30px;
+    padding-bottom: 10px;
+    margin: 0;
+  }
+
+  &__link {
+    display: flex;
+    color: #B4B8CC;
+    text-decoration: none;
+    transition: background 0.3s ease-in;
+    list-style-type: none;
+    font-size: 13px;
+    line-height: 120%;
+    font-style: normal;
+    font-weight: normal;
+
+    padding-left: 40px;
+    padding-top: 5px;
+    padding-right: 30px;
+    padding-bottom: 6px;
+    margin: 0;
+    &:hover {
+      color: #fff;
+    }
+  }
+
+  &__link_active {
+    font-weight: bold;
+    color: #fff;
+    background: #2F3443;
+  }
+
+}

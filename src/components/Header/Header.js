@@ -46,6 +46,7 @@ import {
 
 import { actions } from '../../context/ManagementContext'
 import { useUserDispatch, signOut } from "../../context/UserContext";
+import Logo from '../../images/logo-eqvium.png';
 
 const messages = [
 ];
@@ -96,9 +97,7 @@ export default function Header(props) {
   return (
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
-        <Typography variant="h6" weight="medium" className={classes.logotype}>
-          EQVIUM
-        </Typography>
+        <a href="/#/" style={{ marginRight: "10vw" }}><img src={Logo} style={{ marginLeft: 24, marginRight: 24 }} /></a>
         <Button component={Link} href="/#/app/cabinet" color={"white"} style={{marginRight: 24}}>Личный кабинет</Button>
         <Button component={Link} href="/#/app/catalog" color={"white"} style={{marginRight: 24}}>Каталог</Button>
         <Button component={Link} href="/#/app/courses" color={"white"} style={{marginRight: 24}}>Курсы и события</Button>
@@ -152,8 +151,8 @@ export default function Header(props) {
             classes={{ root: classes.headerIcon }}
           />
            </IconButton>
-          <Typography variant="body2" weight={"bold"} color="info">
-            {localStorage.getItem("email")}
+          <Typography variant="body2" weight={"bold"} color="primary" style={{ marginRight: 24 }}>
+            Пользователь
           </Typography>
         <Menu
           id="mail-menu"

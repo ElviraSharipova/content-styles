@@ -52,6 +52,7 @@
     "formik": "^2.1.4",
     "fs-extra": "7.0.1",
     "html-webpack-plugin": "4.0.0-beta.5",
+    "http-proxy-middleware": "^1.0.6",
     "identity-obj-proxy": "3.0.0",
     "is-wsl": "^1.1.0",
     "jest": "24.9.0",
@@ -64,6 +65,7 @@
     "moment": "moment/moment",
     "mui-datatables": "^2.6.4",
     "node-sass": "^4.13.0",
+    "normalize.css": "^8.0.1",
     "optimize-css-assets-webpack-plugin": "5.0.3",
     "pnp-webpack-plugin": "1.5.0",
     "postcss-flexbugs-fixes": "4.1.0",
@@ -104,12 +106,12 @@
     "workbox-webpack-plugin": "4.3.1"
   },
   "scripts": {
-    "build": "cross-env REACT_APP_BACKEND=true PUBLIC_URL='./' node scripts/build.js",
+    "build": "GENERATE_SOURCEMAP=false node scripts/build.js",
     "start": "BROWSER=none node scripts/start.js",
     "start:backend": "cross-env REACT_APP_BACKEND=true node scripts/start.js",
     "test": "node scripts/test.js"
   },
-  "proxy": "http://eqviumjs.herokuapp.com/",
+  "proxy": "http://eqviumjs.herokuapp.com",
   "eslintConfig": {
     "extends": "react-app"
   },
