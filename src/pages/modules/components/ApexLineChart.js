@@ -30,7 +30,7 @@ export default function ApexLineChart(props) {
     },
     yaxis : {
     min: 0,
-    max: 140,
+    max: 300,
     },
 
     colors: [theme.palette.primary.main, theme.palette.success.main],
