@@ -1,8 +1,7 @@
-import React, { Component } from "react";
+import React from "react";
 import "./nav.scss"
 import "./modules.scss"
-import { Route, NavLink, HashRouter, Switch } from "react-router-dom";
-import { Grid } from "@material-ui/core";
+import { NavLink } from "react-router-dom";
 
 const Nav = () => (
     <nav className="nav sub_toolbar">
@@ -14,7 +13,7 @@ const Nav = () => (
                 <li><NavLink to="/app/module/1/mod1_2"  className="nav__link" activeClassName="nav__link_active">1.2 Подключение стенда</NavLink>  </li>
                 <li><NavLink to="/app/module/1/mod1_3"  className="nav__link" activeClassName="nav__link_active">1.3 Тест</NavLink></li>
             </ul>
-            <li><h4 className="nav__h4">2. Соревновательный модуль. </h4></li>
+            <li><h4 className="nav__h4">2. Соревновательный модуль</h4></li>
             <ul>
                 <li><NavLink to="/app/module/1/mod2_1"  className="nav__link" activeClassName="nav__link_active"> 2.1 О cобытии</NavLink></li>
                 <li><NavLink to="/app/module/1/mod2_2"  className="nav__link" activeClassName="nav__link_active"> 2.2 Виртуальная среда</NavLink>  </li>
@@ -23,4 +22,10 @@ const Nav = () => (
     </nav>
 )
 
-export default Nav
+const WhBgr = props => ( // {just a kostyl' for white background on the module
+    <div className="white_module_bgr sub_toolbar">
+        {props.children}
+    </div>
+)
+
+export {Nav, WhBgr}

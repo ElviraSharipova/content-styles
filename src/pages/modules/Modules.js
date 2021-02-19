@@ -1,26 +1,10 @@
 import React from "react";
 
-import { Grid, Box, Fab, IconButton} from "@material-ui/core";
 import useStyles from "./styles";
-import Icon from '@mdi/react'
-import { HashLink as Link } from 'react-router-hash-link';
-import classnames from 'classnames'
-import { Route, NavLink, HashRouter, Switch } from "react-router-dom";
-
-import {
-  Menu as MenuIcon,
-  MailOutline as MailIcon,
-  NotificationsNone as NotificationsIcon,
-  Person as AccountIcon,
-  Search as SearchIcon,
-  Send as SendIcon,
-  ArrowBack as ArrowBackIcon
-} from "@material-ui/icons";
-
-// components
+import { Route, Switch } from "react-router-dom";
 
 import "./modules.scss"
-import Nav from "./nav";
+import {Nav, WhBgr} from "./nav";
 import Mod1_1 from "./mod1_1";
 import Mod1_2 from "./mod1_2";
 import Mod1_3 from "./mod1_3";
@@ -29,20 +13,12 @@ import Mod2_2 from "./mod2_2";
 
 export default function Module (props) {
   const classes = useStyles();
- 
-    const module_id = props.match.params.id
-
-    const [anchorEl, setAnchorEl] = React.useState(null)
-    const open = Boolean(anchorEl)
-    const id = open ? 'add-section-popover' : undefined
-    const handleClick = event => {
-        setAnchorEl(open ? null : event.currentTarget)
-    }
+  const module_id = props.match.params.id
   if (module_id == 1) {
   return (
      <>
-            <Nav/ >
-            <div style={{paddingLeft: "260px", margin: "0"}}>
+          <WhBgr> {/*some light kostyling for fully white background without change parent elevent. Need to be removed when parent will be white too*/}
+            <div className="sub_toolbar sub_module">
               <Switch >
                   <Route exact path="/app/module/1" >
                       <Mod1_1/>
@@ -64,6 +40,8 @@ export default function Module (props) {
                   </Route>
               </Switch>
             </div>
+          </WhBgr>
+          <Nav/>
 </>
   );
 }

@@ -5,8 +5,6 @@ import PlotDrawer from './components/PlotDrawer';
 
 const Mod1_2 = () => (
   <>
-    <div className="sub_module"></div>
-
     <MChap>
       1.2. Подключение стенда
     </MChap>

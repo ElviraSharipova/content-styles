@@ -5,7 +5,6 @@ import img2 from "../../images/mod1_im2.png";
 
 const Mod2_1 = () => (
 <>
-    <div className="sub_module"></div>
     <MChap>
         2.1 О событии
     </MChap>

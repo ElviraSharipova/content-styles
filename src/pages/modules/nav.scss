@@ -96,3 +96,15 @@ ul, ol {
   }
 
 }
+
+.white_module_bgr{
+  overflow:scroll;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background: #ffffff;
+  margin: 0;
+  padding-left: 40px;
+}/* just a kostyl' for white background on the module*/

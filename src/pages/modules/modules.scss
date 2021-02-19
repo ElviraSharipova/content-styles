@@ -1,9 +1,14 @@
 @charset "utf-8";
 .sub_module{
-    background: #F3F5FF;
+    background: #ffffff;
+    padding-left: 260px;
+    margin: 0; 
+    position: relative;
 }
 
+
 .sub_toolbar{
+    background: #ffffff;
     padding-top: 56px;
     @media (min-width: 0px) and (orientation: landscape) {
         padding-top: 48px;

@@ -4,7 +4,6 @@ import {MTxt, MChap, MImg, MParg, MEq} from "./typography_short"
 
 const Mod1_1 = () => (
   <>
-    <div className="sub_module"></div>
     <MChap>
       1.1. Методическая часть. Ультразвуковой сенсор
     </MChap>

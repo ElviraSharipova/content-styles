@@ -1,25 +1,35 @@
+@import "./open_sans.css";
+
 .imcentered{
    display:flex;
+   padding-left: 20px;
+   padding-right: 120px;
+   margin: 0;
+   background: #ffffff;
    justify-content:center; /* horizontally center */
    align-items:center;    /* vertically center */
- }
+}
+
+p{
+    margin: 0;
+}
 
 .txt{
     color: #343B4D;
-    font-family: 'Open Sans', sans-serif;
+    background: #ffffff;
+    font-family: 'Open Sans Semibold', sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
     line-height: 24px;
     padding-left: 20px;
-    padding-right: 60px;
+    padding-right: 120px;
     padding-bottom: 40px;
     padding-top: 0px;
     margin: 0;
-    line-height: 24px;
 
     white-space: normal;
-    @media (max-width: 700px) {
+    @media (max-width: boldpx) {
         padding-left: 5px;
         padding-right: 15px;
     }
@@ -31,6 +41,7 @@
     &__parg{
         font-weight: bold;
         font-size: 18px;
+        line-height: 32px;
     }
 
     &__chap{
@@ -52,7 +63,7 @@
         padding-left: 170px;
         padding-right: 230px;
         padding-top: 15px;
-        @media (max-width: 700px) {
+        @media (max-width: boldpx) {
             padding-left: 10px;
             padding-right: 10px;
         }

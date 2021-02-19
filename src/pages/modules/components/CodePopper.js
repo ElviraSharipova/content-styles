@@ -146,7 +146,7 @@ function CodePopper({ open, id, anchorEl }) {
 
 <Grid container spacing={12}>
         <Grid item md={12}>
-<Iframe url="http://79.143.25.41:8082/"
+<Iframe url="http://5.188.114.32/eqvium"
         frameBorder="0"
         width="100%"
         height="600px"
