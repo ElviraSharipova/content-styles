@@ -1,1 +1,0 @@
-scp -r build/* eqvium_it@5.188.114.32:~/html/
