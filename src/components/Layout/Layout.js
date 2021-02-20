@@ -76,9 +76,9 @@ function Layout(props) {
                     [classes.contentShift]: layoutState.isSidebarOpened,
                 })}
             >
-              
+             
                                 <div className={classes.fakeToolbar} />
- 
+
                 <Switch>
                     <Route path="/app/cabinet" component={Cabinet} />
                     <Route
