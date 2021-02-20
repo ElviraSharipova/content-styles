@@ -8,6 +8,7 @@ import {
 } from "@material-ui/core";
 
 import ApexLineChart from "./ApexLineChart";
+import ApexHeatmap from "./ApexHeatmap";
 
 import useStyles from "../styles";
 
@@ -112,7 +113,7 @@ const ws = useRef(null);
         >
           <>
       <Grid container spacing={12}>
- <Grid item xs={6}>
+ <Grid item xs={4}>
           <Widget title={"Данные с ИК датчика"} noBodyPadding>
           <ApexLineChart
               data={data1}
@@ -121,13 +122,18 @@ const ws = useRef(null);
             />
           </Widget>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={4}>
           <Widget title={"Данные с УЗ датчика"} noBodyPadding>
           <ApexLineChart
               data={data2}
               type="line"
               height="150"
             />
+          </Widget>
+        </Grid>
+<Grid item xs={4}>
+         <Widget title="Линейка" upperTitle noBodyPadding>
+            <ApexHeatmap data={data2}/ >
           </Widget>
         </Grid>
         </Grid>
