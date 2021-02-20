@@ -55,6 +55,12 @@ const ws = useRef(null);
             var str = "[{\"dev_sn\":\"20A-0004\", \"payload\": \""+decoded_str+"\"}]";
             console.log(str);
             ws.current.send(str);
+
+            payload = "{\"slot\": \"data stream\", \"data\" : {\"is on\" : true, \"sensor\":\"line\", \"period\":200}}\n";
+            decoded_str = btoa(payload);
+            str = "[{\"dev_sn\":\"20A-0004\", \"payload\": \""+decoded_str+"\"}]";
+            ws.current.send(str);
+
          }
          if(!stream) {
             console.log("stop stream send");
@@ -62,6 +68,11 @@ const ws = useRef(null);
             var decoded_str = btoa(payload);
             var str = "[{\"dev_sn\":\"20A-0004\", \"payload\": \""+decoded_str+"\"}]";
             console.log(str);
+            ws.current.send(str);
+         
+            payload = "{\"slot\": \"data stream\", \"data\" : {\"is on\" : false, \"sensor\":\"line\", \"period\":200}}\n";
+            decoded_str = btoa(payload);
+            str = "[{\"dev_sn\":\"20A-0004\", \"payload\": \""+decoded_str+"\"}]";
             ws.current.send(str);
         }
         setChanged(false);
