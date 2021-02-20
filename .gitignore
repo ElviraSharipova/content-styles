@@ -12,6 +12,18 @@
 # production
 /build
 /Build
+# dependencies
+node_modules
+.vs
+.pnp
+.pnp.js
+
+# testing
+coverage
+
+# production
+./build
+./Build
 
 # misc
 .DS_Store

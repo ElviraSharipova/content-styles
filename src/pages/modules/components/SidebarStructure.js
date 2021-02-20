@@ -25,15 +25,15 @@ import Dot from './Dot'
 
 const structure = [
     { id: 4, type: 'divider' },
-    { id: 5, type: 'title', label: 'Курс Стэнд' },
+    { id: 5, type: 'title', label: 'Курс Стэнд22' },
     {
         id: 13,
-        label: 'Оглавление',
+        label: 'Огл',
         icon: <FolderIcon />,
         children: [
-            { label: '1.1' },
-            { label: '1.2' },
-            { label: '1.3' },
+            { label: '1.12' },
+            { label: '1.22' },
+            { label: '1.32' },
             { label: '1.4' },
             { label: '1.5' },
             {

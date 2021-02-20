@@ -1,6 +1,13 @@
 import React from 'react'
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
 import classnames from 'classnames'
+import Icon from '@mdi/react'
+import {
+    mdiSettings as SettingsIcon,
+    mdiFacebookBox as FacebookIcon,
+    mdiTwitterBox as TwitterIcon,
+    mdiGithubBox as GithubIcon,
+} from '@mdi/js'
 import {
     Fab,
     IconButton,
@@ -23,6 +30,7 @@ import Hardware from '../../pages/hardware'
 import Module from '../../pages/modules'
 import Catalog from '../../pages/catalog/Catalog'
 import Product from '../../pages/catalog/Products'
+import Profile from '../../pages/profile/Profile'
 
 // context
 import { useLayoutState } from '../../context/LayoutContext'
@@ -68,8 +76,9 @@ function Layout(props) {
                     [classes.contentShift]: layoutState.isSidebarOpened,
                 })}
             >
-                <div className={classes.fakeToolbar} />
-               
+              
+                                <div className={classes.fakeToolbar} />
+ 
                 <Switch>
                     <Route path="/app/cabinet" component={Cabinet} />
                     <Route
@@ -88,6 +97,7 @@ function Layout(props) {
                         path="/app/catalog"
                         component={Catalog}
                     />
+                    <Route path="/app/profile" component={Profile} />
                 </Switch>
            </div>
         </div>
