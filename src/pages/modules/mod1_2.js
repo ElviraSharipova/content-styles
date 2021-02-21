@@ -1,12 +1,12 @@
 import React from "react";
 import {MTxt, MChap, MImg, MParg, MEq} from "./typography_short"
-import img5 from "../../images/mod1_im5.png";
+import img from "../../images/mod1_im3.png";
 import PlotDrawer from './components/PlotDrawer';
 
 const Mod1_2 = () => (
   <>
     <MChap>
-      1.2. Подключение стенда
+      1.4. Подключение стенда
     </MChap>
 
     <MTxt>
@@ -18,7 +18,7 @@ const Mod1_2 = () => (
         <li>4) Работа стенда в соответствии с аппаратным алгоритмом</li>
       </ul>
     </MTxt>
-    <MImg img={img5}>
+    <MImg img={img} width="30%">
       Рисунок 1 - Схема подключения стенда.
     </MImg>
     <MTxt>

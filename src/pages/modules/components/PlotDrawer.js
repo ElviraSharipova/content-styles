@@ -111,8 +111,10 @@ const ws = useRef(null);
           alignItems="center"
         >
           <>
-      <Grid container spacing={12}>
- <Grid item xs={6}>
+        <Grid container spacing={12}>
+          <Grid item xs={1}>
+          </Grid>
+ <Grid item xs={4}>
           <Widget title={"Данные с ИК датчика"} noBodyPadding>
           <ApexLineChart
               data={data1}
@@ -120,8 +122,10 @@ const ws = useRef(null);
               height="150"
             />
           </Widget>
-        </Grid>
-        <Grid item xs={6}>
+          </Grid>
+          <Grid item xs={2}>
+          </Grid>
+        <Grid item xs={4}>
           <Widget title={"Данные с УЗ датчика"} noBodyPadding>
           <ApexLineChart
               data={data2}
@@ -129,7 +133,9 @@ const ws = useRef(null);
               height="150"
             />
           </Widget>
-        </Grid>
+          </Grid>
+          <Grid item xs={1}>
+          </Grid>
         </Grid>
 </>
           <>

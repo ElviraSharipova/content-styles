@@ -12,6 +12,7 @@ const MImg= props => (
     <div className="imcentered">
         <img
             src={props.img}
+            width={props.width}
         />
     </div>
     <div className="txt txt__capt">

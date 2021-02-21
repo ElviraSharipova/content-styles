@@ -8,6 +8,8 @@ import {Nav, WhBgr} from "./nav";
 import Mod1_1 from "./mod1_1";
 import Mod1_2 from "./mod1_2";
 import Mod1_3 from "./mod1_3";
+import Mod1_4 from "./mod1_4";
+import Mod1_5 from "./mod1_5";
 import Mod2_1 from "./mod2_1";
 import Mod2_2 from "./mod2_2";
 
@@ -31,6 +33,12 @@ export default function Module (props) {
                   </Route>
                   <Route path="/app/module/1/mod1_3" >
                     <Mod1_3/>
+                  </Route>
+                  <Route path="/app/module/1/mod1_4" >
+                    <Mod1_4/>
+                  </Route>
+                  <Route path="/app/module/1/mod1_5" >
+                    <Mod1_5/>
                   </Route>
                   <Route path="/app/module/1/mod2_1" >
                     <Mod2_1/>

@@ -10,8 +10,10 @@ const Nav = () => (
             <li><h4 className="nav__h4">1. Образовательный модуль</h4></li>
             <ul>
                 <li><NavLink to="/app/module/1/mod1_1" className="nav__link" activeClassName="nav__link_active">1.1 Ультразвуковой сенсор</NavLink></li>
-                <li><NavLink to="/app/module/1/mod1_2"  className="nav__link" activeClassName="nav__link_active">1.2 Подключение стенда</NavLink>  </li>
-                <li><NavLink to="/app/module/1/mod1_3"  className="nav__link" activeClassName="nav__link_active">1.3 Тест</NavLink></li>
+                <li><NavLink to="/app/module/1/mod1_4"  className="nav__link" activeClassName="nav__link_active">1.2 Лезерный дальномер</NavLink></li>
+                <li><NavLink to="/app/module/1/mod1_5"  className="nav__link" activeClassName="nav__link_active">1.3 Оптическая линейка</NavLink></li>
+                <li><NavLink to="/app/module/1/mod1_2"  className="nav__link" activeClassName="nav__link_active">1.4 Подключение стенда</NavLink>  </li>
+                <li><NavLink to="/app/module/1/mod1_3"  className="nav__link" activeClassName="nav__link_active">1.5 Тест</NavLink></li>
             </ul>
             <li><h4 className="nav__h4">2. Соревновательный модуль</h4></li>
             <ul>

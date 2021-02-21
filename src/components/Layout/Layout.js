@@ -66,11 +66,6 @@ function Layout(props) {
     return (
         <div className={classes.root}>
             <Header history={props.history} />
-            {(window.location.href ==="http://localhost:3000/#/app/module/1" ||
-               window.location.href ==="http://localhost:3000/#/app/module/1#1" ||
-               window.location.href ==="http://localhost:3000/#/app/module/1#2"
-) 
-             &&<Sidebar structure={structure} />}
             <div
                 className={classnames(classes.content, {
                     [classes.contentShift]: layoutState.isSidebarOpened,

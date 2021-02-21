@@ -13,7 +13,8 @@ import {
   CardContent,
   CardActionArea,
   CardMedia,
-  Link
+  Link,
+  Checkbox
 } from "@material-ui/core";
 import { Star as StarIcon } from "@material-ui/icons";
 import { yellow } from "@material-ui/core/colors/index";
@@ -54,14 +55,34 @@ const Hardware = props => {
 ];
 
 
-  const [rows2, updateData2] = useState([]);
+  const [showOnlineOnly, updateShowOnlineOnly] = useState(false);
+  const [rows2, updateData2] = useState({});
+  const [, updateComponent] = useState();
+  const forceUpdateComponent = React.useCallback(() => updateComponent({}), []);
 
 //  const rows2 = [];
 
   const classes = useStyles();
 
+  const handleShowOnlineOnly = (event) => {
+    updateShowOnlineOnly(event.target.checked);
+  };
+
+  function handleHardwareStateUpdate(obj, state) {
+    if (obj.online === "true") { state[obj.device] = { "dev_sn": obj.device, "stat": "онлайн", "img": img1 } }
+    if (obj.online === "false") { state[obj.device] = { "dev_sn": obj.device, "stat": "оффлайн", "img": img } }
+    return (
+        state
+      );
+  }
+
+  function compareDeviceNames(x, y) {
+    return parseInt(x.dev_sn.slice(-4), 10) - parseInt(y.dev_sn.slice(-4), 10)
+  }
+
   
   useEffect(() => {
+        if (ws.current) return;
         ws.current = new WebSocket("ws://79.143.25.41:8080/gear");
         ws.current.binaryType = 'arraybuffer';
         ws.current.onopen = () => {
@@ -71,27 +92,18 @@ const Hardware = props => {
           axios.post("/token/refresh/", {"refresh":ref_token}).then(res => {
             console.log("res ", res.data); 
             const token = res.data.access; 
-//}).catch(err => console.error(err));
 
-
-          //const token = localStorage.getItem("token");
           console.log(token);
           axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-          axios.get("/hardware/?owner="+localStorage.getItem("user")).then(res => { 
-            //console.log("res ", res.data);
+          axios.get("/hardware/allowed_hardware").then(res => { 
+            console.log("res ", res.data);
             updateData2(res.data);
             var len = res.data.length;
-            let array2 = [];
+            let array2 = {};
             for (var i = 0; i < len; i++) {
-               array2[i] = {"dev_sn":res.data[i].dev_sn, "stat":"оффлайн", "img": img};
-            console.log(array2[i]);
-//               rows2[i]res.data[i].dev_sn] = "offline";
+              array2[res.data[i].dev_sn] = {"dev_sn":res.data[i].dev_sn, "stat":"оффлайн", "img": img};
             }
             updateData2(array2);
-           ////array2[0] =  { "id":0, "dev_sn":"23333", "stat":"offline"};
-            //console.log(array2);
-            //updateData2(array2);
-            //console.log(JSON.stringify(res.data));
             ws.current.send(JSON.stringify(res.data));}).catch(err => console.error(err));
 }).catch(err => console.error(err));
         }
@@ -99,39 +111,22 @@ const Hardware = props => {
         return () => {
             ws.current.close();
         };
-    }, []);
-  
-    useEffect(() => {
+  }, []);
+
+  useEffect(() => {
         if (!ws.current) return;
-        ws.current.onmessage = e =>  {
-//          console.log(e.data);
-            if(e.data != null) {
+        ws.current.onmessage = e => {
+          console.log(e.data);
+          if (e.data != null) {
             var obj = JSON.parse(e.data);
-           if(obj.online === "true" || obj.online === "false") {
-           console.log(obj.device, "is online: ", obj.online);
-           var len = rows2.length;
-            let array3 = [];
-            // console.log(array3, "pre change2");
-            //ifor (var i = 0; i < len; i++) {
-              // if(array3[i].dev_sn == obj.device) {
-                  var isonline;
-                  if(obj.online === "true") { isonline = "online"; array3[0] = {"dev_sn":obj.device, "stat":"онлайн", "img":img1}}
-                  if(obj.online === "false") { isonline = "offline"; array3[0] = {"dev_sn":obj.device, "stat":"оффлайн", "img":img}}
-//                  array3[0] = {"dev_sn":obj.device, "stat":isonline};
-           //       array3[i] = {"dev_sn":obj.device, "stat":isonline};
-                  //console.log(array3, "pre change2");
-              // }
-//               rows2[i]res.data[i].dev_sn] = "offline";
-           // }
-             //console.log(array3, "change2");
-            updateData2(array3);
-//           if(obj.online === "true") { rows2[obj.device] = "online";}
-//           if(obj.online === "false") { rows2[obj.device] = "offline";}
-  //         console.log(rows2);
-        }
-     }
-     };
-    }, []);
+            if (obj.online === "true" || obj.online === "false") {
+              console.log(obj.device, "is online: ", obj.online);
+              updateData2(c => handleHardwareStateUpdate(obj, c));
+              forceUpdateComponent();
+            }
+          }
+        };
+  }, []);
     
  
           //ws.current.send("hi");
@@ -144,13 +139,28 @@ const Hardware = props => {
           </Box>
         </Grid>
         <Grid item xs={12}>
+          <Typography gutterBottom variant="h5" component="h2" align="center">
+            Подключите оборудование. Оно отобразится ниже.
+          </Typography>
+        </Grid>
+        <Checkbox
+          checked={showOnlineOnly}
+          onChange={handleShowOnlineOnly}
+          color="primary"
+          inputProps={{ 'aria-label': 'primary checkbox' }}
+          style={{ marginLeft: "2%" }}
+        />
+        <Typography gutterBottom variant="h5" component="h2" style={{ marginTop: 7 }}>
+          Только подключенные
+        </Typography>
+        <Grid item xs={12}>
           <Box display={"flex"} flexWrap={"wrap"}>
             <Grid container item spacing={3}>
-{rows2.map(c => (
+              {Object.values(rows2).filter(c => !showOnlineOnly || c.stat === "онлайн").sort(compareDeviceNames).map(c => (
 
   <Grid item xs={12} md={3} key={c.id}>
                   <Card className={classes.card}>
-                    <CardActionArea component={Link} href={`/#`}>
+                    <CardActionArea component={Link} href={`/#/app/module/1/mod1_2`} disabled={c.stat === "оффлайн"}>
 
 
                       <CardMedia
