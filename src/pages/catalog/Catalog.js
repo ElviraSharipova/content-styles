@@ -177,13 +177,12 @@ const Catalog = props => {
         </Grid>
         <Grid item xs={12} md={2}></Grid>
         <Grid item xs={12} md={1}>
-          <Button variant="contained" size="large" fullWidth="true" style={{ marginTop: 12 }} disabled><span style={{ color: "white" }}>Создать</span></Button>
+          <Button variant="contained" size="large" fullWidth={true} style={{ marginTop: 12 }} disabled><span style={{ color: "white" }}>Создать</span></Button>
         </Grid>
         <Grid item xs={12} md={1}></Grid>
         <Checkbox
           checked={checkedCourses}
           onChange={handleChangeCourses}
-          defaultChecked
           color="primary"
           inputProps={{ 'aria-label': 'primary checkbox' }}
           style={{ marginLeft: "2%" }}
@@ -194,7 +193,6 @@ const Catalog = props => {
         <Checkbox
           checked={checkedEvents}
           onChange={handleChangeEvents}
-          defaultChecked
           color="primary"
           inputProps={{ 'aria-label': 'primary checkbox' }}
           style={{ marginLeft: "2%" }}
@@ -208,7 +206,11 @@ const Catalog = props => {
               {rows.filter(c => checkedCourses && c.type === "Course" || checkedEvents && c.type === "Event").map(c => (
                 <Grid item xs={12} md={3} key={c.id}>
                   <Card className={classes.card}>
-                    <CardActionArea className={ c.active ? (classes.cardLink) : (classes.cardLinkDisabled)} component={Link} href={`/#/app/catalog/product/${c.id}`} disabled={ !c.active }>
+                    {/*<CardActionArea className={c.active ? (classes.cardLink) : (classes.cardLinkDisabled)} component={Link} href={`/#/app/catalog/product/${c.id}`} disabled={!c.active}>*/}
+
+                    {/* ONLY FOR MVP 1.0*/}
+                    <CardActionArea className={c.active ? (classes.cardLink) : (classes.cardLinkDisabled)} component={Link} href={c.link} disabled={!c.active}>
+                    {/* ONLY FOR MVP 1.0*/}
 
 
                       <CardMedia

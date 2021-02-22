@@ -9,18 +9,24 @@ import img6 from "../../images/img6.jpg";
 export const rows = [
   {
     id: 1,
-    img: img1,
+    img: img3,
     active: true,
+    // ONLY FOR MVP 1.0
+    link: "#/app/module/1/mod1_1",
+    // ONLY FOR MVP 1.0
     type: "Course",
-    title: "Работа со стэндом - сенсором препятствий ",
+    title: "Интерактивный стенд",
     subtitle: "Обнаружение препятствий и детектирование движений",
     price: 80,
     rating: 5
   },
   {
     id: 2,
-    img: img2,
+    img: img3,
     active: true,
+    // ONLY FOR MVP 1.0
+    link: "#/app/module/1/mod2_1",
+    // ONLY FOR MVP 1.0
     type: "Event",
     title: "Знакомство с виртуальной средой",
     subtitle: "Управление роботом в виртуальной среде",
@@ -29,7 +35,7 @@ export const rows = [
   },
   {
     id: 3,
-    img: img2,
+    img: img4,
     active: false,
     type: "Event",
     title: "Неактивное событие",
@@ -39,7 +45,7 @@ export const rows = [
   },
   {
     id: 4,
-    img: img2,
+    img: img4,
     active: false,
     type: "Course",
     title: "Неактивный курс",
@@ -49,7 +55,7 @@ export const rows = [
   },
   {
     id: 5,
-    img: img2,
+    img: img4,
     active: false,
     type: "Course",
     title: "Неактивный курс",
@@ -59,7 +65,7 @@ export const rows = [
   },
   {
     id: 6,
-    img: img2,
+    img: img4,
     active: false,
     type: "Course",
     title: "Неактивный курс",
@@ -69,7 +75,7 @@ export const rows = [
   },
   {
     id: 7,
-    img: img2,
+    img: img4,
     active: false,
     type: "Course",
     title: "Неактивный курс",

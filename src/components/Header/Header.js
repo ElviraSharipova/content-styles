@@ -100,12 +100,12 @@ export default function Header(props) {
         <a href="/#/" style={{ marginRight: "10vw" }}><img src={Logo} style={{ marginLeft: 24, marginRight: 24 }} /></a>
         <Button component={Link} href="/#/app/cabinet" color={"white"} style={{marginRight: 24}}>Личный кабинет</Button>
         <Button component={Link} href="/#/app/catalog" color={"white"} style={{marginRight: 24}}>Каталог</Button>
-        <Button component={Link} href="/#/app/courses" color={"white"} style={{marginRight: 24}}>Курсы и события</Button>
-        <Button component={Link} href="/#/app/commands" color={"white"} style={{marginRight: 24}}>Мои команды</Button>
+        <Button component={Link} href="/#/app/courses" color={"white"} style={{marginRight: 24}} disabled>Курсы и события</Button>
+        <Button component={Link} href="/#/app/commands" color={"white"} style={{marginRight: 24}} disabled>Мои команды</Button>
         <Button component={Link} href="/#/app/hardware" color={"white"} style={{marginRight: 24}}>Оборудование</Button>
         <div className={classes.grow} />
         <IconButton
-          color="black"
+          color="inherit"
           aria-haspopup="true"
           aria-controls="mail-menu"
           onClick={e => {
