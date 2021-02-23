@@ -1,13 +1,6 @@
 import React from 'react'
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
 import classnames from 'classnames'
-import Icon from '@mdi/react'
-import {
-    mdiSettings as SettingsIcon,
-    mdiFacebookBox as FacebookIcon,
-    mdiTwitterBox as TwitterIcon,
-    mdiGithubBox as GithubIcon,
-} from '@mdi/js'
 import {
     Fab,
     IconButton,

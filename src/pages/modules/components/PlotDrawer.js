@@ -8,6 +8,7 @@ import {
 } from "@material-ui/core";
 
 import ApexLineChart from "./ApexLineChart";
+import ApexHeatmap from "./ApexHeatmap";
 
 import useStyles from "../styles";
 
@@ -54,6 +55,12 @@ const ws = useRef(null);
             var str = "[{\"dev_sn\":\"20A-0004\", \"payload\": \""+decoded_str+"\"}]";
             console.log(str);
             ws.current.send(str);
+
+            payload = "{\"slot\": \"data stream\", \"data\" : {\"is on\" : true, \"sensor\":\"line\", \"period\":200}}\n";
+            decoded_str = btoa(payload);
+            str = "[{\"dev_sn\":\"20A-0004\", \"payload\": \""+decoded_str+"\"}]";
+            ws.current.send(str);
+
          }
          if(!stream) {
             console.log("stop stream send");
@@ -61,6 +68,11 @@ const ws = useRef(null);
             var decoded_str = btoa(payload);
             var str = "[{\"dev_sn\":\"20A-0004\", \"payload\": \""+decoded_str+"\"}]";
             console.log(str);
+            ws.current.send(str);
+         
+            payload = "{\"slot\": \"data stream\", \"data\" : {\"is on\" : false, \"sensor\":\"line\", \"period\":200}}\n";
+            decoded_str = btoa(payload);
+            str = "[{\"dev_sn\":\"20A-0004\", \"payload\": \""+decoded_str+"\"}]";
             ws.current.send(str);
         }
         setChanged(false);
@@ -111,9 +123,7 @@ const ws = useRef(null);
           alignItems="center"
         >
           <>
-        <Grid container spacing={12}>
-          <Grid item xs={1}>
-          </Grid>
+      <Grid container spacing={12}>
  <Grid item xs={4}>
           <Widget title={"Данные с ИК датчика"} noBodyPadding>
           <ApexLineChart
@@ -122,9 +132,7 @@ const ws = useRef(null);
               height="150"
             />
           </Widget>
-          </Grid>
-          <Grid item xs={2}>
-          </Grid>
+        </Grid>
         <Grid item xs={4}>
           <Widget title={"Данные с УЗ датчика"} noBodyPadding>
           <ApexLineChart
@@ -133,9 +141,12 @@ const ws = useRef(null);
               height="150"
             />
           </Widget>
-          </Grid>
-          <Grid item xs={1}>
-          </Grid>
+        </Grid>
+<Grid item xs={4}>
+         <Widget title="Линейка" upperTitle noBodyPadding>
+            <ApexHeatmap data={data2}/ >
+          </Widget>
+        </Grid>
         </Grid>
 </>
           <>
