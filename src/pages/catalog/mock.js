@@ -5,11 +5,13 @@ import img3 from "../../images/img3.jpg";
 import img4 from "../../images/img4.jpg";
 import img5 from "../../images/img5.jpeg";
 import img6 from "../../images/img6.jpg";
+import standActive from "../../images/stand_active.png";
+import standInactive from "../../images/stand_inactive.png";
 
 export const rows = [
   {
     id: 1,
-    img: img3,
+    img: standActive,
     active: true,
     // ONLY FOR MVP 1.0
     link: "#/app/module/1/mod1_1",
@@ -25,10 +27,10 @@ export const rows = [
     img: img3,
     active: true,
     // ONLY FOR MVP 1.0
-    link: "#/app/module/1/mod2_1",
+    link: "#/app/module/1/mod2_1_intro",
     // ONLY FOR MVP 1.0
     type: "Event",
-    title: "Знакомство с виртуальной средой",
+    title: "Виртуальная среда",
     subtitle: "Управление роботом в виртуальной среде",
     price: 37,
     rating: 5
@@ -45,7 +47,7 @@ export const rows = [
   },
   {
     id: 4,
-    img: img4,
+    img: standInactive,
     active: false,
     type: "Course",
     title: "Неактивный курс",
@@ -55,7 +57,7 @@ export const rows = [
   },
   {
     id: 5,
-    img: img4,
+    img: standInactive,
     active: false,
     type: "Course",
     title: "Неактивный курс",
@@ -65,7 +67,7 @@ export const rows = [
   },
   {
     id: 6,
-    img: img4,
+    img: standInactive,
     active: false,
     type: "Course",
     title: "Неактивный курс",
@@ -77,9 +79,9 @@ export const rows = [
     id: 7,
     img: img4,
     active: false,
-    type: "Course",
-    title: "Неактивный курс",
-    subtitle: "Курс не активен",
+    type: "Event",
+    title: "Неактивное событие",
+    subtitle: "Событие не активно",
     price: 37,
     rating: 5
   }

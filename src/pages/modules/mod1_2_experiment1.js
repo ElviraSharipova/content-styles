@@ -1,10 +1,11 @@
 import React from "react";
-import {MTxt, MChap, MImg, MParg, MEq, MRadio, MVid, MNav} from "./typography_short"
+import { MTxt, MChap, MImg, MParg, MEq, MRadio, MVid, MNav } from "./typography_short"
+import PlotUltrasonic from './components/PlotUltrasonic';
 
 const Mod1_2_experiment1= () => (
   <>
   <MChap>
-    Эксперимент 1.<br/>
+    1.2.3. Эксперимент.<br/>
     Влияние материала препятствия на дальность и точность его обнаружения дальномерным УЗ-сенсором
   </MChap>
   <MTxt> 
@@ -18,7 +19,8 @@ const Mod1_2_experiment1= () => (
   <MTxt>
     <p>●	Сделайте вывод о попарном отличии данных величин.</p>
     <p>●	Действительно ли влияет материал препятствия на дальность и точность обнаружения предмета?</p>
-  </MTxt>
+    </MTxt>
+    <PlotUltrasonic />
   </>
 )
 

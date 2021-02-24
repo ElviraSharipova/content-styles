@@ -4,7 +4,7 @@ import {MTxt, MChap, MImg, MParg, MEq, MRadio} from "./typography_short"
 const Mod1_2_test = () => (
     <>
     
-    <MChap>1.3 Тест</MChap>
+    <MChap>1.2.2. Тест.</MChap>
     <MTxt>
         <ul style={{lineHeight: "3"}}>
             <li>1.  Какие характерные частоты имеет ультразвук?</li>

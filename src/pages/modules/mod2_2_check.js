@@ -16,7 +16,7 @@ import img1 from "../../images/modules/2_2_pic1.jpg";
 import img2 from "../../images/modules/2_2_pic2.jpg";
 
 const fabStyle = {
-    right: 0,
+    right: "3%",
     position: 'fixed',
     zIndex: 100
 };
@@ -49,7 +49,7 @@ const Mod2_2_check = () => {
         />
 
         <MChap>
-            2.2 Виртуальная среда.
+            2.2. Виртуальная среда.
         </MChap>
         <MParg>
             Задача:
@@ -119,7 +119,7 @@ const Mod2_2_check = () => {
         width="100%"
         height="700px"
         id="myId"
-        className="myClassname"
+        className={classes.virtualEnv}
         display="initial"
         position="relative"/>
     </>

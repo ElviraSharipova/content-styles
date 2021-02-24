@@ -79,7 +79,7 @@ export default function Module (props) {
                     {/*<Mod1_4_test />*/}
                   </Route>
                   <Route path="/app/module/1/mod1_4_experiment1">
-                    <Mod1_4_theory />
+                    <Mod1_4_experiment1 />
                     {/*<Mod1_4_experiment1 />*/}
                   </Route>
                   <Route path="/app/module/1/mod2_1_intro">
