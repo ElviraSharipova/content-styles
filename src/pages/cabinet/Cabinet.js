@@ -15,10 +15,6 @@ const MAP = {
   areas: [
 //    { name: "hardware", shape: "poly", coords: [1221.,810, 1051.,810. ,1051.,672. ,1221.,672.], strokeColor: "white" },
     //{ name: "hardware", shape: "poly", coords: [811,640, 945,640 ,945,525 ,811,525], strokeColor: "white" },
-<<<<<<< HEAD
-    //{ name: "hardware", shape: "poly", coords: [811,640, 945,640 ,945,525 ,811,525]},
-=======
->>>>>>> e565198b9fcb3b2c4d404504d3833c95b9789175
     { name: "hardware", shape: "poly", coords: [811,640, 945,640 ,945,525 ,811,525]},
 //    { name: "module", shape: "poly", coords: [1604.,555., 1265.,555., 1265.,370., 1604.,370.], strokeColor: "white"  },
     //{ name: "module", shape: "poly", coords: [1244,455, 975,455, 975,290, 1244.,290], strokeColor: "white"  },
@@ -69,23 +65,14 @@ const myStyle = {
 const Cabinet = props => {
 
   const { height, width } = useWindowDimensions();
-<<<<<<< HEAD
-=======
-//  console.log(width);
->>>>>>> e565198b9fcb3b2c4d404504d3833c95b9789175
 
   var classes = useStyles();
   var theme = useTheme();
 
   return (
-<<<<<<< HEAD
 <div className="cComponent" style={divStyle}>
 <ImageMapper src={Image} map={MAP} style={myStyle} width={1485} imgWidth={width} onClick={ area => {area.name === "module" ? props.history.push("/app/module/1") : props.history.push("/app/hardware")}}/>
 </div>
-=======
-
-<ImageMapper src={Image} map={MAP} style={myStyle} width={1485} imgWidth={width} onClick={ area => {area.name === "module" ? props.history.push("/app/module/1") : props.history.push("/app/hardware")}}/>
->>>>>>> e565198b9fcb3b2c4d404504d3833c95b9789175
   );
 
 }
