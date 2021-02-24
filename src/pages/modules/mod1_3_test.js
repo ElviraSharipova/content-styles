@@ -3,7 +3,7 @@ import {MTxt, MChap, MImg, MParg, MEq, MRadio, MVid, MNav} from "./typography_sh
 
 const Mod1_3_test= () => (
   <>
-    <MChap>Тест</MChap>
+    <MChap>1.3.2. Тест.</MChap>
     <ul style={{lineHeight: "3"}}>
       <li>В чем заключается принцип работы ИК сенсора расстояния?</li>
       <MRadio name="q1" id="q1_v1">Измеряется время между излучением и приемом отраженного сигнала от цели</MRadio>

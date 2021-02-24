@@ -1,7 +1,7 @@
 import React from "react";
 import {MTxt, MChap, MImg, MParg, MEq} from "./typography_short"
 
-import img2 from "../../images/mod1_im2.png";
+import img2 from "../../images/mod2_1.jpg";
 
 const Mod2_1 = () => (
 <>

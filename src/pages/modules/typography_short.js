@@ -27,6 +27,7 @@ const MImg= props => (
         <img 
             style={{height: props.height, width: props.width}}
             src={props.img}
+            width={props.width}
         />
     </div>
     <MSub txt={props.children}/>

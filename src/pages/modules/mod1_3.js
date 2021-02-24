@@ -4,7 +4,7 @@ import {MTxt, MChap, MImg, MParg, MEq} from "./typography_short"
 const Mod1_3 = () => (
     <>
     
-    <MChap>Тест</MChap>
+    <MChap>1.5. Тест</MChap>
     <MTxt>
         <form>
         <ul style={{lineHeight: "3"}}>
