@@ -25,7 +25,7 @@ const Cabinet = props => {
   var theme = useTheme();
 
   return (
-<ImageMapper src={Image} map={MAP} style={{width:"100%"}} onClick={ area => {area.name === "module" ? props.history.push("/app/module/1") : props.history.push("/app/hardware")}}
+<ImageMapper src={Image} map={MAP} style={{width:"100%"}} onClick={ area => {area.name === "module" ? props.history.push("/app/catalog") : props.history.push("/app/hardware")}}
     />
 
   );

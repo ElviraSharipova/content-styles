@@ -151,7 +151,7 @@ export default function Header(props) {
             classes={{ root: classes.headerIcon }}
           />
            </IconButton>
-          <Typography variant="body2" weight={"bold"} color="primary" style={{ marginRight: 24 }}>
+          <Typography variant="body2" weight={"bold"} color="primary" style={{ marginRight: 24, marginTop: 12 }}>
             Пользователь
           </Typography>
         <Menu

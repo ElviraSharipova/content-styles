@@ -124,14 +124,10 @@ const ws = useRef(null);
         >
           <>
         <Grid container spacing={12}>
-          <Grid item xs={4}>
-          </Grid>
-<Grid item xs={4}>
+          <Grid item xs={12}>
          <Widget title="Линейка" upperTitle noBodyPadding>
             <ApexHeatmap data={data2}/ >
           </Widget>
-          </Grid>
-          <Grid item xs={4}>
           </Grid>
         </Grid>
 </>

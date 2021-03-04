@@ -13,9 +13,6 @@ export const rows = [
     id: 1,
     img: standActive,
     active: true,
-    // ONLY FOR MVP 1.0
-    link: "#/app/module/1/mod1_1",
-    // ONLY FOR MVP 1.0
     type: "Course",
     title: "Интерактивный стенд",
     subtitle: "Обнаружение препятствий и детектирование движений",
@@ -26,9 +23,6 @@ export const rows = [
     id: 2,
     img: img3,
     active: true,
-    // ONLY FOR MVP 1.0
-    link: "#/app/module/1/mod2_1_intro",
-    // ONLY FOR MVP 1.0
     type: "Event",
     title: "Виртуальная среда",
     subtitle: "Управление роботом в виртуальной среде",
