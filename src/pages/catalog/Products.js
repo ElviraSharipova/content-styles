@@ -123,16 +123,16 @@ const Product = props => {
             <Grid container>
               <Grid item md={6} xs={12}>
                 {!props.match.params.id ? (
-                  <img
-                    src={rows[0].img}
-                    alt={rows[0].title}
-                    style={{ width: "100%", minHeight: 400 }}
+                  <CardMedia
+                    image={rows[0].img}
+                    title={rows[0].title}
+                    style={{ width: "100%", height: 600 }}
                   />
                 ) : (
-                  <img
-                    src={rows[props.match.params.id - 1].img}
-                    alt={rows[props.match.params.id - 1].title}
-                    style={{ width: "100%", minHeight: 400 }}
+                  <CardMedia
+                    image={rows[props.match.params.id - 1].img}
+                    title={rows[props.match.params.id - 1].title}
+                    style={{ width: "100%", height: 600 }}
                   />
                 )}
               </Grid>

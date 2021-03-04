@@ -1,15 +1,10 @@
 import React from 'react';
-import { Line } from 'react-chartjs-2';
-
-const labels = [...Array(91).keys()]
+import { Bar } from 'react-chartjs-2';
 
 function parseData(data) {
-  var filteredData = [...data].sort(function (a, b) {
-    return a[0] - b[0];
-  });
-  var parsedData = new Array(filteredData.length);
-  for (var i = 0; i < filteredData.length; i++) {
-    parsedData[i] = { x: filteredData[i][0], y: filteredData[i][1] };
+  var parsedData = new Array(6);
+  for (var i = 0; i < 6; i++) {
+    parsedData[i] = data[i][1];
   }
   return (
     parsedData
@@ -48,12 +43,11 @@ export default function LineChart(props) {
   }
 
   const data = {
-    labels: labels,
+    labels: [1, 2, 3, 4, 5, 6],
     datasets: [
       {
         data: parseData(props.data),
         //data: [12, 19, 3, 5, 2, 3],
-        fill: false,
         backgroundColor: 'rgb(255, 99, 132)',
         borderColor: 'rgba(255, 99, 132, 0.2)',
       },
@@ -61,6 +55,6 @@ export default function LineChart(props) {
   }
 
   return (
-    <Line data={data} options={options} />
+    <Bar data={data} options={options} />
   )
 }

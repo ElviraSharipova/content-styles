@@ -8,7 +8,8 @@ import {
 } from "@material-ui/core";
 
 import ApexLineChart from "./ApexLineChart";
-import ApexHeatmap from "./ApexHeatmap";
+//import ApexHeatmap from "./ApexHeatmap";
+import CustomBarChart from "./CustomBarChart";
 
 import useStyles from "../styles";
 
@@ -125,24 +126,17 @@ const ws = useRef(null);
           <>
         <Grid container spacing={12}>
           <Grid item xs={12}>
-         <Widget title="Линейка" upperTitle noBodyPadding>
-            <ApexHeatmap data={data2}/ >
-          </Widget>
+            <Widget title="Линейка" upperTitle noBodyPadding>
+              <div style={{ padding: 24 }}>
+                <CustomBarChart 
+                  data={data2}
+                  axesLabels={["Угол поворота, градусы", "Расстояние, мм"]}
+                />
+              </div>
+            </Widget>
           </Grid>
         </Grid>
 </>
-          <>
-            <Box my={2}>
-            <Button
-                    color={"primary"}
-                    variant={"contained"}
-                    className={classes.marginRight}
-                    onClick={() => {setStream(!stream); setChanged(true);}}
-                  >
-                   {stream ? "Остановить прием данных" : "Начать прием данных"}
-                  </Button>
-             </Box>
-          </>
         </Box>
   );
 }

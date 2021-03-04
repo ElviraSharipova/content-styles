@@ -16,5 +16,8 @@ export default makeStyles(theme => ({
   },
   progressBar: {
     colorPrimary: "#00C9FF",
+  },
+  dataStreamButton: {
+    margin: 24
   }
 }));

@@ -2,6 +2,7 @@ import React from "react";
 import { MTxt, MChap, MImg, MParg, MEq, MRadio, MVid, MNav } from "./typography_short";
 import { Grid } from "@material-ui/core";
 import PlotInfrared from './components/PlotInfrared';
+import DataStreamButton from "./components/DataStreamButton";
 
 const Mod1_3_experiment1= () => (
   <div style={{ marginLeft: 24, marginRight: "4%" }}>
@@ -26,6 +27,7 @@ const Mod1_3_experiment1= () => (
       </Grid>
       <Grid item xs={6}>
         <PlotInfrared />
+        <DataStreamButton />
       </Grid>
     </Grid >
   </div >

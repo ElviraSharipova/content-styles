@@ -7,7 +7,8 @@ import {
   Switch as SwitchMode
 } from "@material-ui/core";
 
-import ApexLineChart from "./ApexLineChart";
+//import ApexLineChart from "./ApexLineChart";
+import CustomLineChart from "./CustomLineChart";
 import ApexHeatmap from "./ApexHeatmap";
 
 import useStyles from "../styles";
@@ -121,32 +122,22 @@ const ws = useRef(null);
           flexDirection="column"
           justifyContent="space-between"
           alignItems="center"
+          style={{ marginBottom: 12 }}
         >
           <>
         <Grid container spacing={12}>
           <Grid item xs={12}>
-          <Widget title={"Данные с ИК датчика"} noBodyPadding>
-          <ApexLineChart
-              data={data1}
-              type="line"
-              height="150"
-            />
-          </Widget>
+            <Widget title={"Данные с ИК датчика"} noBodyPadding>
+              <div style={{ padding: 24 }}>
+                <CustomLineChart
+                  data={data1}
+                  axesLabels={["Угол поворота, градусы", "Расстояние, мм"]}
+                  />
+                </div>
+             </Widget>
           </Grid>
         </Grid>
 </>
-          <>
-            <Box my={2}>
-            <Button
-                    color={"primary"}
-                    variant={"contained"}
-                    className={classes.marginRight}
-                    onClick={() => {setStream(!stream); setChanged(true);}}
-                  >
-                   {stream ? "Остановить прием данных" : "Начать прием данных"}
-                  </Button>
-             </Box>
-          </>
         </Box>
   );
 }

@@ -3,6 +3,7 @@ import { MTxt, MChap, MImg, MParg, MEq, MRadio, MVid, MNav } from "./typography_
 import { Grid } from "@material-ui/core";
 import PlotUltrasonic from './components/PlotUltrasonic';
 import PlotInfrared from './components/PlotInfrared';
+import DataStreamButton from "./components/DataStreamButton";
 
 const Mod1_3_experiment2= () => (
   <div style={{ marginLeft: 24, marginRight: "4%" }}>
@@ -27,6 +28,7 @@ const Mod1_3_experiment2= () => (
       <Grid item xs={6}>
         <PlotInfrared />
         <PlotUltrasonic />
+        <DataStreamButton />
       </Grid>
     </Grid >
   </div >

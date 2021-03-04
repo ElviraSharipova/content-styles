@@ -2,6 +2,7 @@ import React from "react";
 import { MTxt, MChap, MImg, MParg, MEq, MRadio, MVid, MNav } from "./typography_short";
 import { Grid } from "@material-ui/core";
 import PlotUltrasonic from './components/PlotUltrasonic';
+import DataStreamButton from "./components/DataStreamButton";
 
 const Mod1_1_check= () => (
   <div style={{ marginLeft: 24, marginRight: "4%" }}>
@@ -16,7 +17,8 @@ const Mod1_1_check= () => (
         </MTxt>
       </Grid>
       <Grid item xs={6}>
-        <PlotUltrasonic/>
+        <PlotUltrasonic />
+        <DataStreamButton />
       </Grid>
     </Grid>
   </div>
