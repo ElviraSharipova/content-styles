@@ -35,7 +35,7 @@ const Nav = props => {
         <li><h4 className="nav__h4">1. Образовательный модуль</h4></li>
         <ul>
 
-          <span button onClick={handleClick(0)}>
+          <span button onClick={() => handleClick(0)}>
             <p className="nav__link">
               1.1 Настройка стенда
               {open[0] ? <ExpandLess /> : <ExpandMore />}
@@ -48,7 +48,7 @@ const Nav = props => {
             </ul>
           </Collapse>
 
-          <span button onClick={handleClick(1)}>
+          <span button onClick={() => handleClick(1)}>
             <p className="nav__link">
               1.2 Ультразвуковой сенсор
               {open[1] ? <ExpandLess /> : <ExpandMore />}
@@ -62,7 +62,7 @@ const Nav = props => {
             </ul>
           </Collapse>
 
-          <span button onClick={handleClick(2)}>
+          <span button onClick={() => handleClick(2)}>
             <p className="nav__link">
               1.3 Лазерный дальномер
               {open[2] ? <ExpandLess /> : <ExpandMore />}
@@ -77,7 +77,7 @@ const Nav = props => {
             </ul>
           </Collapse>
           
-          <span button onClick={handleClick(3)}>
+          <span button onClick={() => handleClick(3)}>
             <p className="nav__link">
               1.4 Оптическая линейка
               {open[3] ? <ExpandLess /> : <ExpandMore />}
