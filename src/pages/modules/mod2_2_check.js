@@ -2,7 +2,7 @@ import React from "react";
 import { Grid, Fab} from "@material-ui/core";
 import Iframe from 'react-iframe';
 import {MTxt, MChap, MImg, MParg, MEq} from "./typography_short"
-import CodePopper from './components/CodePopper';
+import CodeStatic from './components/CodeStatic';
 
 import Icon from '@mdi/react'
 import useStyles from "./styles";
@@ -24,30 +24,9 @@ const fabStyle = {
 const Mod2_2_check = () => {
 
     const classes = useStyles();
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
-    const id = open ? 'add-section-popover' : undefined;
-    const handleClick = event => {
-        setAnchorEl(open ? null : event.currentTarget)
-    };
 
     return(
     <>
-        <Fab
-            color="primary"
-            aria-label="settings"
-            onClick={e => handleClick(e)}
-            className={classes.changeThemeFab}
-            style={fabStyle}
-        >
-            <Icon  path={KeyboardIcon} size={1} color="#fff" />
-        </Fab>
-        <CodePopper
-            id={id}
-            open={open}
-            anchorEl={anchorEl}
-        />
-
         <MChap>
             2.2. Виртуальная среда.
         </MChap>
@@ -114,14 +93,23 @@ const Mod2_2_check = () => {
                 </pre>
             </div>
         </MTxt>
-        <Iframe url="http://79.143.25.41/venv"
-        frameBorder="0"
-        width="100%"
-        height="700px"
-        id="myId"
-        className={classes.virtualEnv}
-        display="initial"
-        position="relative"/>
+        <Grid container spacing={12}>
+          <Grid item xs={7}>
+            <Iframe url="http://79.143.25.41/venv"
+            frameBorder="0"
+            width="100%"
+            height="700px"
+            id="myId"
+            className={classes.virtualEnv}
+            display="initial"
+            position="relative"/>
+          </Grid>
+          <Grid item xs={4}>
+            <div className={classes.codeEditor}>
+              <CodeStatic />
+            </div>
+          </Grid>
+        </Grid>
     </>
 );
 }

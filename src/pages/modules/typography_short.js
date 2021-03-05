@@ -41,7 +41,7 @@ MImg.defaultProps = {
 
 
 const MNav = props => (
-    <li><NavLink to={props.to} className="nav__link" activeClassName="nav__link_active"> {props.children} </NavLink></li>
+    <li><NavLink to={props.to} className="nav__link" activeClassName="nav__link_active" onClick={props.onClick}> {props.children} </NavLink></li>
 )
 
 const MChap = props => (
@@ -73,8 +73,8 @@ const MRadio= props => (
 )
 
 const MVid= props => (
-    <>
-    <p align="center">
+  <>
+    <p align="center" style={{ marginTop: 24 }}>
         <iframe align="absmiddle" width="560" height="315" src={props.src} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </p>
     <MSub txt={props.children}/>

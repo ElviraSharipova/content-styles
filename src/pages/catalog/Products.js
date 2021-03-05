@@ -46,14 +46,17 @@ import payment1 from "../../images/mastercard.svg";
 import payment2 from "../../images/paypal.svg";
 import payment3 from "../../images/visa.svg";
 import payment4 from "../../images/aexpress.svg";
+import standActive from "../../images/stand_active.png";
+import standInactive from "../../images/stand_inactive.png";
+import Logo from '../../images/logo-eqvium.png';
 
 export const rows = [
   {
     id: 1,
-    img: img1,
+    img: standActive,
     hardware: "стэнд 20A-0004",
     hardware_status: "оффлайн",
-    title: "Работа со стэндом - сенсором препятствий",
+    title: "Интерактивный стенд",
     subtitle: "Обнаружение препятствий и детектирование движений",
     description: "Используется уст-во с серийным номером 20A-004. Данное уст-во представялет собой стенд, оборудованный датчиками - измерителями расстояния.",
     technology: "Python, Arduino",
@@ -62,21 +65,27 @@ export const rows = [
     rating: 4.6,
     color: "primary",
     status: "Shipped",
-    process: "100%"
+    process: "100%",
+    // ONLY FOR MVP 1.0
+    link: "#/app/module/1/mod1_1",
+    // ONLY FOR MVP 1.0
   },
   {
     id: 2,
-    img: img2,
-    title: "Знакомство с виртуальной средой.",
-    subtitle: "Управление роботом в виртуальной среде.",
-    description: "Данное событие представляет собой командное соревнование, в котором командам предстоит управлять роботом в виртуальной среде, подавая команды через код на языке программирования Python в совместном редакторе кода и выполняя поставленные в событии задачи, которые будут озвучены во время старта события.",
+    img: img3,
+    title: "Виртуальная среда",
+    subtitle: "Управление роботом в виртуальной среде",
+    description: "Данное событие предназначено для первичного ознакомления с управляемым виртуальным роботом и представляет собой демонстрацию базовых возможностей управления им как непосредственно, так и при помощи программного интерфейса. В рамках события на первой стадии участникам дается возможность совместно опробовать управление роботом с помощью клавиатуры.Далее в общем текстовом редакторе участникам предлагается написать простую пошаговую инструкцию для робота, которая сначала приведет его к красному кристаллу внутри тоннеля, а после - в исходную позицию.",
     technology: "Python",
     price: 37,
     progress: 100,
     rating: 5,
     color: "primary",
     status: "Shipped",
-    process: "64%" 
+    process: "64%",
+    // ONLY FOR MVP 1.0
+    link: "#/app/module/1/mod2_2_check",
+    // ONLY FOR MVP 1.0
   }
 ];
 
@@ -114,16 +123,16 @@ const Product = props => {
             <Grid container>
               <Grid item md={6} xs={12}>
                 {!props.match.params.id ? (
-                  <img
-                    src={rows[0].img}
-                    alt={rows[0].title}
-                    style={{ width: "100%", minHeight: 400 }}
+                  <CardMedia
+                    image={rows[0].img}
+                    title={rows[0].title}
+                    style={{ width: "100%", height: 600 }}
                   />
                 ) : (
-                  <img
-                    src={rows[props.match.params.id - 1].img}
-                    alt={rows[props.match.params.id - 1].title}
-                    style={{ width: "100%", minHeight: 400 }}
+                  <CardMedia
+                    image={rows[props.match.params.id - 1].img}
+                    title={rows[props.match.params.id - 1].title}
+                    style={{ width: "100%", height: 600 }}
                   />
                 )}
               </Grid>
@@ -135,7 +144,7 @@ const Product = props => {
                   justifyContent="space-between"
                   style={{ height: "calc(100% - 48px)" }}
                 >
-                  <Box>
+                  {/*<Box>
                     {!props.match.params.id ? (
                       <div style={{ fontSize: "1.5rem", color: yellow[700] }}>
                         {rows[0].rating}
@@ -156,8 +165,8 @@ const Product = props => {
                         />
                       </>
                     )}{" "}
-                  </Box>
-                  <Box>
+                  </Box>*/}
+                  <Box style={{ margin: "10%" }}>
                     {!props.match.params.id ? (
                       <>
                         <Typography variant="h3" uppercase>
@@ -176,7 +185,7 @@ const Product = props => {
                       </>
                     )}{" "}
                   </Box>
-                  <Box>
+                  {/*<Box>
                     {!props.match.params.id ? (
                       <>
                         <Typography weight="medium" variant={"h5"}>
@@ -190,9 +199,9 @@ const Product = props => {
                         </Typography>
                       </>
                     )}{" "}
-                  </Box>
+                  </Box>*/}
                   <Box display="flex" alignItems="center">
-                    <Button component={Link} href={`#app/module/${rows[props.match.params.id - 1].id}`}
+                    <Button component={Link} href={rows[props.match.params.id - 1].link}
                       color="primary"
                       variant="contained"
                       style={{ flexGrow: 3 }}
@@ -205,17 +214,17 @@ const Product = props => {
             </Grid>
           </Widget>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={8}>
           <Widget disableWidgetMenu title="">
             <Grid container>
               <Grid item xs={12}>
                 <Grid container item spacing={3}>
-                  <Grid item container direction={"column"} md={4} xs={12}>
-                    <Typography variant="h5" style={{ marginBottom: 16 }}>
+                  <div style={{ margin: "3%" }}>
+                    <Typography variant="h3" style={{ marginBottom: 16 }}>
                       Описание 
                     </Typography>
-                       <p>{rows[props.match.params.id - 1].description}</p>
-                  </Grid>
+                    <p>{rows[props.match.params.id - 1].description}</p>
+                  </div>
                   <Grid
                     item
                     container
@@ -224,14 +233,14 @@ const Product = props => {
                     md={4}
                     xs={12}
                   >
-                    <Box>
+                    {/*<Box>
                       <Typography variant="h5" style={{ marginBottom: 16 }}>
                           Используемые технологии
                       </Typography>
                       <p>{rows[props.match.params.id - 1].technology}</p>
-                    </Box>
+                    </Box>*/}
                   </Grid>
-                  <Grid item container direction={"column"} md={4} xs={12}>
+                  {/*<Grid item container direction={"column"} md={4} xs={12}>
                     <Box>
                       <Typography variant="h5" style={{ marginBottom: 16 }}>
                         Поделиться
@@ -291,10 +300,23 @@ const Product = props => {
                         Читать отызвы
                       </Link>
                     </Box>
-                  </Grid>
+                  </Grid>*/}
                 </Grid>
               </Grid>
             </Grid>
+          </Widget>
+        </Grid>
+        <Grid item xs={4}>
+          <Widget disableWidgetMenu title="">
+            <div style={{ margin: "3%" }}>
+              <Typography variant="h3" style={{ marginBottom: 16 }}>
+                Организаторы
+              </Typography>
+              <img
+                src={Logo}
+                style={{ width: "40%", alignContent: "center" }}
+              />
+            </div>
           </Widget>
         </Grid>
       </Grid>
