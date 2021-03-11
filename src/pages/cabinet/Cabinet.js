@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 
+import { Typography, Chip, Button } from "../../components/Wrappers";
+
+import {
+  Link
+} from "@material-ui/core";
+
 import ImageMapper from 'react-image-mapper';
 import { useTheme, makeStyles } from "@material-ui/styles";
 
 //import Image from '../../images/adrian-marc-amarc-cyberoom-v3.svg';
-import Image from '../../images/LK.svg';
+import Image from '../../images/LK_v2.jpg';
+
 // styles
 import useStyles from "./styles";
 import useWindowDimensions from './components/useWindowDimensions';
@@ -62,6 +69,7 @@ const myStyle = {
 //<img style={myStyle} src={Image} usemap="#my-map" alt=""/>
 //<map name="my-map" style="cursor: pointer;"><area shape="poly" coords="1221,810,1051,810,1051,672,1221,672"><area shape="poly" coords="1604,555,1265,555,1265,370,1604,370"></map>
 
+//<ImageMapper src={Image} map={MAP} style={myStyle} width={1485} imgWidth={width} onClick={ area => {area.name === "module" ? props.history.push("/app/module/1") : props.history.push("/app/hardware")}}/>
 const Cabinet = props => {
 
   const { height, width } = useWindowDimensions();
@@ -71,7 +79,9 @@ const Cabinet = props => {
 
   return (
 <div className="cComponent" style={divStyle}>
-<ImageMapper src={Image} map={MAP} style={myStyle} width={1485} imgWidth={width} onClick={ area => {area.name === "module" ? props.history.push("/app/module/1") : props.history.push("/app/hardware")}}/>
+          <Button component={Link} href="/#/app/harware" variant="contained" size="large" style={{ textDecoration: "none", position: "absolute", marginTop: "67vh", marginLeft: "38vw" }} ><span style={{ color: "white" }}>Оборудование</span></Button>
+          <Button component={Link} href="/#/app/catalog" variant="contained" size="large" style={{ textDecoration: "none", position: "absolute", marginTop: "42vh", marginLeft: "55vw" }} ><span style={{ color: "white" }}>Мои курсы и события</span></Button>
+
 </div>
   );
 
