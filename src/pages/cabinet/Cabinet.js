@@ -12,6 +12,8 @@ import { useTheme, makeStyles } from "@material-ui/styles";
 
 //import Image from '../../images/adrian-marc-amarc-cyberoom-v3.svg';
 import Image from '../../images/LK_v2.jpg';
+import Image_courses from '../../images/courses_btn.svg';
+import Image_hardware from '../../images/hardware_btn.svg';
 
 // styles
 import useStyles from "./styles";
@@ -79,8 +81,8 @@ const Cabinet = props => {
 
   return (
 <div className="cComponent" style={divStyle}>
-          <Button component={Link} href="/#/app/harware" variant="contained" size="large" style={{ textDecoration: "none", position: "absolute", marginTop: "67vh", marginLeft: "38vw" }} ><span style={{ color: "white" }}>Оборудование</span></Button>
-          <Button component={Link} href="/#/app/catalog" variant="contained" size="large" style={{ textDecoration: "none", position: "absolute", marginTop: "42vh", marginLeft: "55vw" }} ><span style={{ color: "white" }}>Мои курсы и события</span></Button>
+          <Button component={Link} href="/#/app/harware" style={{ textDecoration: "none", position: "absolute", marginTop: "69vh", marginLeft: "38vw", backgroundImage: `url(${Image_hardware})`, backgroundRepeat: "no-repeat", width:150, height: 60 }} ></Button>
+          <Button component={Link} href="/#/app/catalog" style={{ textDecoration: "none", position: "absolute", marginTop: "42vh", marginLeft: "62vw", backgroundImage: `url(${Image_courses})`, backgroundRepeat: "no-repeat", width:205, height: 60 }}></Button>
 
 </div>
   );
