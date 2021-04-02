@@ -5,6 +5,7 @@ import {
   Tabs,
   Tab,
   Fade,
+  Link,
   TextField as Input
 } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
@@ -108,18 +109,7 @@ function Login(props) {
               </div>
             </div>
           ) : (
-            <>
-          <Tabs
-            value={activeTabId}
-            onChange={(e, id) => setActiveTabId(id)}
-            indicatorColor="primary"
-            textColor="primary"
-            centered
-          >
-            <Tab label="Вход" classes={{ root: classes.tab }} />
-            <Tab label="Регистрация" classes={{ root: classes.tab }} />
-          </Tabs>
-          {activeTabId === 0 && (
+          <>
             <React.Fragment>
               <Typography variant="h2" className={classes.greeting}>
                 {getGreeting()}
@@ -222,61 +212,16 @@ function Login(props) {
                 </Button>
               </div>
             </React.Fragment>
-          )}
-          {activeTabId === 1 && (
-            <React.Fragment>
-              <Typography variant="h2" className={classes.subGreeting}>
-                Введите e-mail для отправки кода подтверждения
-              </Typography>
-              <Fade in={error}>
-                <Typography color="secondary" className={classes.errorMessage}>
-                  Пароль или логин неверны :(
-                </Typography>
-              </Fade>
-              <Input
-                id="email"
-                InputProps={{
-                  classes: {
-                    underline: classes.InputUnderline,
-                    input: classes.Input
-                  }
-                }}
-                value={loginValue}
-                onChange={e => setLoginValue(e.target.value)}
-                margin="normal"
-                placeholder="Email"
-                type="email"
-                fullWidth
-              />
-              <div className={classes.creatingButtonContainer}>
-                {isLoading ? (
-                  <CircularProgress size={26} />
-                ) : (
-                  <Button
-                    onClick={() =>
-                      registerUser(
-                        userDispatch,
-                        loginValue,
-                        props.history,
-                        setIsLoading,
-                        setError
-                      )()
-                    }
-                    disabled={
-                      loginValue.length === 0
-                    }
-                    size="large"
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                    className={classes.createAccountButton}
-                  >
-                    Отправить подтверждение
-                  </Button>
-                )}
-              </div>
-            </React.Fragment>
-          )}
+            <Button
+              variant="contained"
+              color="primary"
+              size="large"
+              component={Link}
+              href="/#/register"
+                  style={{ marginTop: 24 }}
+            >
+              Зарегистрироваться
+            </Button>
           </>
         )}
         </div>

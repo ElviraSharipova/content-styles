@@ -126,6 +126,21 @@ function Confirm(props) {
                 fullWidth
               />
               <Input
+                id="name"
+                InputProps={{
+                  classes: {
+                    underline: classes.InputUnderline,
+                    input: classes.Input
+                  }
+                }}
+                value={nameValue}
+                onChange={e => setNameValue(e.target.value)}
+                margin="normal"
+                placeholder="Имя"
+                type="name"
+                fullWidth
+              />
+              <Input
                 id="key"
                 InputProps={{
                   classes: {
@@ -143,12 +158,13 @@ function Confirm(props) {
               <div className={classes.formButtons}>
                   <Button
                     disabled={
-                      loginValue.length === 0 || passwordValue.length === 0 || keyValue.length === 0
+                      loginValue.length === 0 || passwordValue.length === 0 || keyValue.length === 0 || nameValue.length === 0
                     }
 
                     onClick={() => {
                       confirmUser(
                         userDispatch,
+                        nameValue,
                         loginValue,
                         passwordValue,
                         keyValue,

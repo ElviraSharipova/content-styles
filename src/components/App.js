@@ -18,6 +18,7 @@ import Confirm from "../pages/confirm";
 import Verify from "../pages/verify";
 import Reset from "../pages/reset";
 import Landing from "../pages/landing";
+import Registration from "../pages/registration";
 
 // context
 import { useUserState } from "../context/UserContext";
@@ -51,6 +52,7 @@ export default function App() {
           <PrivateRoute path="/app" component={Layout} />
           <Route path="/" exact component={Landing} />
           <PublicRoute path="/login" component={Login} />
+          <PublicRoute path="/register" component={Registration} />
           <PublicRoute path="/confirm" component={Confirm} />
           <PublicRoute path="/verify-email" exact component={Verify} />
           <PublicRoute path="/password-reset" exact component={Reset}/>

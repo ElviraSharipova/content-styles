@@ -20,7 +20,7 @@ const Mod1_2_theory = () => (
           Рис. 1 - Внешний вид УЗ-сенсора HC-SR04
         </MImg>
         <p>Более подробно можно посмотреть на сенсор на видео:</p>
-        <MVid src="https://www.youtube.com/embed/6zQ-7foF1GE">
+        <MVid src="https://www.youtube.com/embed/6zQ-7foF1GE" height="40vh">
           Видеообзор сенсора HC-SR04
         </MVid>
       </Grid>

@@ -74,6 +74,7 @@ export default function Header(props) {
   const [isSmall, setSmall] = useState(false);
 
   const managementValue = useManagementState()
+  const nickname = localStorage.getItem("nickname") || localStorage.getItem("email");
 
   useEffect(() => {
     actions.doFind(sessionStorage.getItem('user_id'))(managementDispatch)
@@ -151,8 +152,8 @@ export default function Header(props) {
             classes={{ root: classes.headerIcon }}
           />
            </IconButton>
-          <Typography variant="body2" weight={"bold"} color="primary" style={{ marginRight: 24, marginTop: 12 }}>
-            Пользователь
+          <Typography variant="body2" weight={"bold"} color="primary" style={{ marginLeft: 12, marginRight: 24, marginTop: 12 }}>
+            {nickname}
           </Typography>
         <Menu
           id="mail-menu"

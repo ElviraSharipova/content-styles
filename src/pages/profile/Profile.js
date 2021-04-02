@@ -41,7 +41,12 @@ const Profile = () => {
 //     const user_id = localStorage.getItem("user");
      let data_email = localStorage.getItem("email");
      let data_phone = localStorage.getItem("phone");
-     axios.defaults.headers.common["Authorization"] = "";
+     let data_nickname = localStorage.getItem("nickname");
+     const ref_token = localStorage.getItem("token_ref");
+     axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
+       const token = res.data.access;
+       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+     });
    
      //axios.get("/profiles/"+user_id).then(res => { data_email= res.data.email; data_phone =  res.data.phone_num; console.log(data_email, data_phone) }).catch(err => console.error(err));
     
@@ -185,7 +190,7 @@ const Profile = () => {
       const user_id = localStorage.getItem("user");
       console.log(data.email, data.phone, "test");
       axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
-      axios.patch("/profiles/"+user_id, {email:data.email, phone_num:data.phone}).then(res => { console.log(res.data); localStorage.setItem("email", data.email) }).catch(err => console.error(err));
+      axios.patch("/profiles/" + user_id, { nickname: data.nickname }).then(res => { console.log(res.data); localStorage.setItem("nickname", data.nickname) }).catch(err => console.error(err));
     }
 
 
@@ -200,7 +205,8 @@ const Profile = () => {
       })
     }
 
-    function handleChange(e) {
+  function handleChange(e) {
+      console.log(data)
       setData({
         ...data,
         [e.target.name]: e.target.value,
@@ -251,11 +257,27 @@ const Profile = () => {
                                     <Typography
                                         variant={'h5'}
                                         weight={'medium'}
-                                        style={{ marginBottom: 35 }}
+                                        style={{ marginBottom: 24 }}
                                     >
                                         Личные данные
                                     </Typography>
-                                    <Typography weight={'medium'}>
+                                    <Typography
+                                        weight={'medium'}
+                                        style={{ marginBottom: 12 }}
+                                    >
+                                        Имя пользователя
+                                    </Typography>
+                                    <TextField
+                                        id="outlined-basic"
+                                        variant="outlined"
+                                        style={{ marginBottom: 35 }}
+                                        type={'nickname'}
+                                        defaultValue={data_nickname}
+                                        value={data && data.nickname}
+                                        name="nickname"
+                                        onChange={handleChange}
+                                    />
+                    {/*<Typography weight={'medium'}>
                                         Аватар:
                                     </Typography>
                                     <div class={classes.galleryWrap}>
@@ -304,7 +326,7 @@ const Profile = () => {
                                         value={data && data.email}
                                         name="email"
                                         onChange={handleChange}
-                                    />
+                                    />*/}
                                 </>
                             ) : tab === 1 ? (
                                 <>

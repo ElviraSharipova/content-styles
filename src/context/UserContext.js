@@ -206,7 +206,7 @@ export function receiveToken(token, dispatch) {
 
   axios.defaults.headers.common["Authorization"] = "Bearer " + token.access;
 
-  axios.get("/profiles/"+user).then(res => { localStorage.setItem("email", res.data.email); localStorage.setItem("phone", res.data.phone_num); console.log(res.data.email) }).catch(err => console.error(err));
+  axios.get("/profiles/" + user).then(res => { localStorage.setItem("nickname", res.data.nickname); localStorage.setItem("email", res.data.email); localStorage.setItem("phone", res.data.phone_num); console.log(res.data.email) }).catch(err => console.error(err));
  
 
   delete user.id;
@@ -278,7 +278,8 @@ export function doInit() {
 
 export function confirmUser(
   dispatch,
-  login,
+  name,
+  email,
   password,
   key,
   history,
@@ -287,9 +288,9 @@ export function confirmUser(
 ) {
     return () => {
       console.log("in func");
-      if (login.length > 0 && password.length > 0 && key.length > 0) {
+      if (email.length > 0 && password.length > 0 && key.length > 0 && name.length > 0) {
         axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
-        axios.post("/register/", {username: login, email: login, password: password, hash: localStorage.getItem("verification_key"), key: key}).then(res => {
+        axios.post("/register/", {username: name, email: email, password: password, hash: localStorage.getItem("verification_key"), key: key}).then(res => {
           dispatch({
             type: 'REGISTER_SUCCESS'
           });
@@ -327,7 +328,7 @@ export function registerUser(
           dispatch({
             type: 'REGISTER_SUCCESS'
           });
-          toast.success("You've been registered successfully. Please check your email for verification link");
+          //toast.success("Please check your email for verification link");
 //          console.log(res.data.key);
           history.push('/confirm');
         }).catch(err => {

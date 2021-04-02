@@ -16,7 +16,7 @@ import useStyles from "./styles";
 const Nav = props => {
 
   const classes = useStyles();
-  const [open, setOpen] = React.useState(new Array(4).fill(false));
+  const [open, setOpen] = React.useState(new Array(5).fill(false));
 
   function handleClick(index) {
     open[index] = !open[index];
@@ -88,6 +88,19 @@ const Nav = props => {
               <MNav to="/app/module/1/mod1_4_theory" onClick={() => setProgress(70)}>- Теория</MNav>
               <MNav to="/app/module/1/mod1_4_test" onClick={() => setProgress(77)}>- Тестирование</MNav >
               <MNav to="/app/module/1/mod1_4_experiment1" onClick={() => setProgress(84)}>- Эксперимент</MNav >
+            </ul>
+          </Collapse>
+
+          <span button onClick={() => handleClick(4)}>
+            <p className="nav__link">
+              1.5 Нейротех
+              {open[4] ? <ExpandLess /> : <ExpandMore />}
+            </p>
+          </span>
+          <Collapse in={open[4]} timeout="auto" unmountOnExit>
+            <ul>
+              <MNav to="/app/module/1/mod1_5_theory">- Теория</MNav>
+              <MNav to="/app/module/1/mod1_5_test">- Тестирование</MNav >
             </ul>
           </Collapse>
 

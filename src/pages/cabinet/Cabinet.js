@@ -80,16 +80,10 @@ const Cabinet = props => {
   var theme = useTheme();
 
   return (
-<<<<<<< HEAD
-<ImageMapper src={Image} map={MAP} style={{width:"100%"}} onClick={ area => {area.name === "module" ? props.history.push("/app/catalog") : props.history.push("/app/hardware")}}
-    />
-=======
-<div className="cComponent" style={divStyle}>
-          <Button component={Link} href="/#/app/harware" style={{ textDecoration: "none", position: "absolute", marginTop: "69vh", marginLeft: "38vw", backgroundImage: `url(${Image_hardware})`, backgroundRepeat: "no-repeat", width:150, height: 60 }} ></Button>
+      <div className="cComponent" style={divStyle}>
+          <Button component={Link} href="/#/app/hardware" style={{ textDecoration: "none", position: "absolute", marginTop: "69vh", marginLeft: "38vw", backgroundImage: `url(${Image_hardware})`, backgroundRepeat: "no-repeat", width:150, height: 60 }} ></Button>
           <Button component={Link} href="/#/app/catalog" style={{ textDecoration: "none", position: "absolute", marginTop: "42vh", marginLeft: "62vw", backgroundImage: `url(${Image_courses})`, backgroundRepeat: "no-repeat", width:205, height: 60 }}></Button>
->>>>>>> db05d9b25ea3f8a057397a09edab55083ded422c
-
-</div>
+      </div>
   );
 
 }

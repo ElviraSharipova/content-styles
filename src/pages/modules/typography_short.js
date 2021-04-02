@@ -72,12 +72,10 @@ const MRadio= props => (
     </li>
 )
 
-const MVid= props => (
-  <>
-    <p align="center" style={{ marginTop: 24 }}>
-        <iframe align="absmiddle" width="560" height="315" src={props.src} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    </p>
-    <MSub txt={props.children}/>
-    </>
+const MVid = props => (
+  <div align="center" style={{ marginTop: "1%", height: props.height }}>
+    <iframe align="absmiddle" width="100%" height="100%" src={props.src} frameborder="0" allow="fullscreen; accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <MSub txt={props.children} />
+  </div>
 )
 export {MTxt, MChap, MImg, MParg, MEq, MRadio, MVid, MNav}

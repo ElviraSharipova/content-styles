@@ -1,66 +1,70 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
+
 import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  TextField as Input,
-  Box
-} from "@material-ui/core";
+  ChatController,
+} from 'chat-ui-react';
+import { ChatView } from "./ChatView";
+import Widget from "../Widget";
 
 // components
 import { Button, Typography } from "../Wrappers";
 import Dot from "../Sidebar/components/Dot";
 
-export default function Chat({ open, onClose }) {
+export default function Chat(props) {
+
+  const [chatCtl] = useState(new ChatController());
+  const ws = useRef(null);
+  const nickname = localStorage.getItem("nickname") || localStorage.getItem("email");
+
+  useEffect(() => {
+    if (ws.current) return;
+
+    const ref_token = localStorage.getItem("token_ref");
+    axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
+      const token = res.data.access;
+      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+
+      console.log(token);
+      ws.current = new WebSocket("wss://eqviumjs.herokuapp.com/chat/default/", token);
+      ws.current.binaryType = 'arraybuffer';
+      ws.current.onopen = () => {
+        console.log("ws opened");
+      }
+
+      ws.current.onmessage = e => {
+        if (e.data != null) {
+          console.log(e.data);
+          var newMessage = JSON.parse(e.data);
+          chatCtl.addMessage({
+            type: 'text',
+            content: newMessage,
+            self: false,
+          });
+        }
+      };
+
+      ws.current.onclose = () => console.log("ws closed"); //devs - offline
+      return () => {
+        ws.current.close();
+      };
+    }).catch(err => console.error(err));
+  }, []);
+
+  React.useMemo(async () => {
+    const send = await chatCtl.setActionRequest(
+      { type: 'text', always: true, addMessage: false, placeholder: "Отправить сообщение" },
+      (response) => {
+        console.log(response)
+        ws.current.send(response.value);
+      }
+    );
+  }, [chatCtl]);
+
+
   return (
-    <Dialog
-      open={open}
-      onClose={onClose}
-      aria-labelledby="chat-title"
-      fullWidth
-    >
-      <DialogTitle id="alert-dialog-title">
-        <Box
-          display={"flex"}
-          justifyContent={"space-between"}
-          alignItems={"center"}
-        >
-          <div>Chat</div>
-          <Box display={"flex"} alignItems={"center"}>
-            <Dot color={"success"} size={"medium"} />
-            &nbsp;13
-          </Box>
-        </Box>
-      </DialogTitle>
-      <DialogContent>
-        <Box pb={1}>
-          <Typography weight={"bold"}>Jane Hew</Typography>
-          <Typography>Hey! How it's going?</Typography>
-        </Box>
-        <Box pb={1}>
-          <Typography weight={"bold"}>Axel Pittman</Typography>
-          <Typography>I'll definitely buy this template</Typography>
-        </Box>
-        <Box>
-          <Typography weight={"bold"}>Sophia Fernandez</Typography>
-          <Typography>What's the font-family?</Typography>
-        </Box>
-      </DialogContent>
-      <Box display={"flex"} alignItems={"center"} px={3} py={1}>
-        <Input
-          id="message-input"
-          margin="normal"
-          placeholder={"Type a message"}
-          style={{ flexGrow: 1 }}
-        />
-        <Button
-          variant={"contained"}
-          color={"primary"}
-          style={{ marginLeft: 8 }}
-        >
-          Send
-        </Button>
-      </Box>
-    </Dialog>
+    <Widget title={"Чат"} noBodyPadding>
+      <ChatView chatController={chatCtl} height={props.height} />
+    </Widget>
   );
 }

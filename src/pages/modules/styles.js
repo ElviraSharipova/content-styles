@@ -9,7 +9,11 @@ export default makeStyles(theme => ({
     marginBottom: 64
   },
   test: {
-    marginLeft: 24
+    marginLeft: 24,
+    marginBottom: "3%"
+  },
+  testButtons: {
+    marginTop: 12,
   },
   codeEditor: {
     margin: 27

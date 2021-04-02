@@ -17,6 +17,8 @@ import Mod1_3_experiment2 from "./mod1_3_experiment2"
 import Mod1_4_theory from "./mod1_4_theory"
 import Mod1_4_test from "./mod1_4_test"
 import Mod1_4_experiment1 from "./mod1_4_experiment1"
+import Mod1_5_theory from "./mod1_5_theory"
+import Mod1_5_test from "./mod1_5_test"
 import Mod2_1_intro from "./mod2_1_intro"
 import Mod2_2_check from "./mod2_2_check"
 
@@ -80,7 +82,12 @@ export default function Module (props) {
                   </Route>
                   <Route path="/app/module/1/mod1_4_experiment1">
                     <Mod1_4_experiment1 />
-                    {/*<Mod1_4_experiment1 />*/}
+                  </Route>
+                  <Route path="/app/module/1/mod1_5_theory">
+                    <Mod1_5_theory />
+                  </Route>
+                  <Route path="/app/module/1/mod1_5_test">
+                    <Mod1_5_test />
                   </Route>
                   <Route path="/app/module/1/mod2_1_intro">
                     <Mod2_1_intro />
