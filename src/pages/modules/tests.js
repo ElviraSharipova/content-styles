@@ -8,7 +8,7 @@ import img6 from "../../images/img6.jpg";
 
 const tests12 = [
   {
-    type: "Выбрать ответ(ы)",
+    type: "choice",
     name: "Name1",
     question: "1.  Какие характерные частоты имеет ультразвук?",
     variants: [
@@ -20,10 +20,16 @@ const tests12 = [
     answer: "1"
   },
   {
-    type: "Выбрать ответ(ы)",
+    type: "matrix",
     name: "Name2",
     question: "2.  Ультразвуковой сенсор зарегистрировал эхо от препятствия через 17 мс после его отправки. На каком расстоянии от ультразвукового сенсора находится препятствие? Принять скорость звука в воздухе равной 340 м/с",
-    variants: [
+    variants_x: [
+      { value: "1", label: "Title1" },
+      { value: "2", label: "Title2" },
+      { value: "3", label: "Title3" },
+      { value: "4", label: "Title4" }
+    ],
+    variants_y: [
       { value: "1", label: "А) 5.78 м" },
       { value: "2", label: "Б) 2.89 м" },
       { value: "3", label: "В) 5 780 м" },
@@ -32,22 +38,16 @@ const tests12 = [
     answer: "2"
   },
   {
-    type: "Выбрать ответ(ы)",
+    type: "detailed",
     name: "Name3",
-    question: "3.  Какие из перечисленных факторов влияют на скорость распространения звука в воздухе?",
-    variants: [
-      { value: "1", label: "А) Температура" },
-      { value: "2", label: "Б) Влажность" },
-      { value: "3", label: "В) Ветер" },
-      { value: "4", label: "Г) Все перечисленное" }
-    ],
+    question: "3.  Что влияте на скорость распространения звука в воздухе?",
     answer: "1"
   },
 ];
 
 const tests13 = [
   {
-    type: "Выбрать ответ(ы)",
+    type: "choice",
     name: "Name1",
     question: "В чем заключается принцип работы ИК сенсора расстояния?",
     variants: [
@@ -58,7 +58,7 @@ const tests13 = [
     answer: "1"
   },
   {
-    type: "Выбрать ответ(ы)",
+    type: "choice",
     name: "Name2",
     question: "Какие факторы могут заметно искажать качество измерения расстояния с помощью ИК сенсора?",
     variants: [

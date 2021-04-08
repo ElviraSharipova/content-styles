@@ -6,7 +6,7 @@ function Mod1_5_test() {
   return (
     <>
       <MChap>1.5.2. Тест.</MChap>
-      <Test testId={"5"} />
+      <Test testId={"1"} progressId={"2"} />
     </>
   )
 }
