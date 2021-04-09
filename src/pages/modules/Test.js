@@ -36,7 +36,7 @@ export default function Test(props) {
     axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
       const token = res.data.access;
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-      axios.get("/content/components/" + props.testId + "/").then(res => {
+      axios.get("/content/components/" + props.componentId + "/").then(res => {
         console.log(res.data.checkpoints);
         setTests(JSON.parse(res.data.props));
         setCheckpoints(res.data.checkpoints);
@@ -65,9 +65,9 @@ export default function Test(props) {
       }
     }
     console.log(answers);
-    const user_id = localStorage.getItem("user");
+    const progressId = localStorage.getItem("progressId");
     axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
-    axios.put("/content/progress/" + props.progressId + "/check/", { answers: JSON.stringify(answers), component: props.testId }).then(res => {
+    axios.put("/content/progress/" + progressId + "/check/", { answers: JSON.stringify(answers), component: props.componentId }).then(res => {
       console.log(res.data);
       var scores = new Array(tests.length).fill(0);
       var results = new Array(tests.length);

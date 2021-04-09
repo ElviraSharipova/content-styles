@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   List,
   ListItem,
@@ -12,6 +12,8 @@ import "./nav.scss"
 import "./modules.scss"
 import { MNav } from "./typography_short"
 import useStyles from "./styles";
+import axios from "axios";
+import Cookies from 'js-cookie';
 
 const Nav = props => {
 
@@ -24,6 +26,21 @@ const Nav = props => {
   };
 
   const [progress, setProgress] = React.useState(0);
+
+  useEffect(() => {
+    const ref_token = localStorage.getItem("token_ref");
+    axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
+      const token = res.data.access;
+      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+      axios.get(`/content/progress/my_progress/?course=${props.moduleId}`).then(res => {
+        localStorage.setItem("progressId", res.data.id)
+        if (res.status == 204) {
+          axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
+          axios.post("/content/progress/start/", { course: props.moduleId })
+        }
+      })
+    })
+  }, []);
 
   return (
     <nav className="nav sub_toolbar">

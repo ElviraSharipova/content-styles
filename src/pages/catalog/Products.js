@@ -111,7 +111,7 @@ const Product = props => {
         return () => {
             ws.current.close();
         };
-    }, []);
+  }, []);
 
   
 

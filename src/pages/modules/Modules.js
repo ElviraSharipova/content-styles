@@ -98,7 +98,7 @@ export default function Module (props) {
               </Switch>
             </div>
           </WhBgr>
-          <Nav/>
+          <Nav moduleId={module_id}/>
      </>
     );
   }
