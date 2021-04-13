@@ -119,11 +119,6 @@ export default function Test(props) {
     return `(Баллы ${score}/${maxScore})`
   }
 
-  //REMOVE AFTER TEST REUPLOAD!!!
-  function tempIndexConverter(index) {
-    return (Number.parseInt(index) + 1).toString()
-  }
-
   return (
     <form onSubmit={handleSubmit} className={classes.test}>
       {tests.map(e => (
@@ -134,7 +129,7 @@ export default function Test(props) {
                 <FormGroup className={classes.testButtons}>
                   {
                     e.variants.map(c => (
-                      <FormControlLabel control={<Checkbox color="primary" checked={value[tests.indexOf(e)] ? value[tests.indexOf(e)][tempIndexConverter(c.value)] : false} onChange={handleChangeChoice} value={tempIndexConverter(c.value)} name={e.name} />} label={c.label} />
+                      <FormControlLabel control={<Checkbox color="primary" checked={value[tests.indexOf(e)] ? value[tests.indexOf(e)][c.value] : false} onChange={handleChangeChoice} value={c.value} name={e.name} />} label={c.label} />
                     ))
                   }
                 </FormGroup>
@@ -150,7 +145,7 @@ export default function Test(props) {
                       {e.variants_x.map(c => (
                         <Grid item xs={1}>
                           {r.value == 0 && <Typography variant="body2">{c.label}</Typography>}
-                          <Checkbox color="primary" checked={value[tests.indexOf(e)] ? value[tests.indexOf(e)][tempIndexConverter(r.value) + "," + tempIndexConverter(c.value)] : false} onChange={handleChangeChoice} value={tempIndexConverter(r.value) + "," + tempIndexConverter(c.value)} name={e.name} />
+                          <Checkbox color="primary" checked={value[tests.indexOf(e)] ? value[tests.indexOf(e)][r.value + "," + c.value] : false} onChange={handleChangeChoice} value={r.value + "," + c.value} name={e.name} />
                         </Grid>
                       ))}
                       </Grid>

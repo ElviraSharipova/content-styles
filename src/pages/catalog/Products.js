@@ -52,7 +52,7 @@ import Logo from '../../images/logo-eqvium.png';
 
 export const rows = [
   {
-    id: 1,
+    id: 2,
     img: standActive,
     hardware: "стэнд 20A-0004",
     hardware_status: "оффлайн",
@@ -66,12 +66,9 @@ export const rows = [
     color: "primary",
     status: "Shipped",
     process: "100%",
-    // ONLY FOR MVP 1.0
-    link: "#/app/module/1/mod1_1",
-    // ONLY FOR MVP 1.0
   },
   {
-    id: 2,
+    id: 3,
     img: img3,
     title: "Виртуальная среда",
     subtitle: "Управление роботом в виртуальной среде",
@@ -83,9 +80,6 @@ export const rows = [
     color: "primary",
     status: "Shipped",
     process: "64%",
-    // ONLY FOR MVP 1.0
-    link: "#/app/module/1/mod2_2_check",
-    // ONLY FOR MVP 1.0
   }
 ];
 
@@ -201,7 +195,7 @@ const Product = props => {
                     )}{" "}
                   </Box>*/}
                   <Box display="flex" alignItems="center">
-                    <Button component={Link} href={rows[props.match.params.id - 1].link}
+                    <Button component={Link} href={`#/app/course/${rows[props.match.params.id - 1].id}/mod1_1`}
                       color="primary"
                       variant="contained"
                       style={{ flexGrow: 3 }}

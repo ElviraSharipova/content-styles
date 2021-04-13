@@ -190,7 +190,7 @@ const Profile = () => {
       const user_id = localStorage.getItem("user");
       console.log(data.email, data.phone, "test");
       axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
-      axios.patch("/profiles/" + user_id, { nickname: data.nickname }).then(res => { console.log(res.data); localStorage.setItem("nickname", data.nickname) }).catch(err => console.error(err));
+      axios.patch("/profiles/" + user_id + "/", { nickname: data.nickname }).then(res => { console.log(res.data); localStorage.setItem("nickname", data.nickname) }).catch(err => console.error(err));
     }
 
 

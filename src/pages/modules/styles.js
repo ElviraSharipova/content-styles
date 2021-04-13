@@ -19,9 +19,21 @@ export default makeStyles(theme => ({
     margin: 27
   },
   progressBar: {
-    colorPrimary: "#00C9FF",
+    barColorPrimary: {
+      backgroundColor: "#00C9FF"
+    },
   },
   dataStreamButton: {
     margin: 24
-  }
+  },
+  checkmarkPrimary: {
+    color: "#00C9FF",
+    fontSize: 20,
+    marginRight: 10
+  },
+  checkmarkSecondary: {
+    color: "#00C9FF",
+    fontSize: 16,
+    marginRight: 10
+  },
 }));
