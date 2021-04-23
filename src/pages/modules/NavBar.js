@@ -78,7 +78,7 @@ const Nav = props => {
     for (let themeProgressIndex = 0; themeProgressIndex < progress.theme_progress.length; themeProgressIndex++) {
       for (let moduleProgressIndex = 0; moduleProgressIndex < progress.theme_progress[themeProgressIndex].module_progress.length; moduleProgressIndex++) {
         for (let componentProgressIndex = 0; componentProgressIndex < progress.theme_progress[themeProgressIndex].module_progress[moduleProgressIndex].component_progress.length; componentProgressIndex++) {
-          if (progress.theme_progress[themeProgressIndex].module_progress[moduleProgressIndex].component_progress[componentProgressIndex].component == component.index
+          if (progress.theme_progress[themeProgressIndex].module_progress[moduleProgressIndex].component_progress[componentProgressIndex].component == component.id
             && progress.theme_progress[themeProgressIndex].module_progress[moduleProgressIndex].module == module.index
             && progress.theme_progress[themeProgressIndex].theme == theme.index) {
             return progress.theme_progress[themeProgressIndex].module_progress[moduleProgressIndex].component_progress[componentProgressIndex].completed ? 1 : 0;
@@ -133,6 +133,7 @@ const Nav = props => {
         localStorage.setItem("progressId", res.data.id)
         setCourseProgress(res.data.score)
         setProgress(res.data)
+        console.log(res.data)
         if (res.status == 204) {
           axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
           axios.post("/content/progress/start/", { course: props.courseId })

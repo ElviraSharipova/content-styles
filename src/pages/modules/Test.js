@@ -171,7 +171,7 @@ export default function Test(props) {
       {tests.map(e => (
         <div style={{ width: 1280 }}>
           <FormControl component="fieldset" style={{ marginTop: 48 }}>
-            <FormLabel component="legend">{tests.indexOf(e) + 1}{".  "}{e.question}{" "}{checkpoints != "" ? (stringifyScore(score[tests.indexOf(e)], checkpoints[tests.indexOf(e)].score)) : ("")}</FormLabel>
+            <FormLabel component="legend" style={{ color: "black" }}>{tests.indexOf(e) + 1}{".  "}{e.question}{" "}{checkpoints != "" ? (stringifyScore(score[tests.indexOf(e)], checkpoints[tests.indexOf(e)].score)) : ("")}</FormLabel>
             <div style={{ marginLeft: 20 }}>
               <img src={e.image} style={{ marginTop: 24, marginBottom: 12 }} />
               {e.type == "choice" &&
@@ -185,23 +185,6 @@ export default function Test(props) {
               }
               {e.type == "matrix" &&
               <TableContainer component={Paper} style={{ flexGrow: 1, marginBottom: 48 }}>
-                {/*<Widget style={{ flexGrow: 1, marginTop: 24, marginBottom: 48 }}>
-                  <Grid container spacing={1} alignItems="center">
-                    {e.variants_x.map(r => (
-                      <Grid container item xs={12} spacing={3} alignItems="flex-end">
-                        <Grid item xs={2}>
-                          <Typography variant="body2">{r.label}</Typography>
-                        </Grid>
-                        {e.variants_y.map(c => (
-                          <Grid item xs={1}>
-                            {r.value == 1 && <Typography variant="body2">{c.label}</Typography>}
-                            <Checkbox color="primary" checked={value[tests.indexOf(e)] ? value[tests.indexOf(e)][r.value + "," + c.value] : false} onChange={handleChangeChoice} value={r.value + "," + c.value} name={e.name} />
-                          </Grid>
-                        ))}
-                      </Grid>
-                    ))}
-                  </Grid>
-                </Widget>*/}
                   <Table aria-label="customized table">
                     <TableHead>
                       <TableRow>
