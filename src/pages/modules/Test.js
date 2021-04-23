@@ -178,13 +178,17 @@ export default function Test(props) {
                 <FormGroup className={classes.testButtons}>
                   {
                     e.variants.map(c => (
-                      <FormControlLabel control={<Checkbox color="primary" checked={value[tests.indexOf(e)] ? value[tests.indexOf(e)][c.value] : false} onChange={handleChangeChoice} value={c.value} name={e.name} />} label={c.label} />
+                      <FormControlLabel
+                        control={<Checkbox color="primary" checked={value[tests.indexOf(e)] ? value[tests.indexOf(e)][c.value] : false} onChange={handleChangeChoice} value={c.value} name={e.name} />}
+                        label={c.label}
+                        style={results[tests.indexOf(e)] != null && typeof (results[tests.indexOf(e)][e.variants.indexOf(c)]) != "undefined" ? { backgroundColor: results[tests.indexOf(e)][e.variants.indexOf(c)] ? "#A6FFA6" : "#FFA6A6" } : {}}
+                      />
                     ))
                   }
                 </FormGroup>
               }
               {e.type == "matrix" &&
-              <TableContainer component={Paper} style={{ flexGrow: 1, marginBottom: 48 }}>
+                <TableContainer component={Paper} style={{ flexGrow: 1, marginBottom: 48 }}>
                   <Table aria-label="customized table">
                     <TableHead>
                       <TableRow>
@@ -211,7 +215,14 @@ export default function Test(props) {
               }
               {
                 e.type == "detailed" &&
-                <TextField id="standard-basic" style={{ marginBottom: 24 }} label="Ответ" name={e.name} value={value[tests.indexOf(e)] ? value[tests.indexOf(e)][e.name] : ""} onChange={handleChangeDetailed}/>
+                <TextField
+                  id="standard-basic"
+                  style={results[tests.indexOf(e)] != null ? { backgroundColor: results[tests.indexOf(e)][1] ? "#A6FFA6" : "#FFA6A6", marginBottom: 24 } : { marginBottom: 24 }}
+                  label="Ответ"
+                  name={e.name}
+                  value={value[tests.indexOf(e)] ? value[tests.indexOf(e)][e.name] : ""}
+                  onChange={handleChangeDetailed}
+                />
               }
             </div>
           </FormControl>
