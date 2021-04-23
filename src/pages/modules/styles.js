@@ -13,7 +13,8 @@ export default makeStyles(theme => ({
     marginBottom: "3%"
   },
   testButtons: {
-    marginTop: 12,
+    marginTop: -12,
+    marginBottom: 48,
   },
   codeEditor: {
     margin: 27
@@ -35,5 +36,11 @@ export default makeStyles(theme => ({
     color: "#00C9FF",
     fontSize: 16,
     marginRight: 10
+  },
+  popover: {
+    pointerEvents: 'none',
+  },
+  paper: {
+    padding: theme.spacing(1),
   },
 }));

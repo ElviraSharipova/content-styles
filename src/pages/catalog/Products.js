@@ -52,7 +52,7 @@ import Logo from '../../images/logo-eqvium.png';
 
 export const rows = [
   {
-    id: 2,
+    id: 4,
     img: standActive,
     hardware: "стэнд 20A-0004",
     hardware_status: "оффлайн",
@@ -195,7 +195,7 @@ const Product = props => {
                     )}{" "}
                   </Box>*/}
                   <Box display="flex" alignItems="center">
-                    <Button component={Link} href={`#/app/course/${rows[props.match.params.id - 1].id}/mod1_1`}
+                    <Button component={Link} href={`#/app/course/${rows[props.match.params.id - 1].id}/mod1_1_1`}
                       color="primary"
                       variant="contained"
                       style={{ flexGrow: 3 }}

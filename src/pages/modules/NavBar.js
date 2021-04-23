@@ -8,6 +8,7 @@ import {
   Typography,
   Grid,
   Button,
+  Popover,
 } from '@material-ui/core';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
@@ -30,7 +31,7 @@ const Nav = props => {
 
   const content = props.content;
   const classes = useStyles();
-  const [open, setOpen] = React.useState(new Array(20).fill(false));
+  const [open, setOpen] = React.useState(new Array(200).fill(false));
 
   function handleClick(index) {
     open[index] = !open[index];
@@ -39,35 +40,62 @@ const Nav = props => {
 
   const [progress, setProgress] = React.useState(0);
   const [courseProgress, setCourseProgress] = React.useState(0);
+  const [anchorEl, setAnchorEl] = React.useState(new Array(200).fill(null));
+
+  function handlePopoverOpen(index, event) {
+    anchorEl[index] = event.currentTarget
+    setAnchorEl([...anchorEl])
+  };
+
+  function handlePopoverClose(index) {
+    anchorEl[index] = null
+    setAnchorEl([...anchorEl])
+  };
+
+  function openPopover(index) {
+    return Boolean(anchorEl[index])
+  }
 
   function getThemeProgress(theme) {
     for (let progressIndex = 0; progressIndex < progress.theme_progress.length; progressIndex++) {
       if (progress.theme_progress[progressIndex].theme == theme.index) {
-        var completed = progress.theme_progress[progressIndex].completed
+        return progress.theme_progress[progressIndex].completed ? 1 : 0;
       }
     }
-    return completed ? 1 : 0;
   };
 
   function getModuleProgress(module, theme) {
     for (let themeProgressIndex = 0; themeProgressIndex < progress.theme_progress.length; themeProgressIndex++) {
       for (let progressIndex = 0; progressIndex < progress.theme_progress[themeProgressIndex].module_progress.length; progressIndex++) {
         if (progress.theme_progress[themeProgressIndex].module_progress[progressIndex].module == module.index && progress.theme_progress[themeProgressIndex].theme == theme.index) {
-          var completed = progress.theme_progress[themeProgressIndex].module_progress[progressIndex].completed
+          return progress.theme_progress[themeProgressIndex].module_progress[progressIndex].completed ? 1 : 0;
         }
       }
     }
-    return completed ? 1 : 0;
   };
 
-  function tryAutoComplete(module, theme) {
-    if (!getModuleProgress(module, theme)) {
+  function getComponentProgress(component, module, theme) {
+    for (let themeProgressIndex = 0; themeProgressIndex < progress.theme_progress.length; themeProgressIndex++) {
+      for (let moduleProgressIndex = 0; moduleProgressIndex < progress.theme_progress[themeProgressIndex].module_progress.length; moduleProgressIndex++) {
+        for (let componentProgressIndex = 0; componentProgressIndex < progress.theme_progress[themeProgressIndex].module_progress[moduleProgressIndex].component_progress.length; componentProgressIndex++) {
+          if (progress.theme_progress[themeProgressIndex].module_progress[moduleProgressIndex].component_progress[componentProgressIndex].component == component.index
+            && progress.theme_progress[themeProgressIndex].module_progress[moduleProgressIndex].module == module.index
+            && progress.theme_progress[themeProgressIndex].theme == theme.index) {
+            return progress.theme_progress[themeProgressIndex].module_progress[moduleProgressIndex].component_progress[componentProgressIndex].completed ? 1 : 0;
+          }
+        }
+      }
+    }
+  };
+
+  function tryAutoComplete(component, module, theme) {
+    if (!getComponentProgress(component, module, theme)) {
       const ref_token = localStorage.getItem("token_ref");
       axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
         const token = res.data.access;
         axios.defaults.headers.common["Authorization"] = "Bearer " + token;
         axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
-        axios.post(`/content/modules/${module.id}/complete/`).then(res => {
+        axios.post(`/content/components/${component.id}/complete/`).then(res => {
           if (res.status = 200) {
             setProgress(res.data)
           }
@@ -117,34 +145,67 @@ const Nav = props => {
 
   return (
     <nav className="nav sub_toolbar">
-      <ul className="nav_ul">
-        <li><h2 className="nav__h2">{content.title}</h2></li>
-        <li><div style={{ marginRight: 24 }}>
-          <LinearProgress className={classes.progressBar} color="primary" variant="determinate" value={courseProgress} />
-          <div style={{ color: "white" }}>{`${courseProgress || 0}/${content.max_score || 0}`}</div>
-        </div></li>
-        <li>
-          {content.themes.map(c => (
-            <>
-              <span button onClick={() => handleClick(content.themes.indexOf(c))}>
-                <p className="nav__link">
-                  <CheckCircleIcon className={classes.checkmarkPrimary} opacity={getThemeProgress(c)} />
-                  <Typography variant="body2" noWrap>{`${content.themes.indexOf(c) + 1}. ${c.title}`}</Typography>
-                  <div style={{ flexGrow: 1 }} align="right">{open[content.themes.indexOf(c)] ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}</div>
-                </p>
-              </span>
-              <Collapse in={open[content.themes.indexOf(c)]} timeout="auto" unmountOnExit>
-                <ul>
-                  {c.modules.map(e => (
-                    <MNav to={`/app/course/${props.courseId}/mod${c.index}_${e.index}`} onClick={() => tryAutoComplete(e, c)}><CheckIcon className={classes.checkmarkSecondary} opacity={getModuleProgress(e, c)} /> {e.title}</MNav>
-                  ))}
-                </ul>
-              </Collapse>
-          </>
-          ))}
-        </li>
-        <li><Button variant="contained" color="primary" onClick={handleRestart}>Пройти заново</Button></li>
-      </ul>
+      <div style={{ margin: 24 }}>
+        <Typography variant="h6" style={{ color: "white", marginBottom: 6 }} noWrap>Прогресс</Typography>
+        <LinearProgress className={classes.progressBar} color="primary" variant="determinate" value={courseProgress} />
+        <div style={{ color: "white" }}>{`${courseProgress || 0}/${content.max_score || 0}`}</div>
+      </div>
+      {content.themes.sort((a, b) => a.index > b.index ? 1 : -1).map(t => (
+        <ul className="nav_ul">
+          <li><Typography variant="subtitle2" style={{ color: "white", margin: 12 }} noWrap>{`${content.themes.indexOf(t) + 1}. ${t.title}`}</Typography></li>
+          <li>
+            {t.modules.sort((a, b) => a.index > b.index ? 1 : -1).map(m => (
+              <>
+                <span button onClick={() => handleClick(content.themes.indexOf(t) * 10 + t.modules.indexOf(m))}>
+                  <p className="nav__link">
+                    <CheckCircleIcon className={classes.checkmarkPrimary} opacity={getModuleProgress(m, t)} />
+                    <Typography
+                      variant="body2"
+                      noWrap
+                      aria-owns={openPopover(content.themes.indexOf(t) * 10 + t.modules.indexOf(m)) ? `mouse-over-popover-${content.themes.indexOf(t) + 1}.${t.modules.indexOf(m) + 1}` : undefined}
+                      aria-haspopup="true"
+                      onMouseEnter={(event) => handlePopoverOpen(content.themes.indexOf(t) * 10 + t.modules.indexOf(m), event)}
+                      onMouseLeave={() => handlePopoverClose(content.themes.indexOf(t) * 10 + t.modules.indexOf(m))}
+                    >
+                      {`${content.themes.indexOf(t) + 1}.${t.modules.indexOf(m) + 1} ${m.title}`}
+                    </Typography>
+                    <Popover
+                      id={`mouse-over-popover-${content.themes.indexOf(t) + 1}.${t.modules.indexOf(m) + 1}`}
+                      className={classes.popover}
+                      classes={{
+                        paper: classes.paper,
+                      }}
+                      open={openPopover(content.themes.indexOf(t) * 10 + t.modules.indexOf(m))}
+                      anchorEl={anchorEl[content.themes.indexOf(t) * 10 + t.modules.indexOf(m)]}
+                      anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                      }}
+                      transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'left',
+                      }}
+                      onClose={() => handlePopoverClose(content.themes.indexOf(t) * 10 + t.modules.indexOf(m))}
+                      disableRestoreFocus
+                    >
+                      <Typography variant="body2">{`${m.title}`}</Typography>
+                    </Popover>
+                    <div style={{ flexGrow: 1 }} align="right">{open[content.themes.indexOf(t) * 10 + t.modules.indexOf(m)] ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}</div>
+                  </p>
+                </span>
+                <Collapse in={open[content.themes.indexOf(t) * 10 + t.modules.indexOf(m)]} timeout="auto" unmountOnExit>
+                  <ul>
+                    {m.components.sort((a, b) => a.index > b.index ? 1 : -1).map(c => (
+                      <MNav to={`/app/course/${props.courseId}/mod${t.index}_${m.index}_${c.index}`} onClick={() => tryAutoComplete(c, m, t)}><CheckIcon className={classes.checkmarkSecondary} opacity={getComponentProgress(c, m, t)} /> {c.title}</MNav>
+                    ))}
+                  </ul>
+                </Collapse>
+            </>
+            ))}
+          </li>
+        </ul>
+      ))}
+      <Button style={{ margin: 24 }} variant="contained" color="primary" onClick={handleRestart}>Пройти заново</Button>
     </nav>
   );
 }
