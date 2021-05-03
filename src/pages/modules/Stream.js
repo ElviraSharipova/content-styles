@@ -28,7 +28,7 @@ function StreamConponent(props) {
       <Typography style={{ width: 800 }}>
         {props.title}
       </Typography>
-      <Stream src={"https://vlab.amrita.edu/?pg=topMenu&id=1"} style={{ width: 800 }} />
+      <Stream src={source} style={{ width: 800 }} />
       <Typography style={{ marginTop: 48, width: 800 }} align='justify'>
         {text}
       </Typography>
