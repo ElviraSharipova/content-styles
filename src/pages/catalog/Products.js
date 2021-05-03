@@ -80,7 +80,23 @@ export const rows = [
     color: "primary",
     status: "Shipped",
     process: "64%",
-  }
+  },
+  {
+    id: 5,
+    img: standActive,
+    hardware: "стэнд 20A-0004",
+    hardware_status: "оффлайн",
+    title: "Нейротехнологии и нейроанатомия",
+    subtitle: "Нейротехнологии и нейроанатомия",
+    description: "Курс БФУ по нейротехнологиям и нейроанатомии",
+    technology: "Python, Arduino",
+    price: 37,
+    progress: 100,
+    rating: 4.6,
+    color: "primary",
+    status: "Shipped",
+    process: "100%",
+  },
 ];
 
 const Product = props => {

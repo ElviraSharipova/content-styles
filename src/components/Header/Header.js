@@ -98,14 +98,14 @@ export default function Header(props) {
   return (
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
-        <a href="/#/" style={{ marginRight: "10vw" }}><img src={Logo} style={{ marginLeft: 24, marginRight: 24 }} /></a>
-        <Button component={Link} href="/#/app/cabinet" color={"white"} style={{marginRight: 24}}>Личный кабинет</Button>
-        <Button component={Link} href="/#/app/catalog" color={"white"} style={{marginRight: 24}}>Каталог</Button>
-        <Button component={Link} href="/#/app/courses" color={"white"} style={{marginRight: 24}} disabled>Курсы и события</Button>
-        <Button component={Link} href="/#/app/commands" color={"white"} style={{marginRight: 24}} disabled>Мои команды</Button>
-        <Button component={Link} href="/#/app/hardware" color={"white"} style={{marginRight: 24}}>Оборудование</Button>
+        <a href="/#/" style={{ marginRight: "10vw" }}><img src={Logo} style={{ marginLeft: 24 }} /></a>
+        <Button component={Link} href="/#/app/cabinet" color={"white"}>Личный кабинет</Button>
+        <Button component={Link} href="/#/app/catalog" color={"white"}>Каталог</Button>
+        <Button component={Link} href="/#/app/courses" color={"white"} disabled>Курсы и события</Button>
+        <Button component={Link} href="/#/app/commands" color={"white"} disabled>Мои команды</Button>
+        <Button component={Link} href="/#/app/hardware" color={"white"}>Оборудование</Button>
         <div className={classes.grow} />
-        <IconButton
+        {/*<IconButton
           color="inherit"
           aria-haspopup="true"
           aria-controls="mail-menu"
@@ -138,23 +138,25 @@ export default function Header(props) {
           >
             <MailIcon classes={{ root: classes.headerIcon }} />
           </Badge>
-        </IconButton>
-        <IconButton
-          aria-haspopup="true"
-          color="inherit"
-          className={classes.headerMenuButton}
-          aria-controls="profile-menu"
-          onClick={e => setProfileMenu(e.currentTarget)}
-        >
-          <Avatar
-            alt="Robert Cotton"
-            src={config.isBackend ? (managementValue.currentUser && managementValue.currentUser.avatar.length >=1 && managementValue.currentUser.avatar[managementValue.currentUser.avatar.length-1].publicUrl || profile) : profile}
-            classes={{ root: classes.headerIcon }}
-          />
-           </IconButton>
+        </IconButton>*/}
+        <div style={{ display: "flex", justifyContent: "left" }}>
+          <IconButton
+            aria-haspopup="true"
+            color="inherit"
+            className={classes.headerMenuButton}
+            aria-controls="profile-menu"
+            onClick={e => setProfileMenu(e.currentTarget)}
+          >
+            <Avatar
+              alt="Robert Cotton"
+              src={config.isBackend ? (managementValue.currentUser && managementValue.currentUser.avatar.length >=1 && managementValue.currentUser.avatar[managementValue.currentUser.avatar.length-1].publicUrl || profile) : profile}
+              classes={{ root: classes.headerIcon }}
+            />
+          </IconButton>
           <Typography variant="body2" weight={"bold"} color="primary" style={{ marginLeft: 12, marginRight: 24, marginTop: 12 }}>
             {nickname}
           </Typography>
+        </div>
         <Menu
           id="mail-menu"
           open={Boolean(mailMenu)}
@@ -246,7 +248,9 @@ export default function Header(props) {
             )}
           >
             <AccountIcon className={classes.profileMenuIcon} />
-        <Button component={Link} href="/#/app/profile" color={"white"} style={{marginRight: 24}}>Профиль</Button>
+        <Button component={Link} href="/#/app/profile" color={"white"} style={{marginRight: 24}}>
+          Настройки
+        </Button>
 
           </MenuItem>
           <MenuItem

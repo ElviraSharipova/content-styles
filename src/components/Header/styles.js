@@ -24,13 +24,16 @@ export default makeStyles(theme => ({
   },
   toolbar: {
     paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2)
+    paddingRight: theme.spacing(2),
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   hide: {
     display: "none"
   },
   grow: {
-    flexGrow: 1
+    flexGrow: 0
   },
   search: {
     position: "relative",

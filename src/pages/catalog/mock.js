@@ -31,21 +31,21 @@ export const rows = [
   },
   {
     id: 3,
-    img: img4,
-    active: false,
-    type: "Event",
-    title: "Неактивное событие",
-    subtitle: "Событие не активно",
+    img: img3,
+    active: true,
+    type: "Course",
+    title: "Нейротехнологии и нейроанатомия",
+    subtitle: "Курс БФУ по нейротехнологиям и нейроанатомии",
     price: 37,
     rating: 5
   },
   {
     id: 4,
-    img: standInactive,
+    img: img4,
     active: false,
-    type: "Course",
-    title: "Неактивный курс",
-    subtitle: "Курс не активен",
+    type: "Event",
+    title: "Неактивное событие",
+    subtitle: "Событие не активно",
     price: 37,
     rating: 5
   },
@@ -71,6 +71,16 @@ export const rows = [
   },
   {
     id: 7,
+    img: standInactive,
+    active: false,
+    type: "Course",
+    title: "Неактивный курс",
+    subtitle: "Курс не активен",
+    price: 37,
+    rating: 5
+  },
+  {
+    id: 8,
     img: img4,
     active: false,
     type: "Event",

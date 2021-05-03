@@ -42,11 +42,6 @@ const Profile = () => {
      let data_email = localStorage.getItem("email");
      let data_phone = localStorage.getItem("phone");
      let data_nickname = localStorage.getItem("nickname");
-     const ref_token = localStorage.getItem("token_ref");
-     axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
-       const token = res.data.access;
-       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-     });
    
      //axios.get("/profiles/"+user_id).then(res => { data_email= res.data.email; data_phone =  res.data.phone_num; console.log(data_email, data_phone) }).catch(err => console.error(err));
     
@@ -60,6 +55,7 @@ const Profile = () => {
       currentPassword: '',
     });
     const [data, setData] = React.useState(null)
+    const [helperText, setHelperText] = React.useState("")
     const [editable, setEditable] = React.useState(false)
     let { id } = useParams();
     const fileInput = React.useRef(null);
@@ -189,8 +185,22 @@ const Profile = () => {
     function handleSubmit2() {
       const user_id = localStorage.getItem("user");
       console.log(data.email, data.phone, "test");
-      axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
-      axios.patch("/profiles/" + user_id + "/", { nickname: data.nickname }).then(res => { console.log(res.data); localStorage.setItem("nickname", data.nickname) }).catch(err => console.error(err));
+      const ref_token = localStorage.getItem("token_ref");
+      axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
+        const token = res.data.access;
+        axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+        axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
+        axios.patch("/profiles/" + user_id + "/", { nickname: data.nickname }).then(res => {
+          console.log(res.data); localStorage.setItem("nickname", data.nickname)
+          if (password.currentPassword && password.newPassword && password.newPassword == password.confirmPassword) {
+            axios.patch("/profiles/password/", {
+              current_password: password.currentPassword,
+              new_password: password.newPassword
+          }).catch(err => console.error(err));
+          }
+        }).catch(err => console.error(err));
+        setHelperText("Сохранено")
+      });
     }
 
 
@@ -217,49 +227,19 @@ const Profile = () => {
         <Grid container spacing={3}>
             <Grid item xs={12}>
                 <Widget>
-                    <Box display={'flex'} justifyContent={'center'}>
-                        <Tabs
-                            indicatorColor="primary"
-                            textColor="primary"
-                            value={tab}
-                            onChange={handleChangeTab}
-                            aria-label="full width tabs example"
-                        >
-                            <Tab
-                                label="Профиль"
-                                icon={<PersonOutlineIcon />}
-                                classes={{ wrapper: classes.icon }}
-                            />
-                            <Tab
-                                label="Сменить пароль"
-                                icon={<LockIcon />}
-                                classes={{ wrapper: classes.icon }}
-                            />
-                            <Tab
-                                label="Настройки"
-                                icon={<SettingsIcon />}
-                                classes={{ wrapper: classes.icon }}
-                            />
-                        </Tabs>
-                    </Box>
-                </Widget>
-            </Grid>
-            <Grid item xs={12}>
-                <Widget>
                     <Grid item justify={'center'} container>
                         <Box
                             display={'flex'}
                             flexDirection={'column'}
                             width={600}
                         >
-                            { tab === 0 ? (
                                 <>
                                     <Typography
                                         variant={'h5'}
                                         weight={'medium'}
-                                        style={{ marginBottom: 24 }}
+                                        style={{ marginBottom: 24, alignSelf: "center"  }}
                                     >
-                                        Личные данные
+                                        Редактировать профиль
                                     </Typography>
                                     <Typography
                                         weight={'medium'}
@@ -327,15 +307,18 @@ const Profile = () => {
                                         name="email"
                                         onChange={handleChange}
                                     />*/}
-                                </>
-                            ) : tab === 1 ? (
-                                <>
                                     <Typography
                                         variant={'h5'}
                                         weight={'medium'}
-                                        style={{ marginBottom: 35 }}
+                                        style={{ marginBottom: 24, alignSelf: "center" }}
                                     >
-                                        Пароль
+                                        Изменить пароль
+                                    </Typography>
+                                    <Typography
+                                        weight={'medium'}
+                                        style={{ marginBottom: 12 }}
+                                    >
+                                        Текущий пароль
                                     </Typography>
                                     <TextField
                                         id="outlined-basic"
@@ -345,8 +328,13 @@ const Profile = () => {
                                         value={password.currentPassword || ''}
                                         name="currentPassword"
                                         onChange={handleChangePassword}
-                                        helperText={'Забыли пароль?'}
                                     />
+                                    <Typography
+                                        weight={'medium'}
+                                        style={{ marginBottom: 12 }}
+                                    >
+                                        Новый пароль
+                                    </Typography>
                                     <TextField
                                         id="outlined-basic"
                                         variant="outlined"
@@ -356,6 +344,12 @@ const Profile = () => {
                                         name="newPassword"
                                         onChange={handleChangePassword}
                                     />
+                                    <Typography
+                                        weight={'medium'}
+                                        style={{ marginBottom: 12 }}
+                                    >
+                                        Повторите пароль
+                                    </Typography>
                                     <TextField
                                         id="outlined-basic"
                                         variant="outlined"
@@ -366,54 +360,19 @@ const Profile = () => {
                                         onChange={handleChangePassword}
                                     />
                                 </>
-                            ) : (
-                                <>
-                                    <Typography
-                                        variant={'h5'}
-                                        weight={'medium'}
-                                        style={{ marginBottom: 35 }}
-                                    >
-                                        Настройки
-                                    </Typography>
-                                    <FormControl
-                                        variant="outlined"
-                                        style={{ marginBottom: 35 }}
-                                    >
-                                        <Select
-                                            labelId="demo-simple-select-outlined-label"
-                                            id="demo-simple-select-outlined"
-                                            value={10}
-                                        >
-                                            <MenuItem value={10}>
-                                                Язык - Русский
-                                            </MenuItem>
-                                            <MenuItem value={20}>
-                                            </MenuItem>
-                                            <MenuItem value={30}>
-                                            </MenuItem>
-                                        </Select>
-                                    </FormControl>
-                                    <Box display={"flex"} mt={2} alignItems={"center"}>
-                                        <Typography weight={"medium"}>
-                                            Уведомления по email
-                                        </Typography>
-                                        <Switch color={"primary"} checked />
-                                    </Box>
-                                </>
-                            )}
                               <Box
                                   display={'flex'}
                                   justifyContent={'space-between'}
                               >
-                                  <>
-                                  <Button variant={'outlined'} color={'primary'}>
-                                      Сбросить
-                                  </Button>
                                   <Button variant={'contained'} color={'success'} onClick={handleSubmit2}>
                                       Сохранить
                                   </Button>
-                                  </>                                
-
+                                  <Typography
+                                      variant={'body1'}
+                                      weight={'medium'}
+                                  >
+                                    {helperText}
+                                  </Typography>
                               </Box>                              
                              
                         </Box>
