@@ -9,6 +9,7 @@ import { Nav, WhBgr } from "./NavBar";
 import Test from "./Test.js";
 import Stream from "./Stream.js";
 import Plot from "./Plot.js";
+import Video from "./Video.js";
 import Mod1_1_theory from "./mod1_1_theory"
 import Mod1_2_theory from "./mod1_2_theory"
 import Mod1_3_theory from "./mod1_3_theory"
@@ -45,7 +46,7 @@ export default function Module (props) {
   function contentMapper(id, type, title) {
     switch (type) {
       case 'video':
-        return
+        return <Video id={id} title={title} />
       case 'stream':
         return <Stream id={id} title={title} />
       case 'test':
@@ -72,7 +73,7 @@ export default function Module (props) {
           <Switch >
             {content.themes.map(t => (t.modules.map(m => (m.components.map(c => (
               <Route path={`/app/course/${course_id}/mod${t.index}_${m.index}_${c.index}`}>
-                {contentMapper(c.id, c.type, `${m.index}.${c.index} ${c.title}`)}
+                {contentMapper(c.id, c.type, `${t.index}.${m.index}.${c.index} ${c.title}`)}
               </Route>
             ))))))}
           </Switch>

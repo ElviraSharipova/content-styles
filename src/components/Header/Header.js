@@ -48,6 +48,10 @@ import { actions } from '../../context/ManagementContext'
 import { useUserDispatch, signOut } from "../../context/UserContext";
 import Logo from '../../images/logo-eqvium.png';
 
+import axios from "axios";
+import Cookies from 'js-cookie';
+import { useHistory } from "react-router-dom";
+
 const messages = [
 ];
 
@@ -57,6 +61,7 @@ const notifications = [
 export default function Header(props) {
   var classes = useStyles();
   var theme = useTheme();
+  const history = useHistory();
 
   // global
   var layoutState = useLayoutState();
@@ -75,6 +80,7 @@ export default function Header(props) {
 
   const managementValue = useManagementState()
   const nickname = localStorage.getItem("nickname") || localStorage.getItem("email");
+  const user_id = localStorage.getItem("user");
 
   useEffect(() => {
     actions.doFind(sessionStorage.getItem('user_id'))(managementDispatch)
@@ -93,6 +99,18 @@ export default function Header(props) {
     var breakpointWidth = theme.breakpoints.values.md;
     var isSmallScreen = windowWidth < breakpointWidth;
     setSmall(isSmallScreen);
+  }
+
+  function handleRemoveAcc() {
+    const ref_token = localStorage.getItem("token_ref");
+    axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
+      const token = res.data.access;
+      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+      axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
+      axios.delete("/profiles/" + user_id + "/").then(res => {
+        history.push('/');
+      }).catch(err => console.error(err));
+    });
   }
 
   return (
@@ -248,11 +266,22 @@ export default function Header(props) {
             )}
           >
             <AccountIcon className={classes.profileMenuIcon} />
-        <Button component={Link} href="/#/app/profile" color={"white"} style={{marginRight: 24}}>
-          Настройки
-        </Button>
-
+            <Button component={Link} href="/#/app/profile" color={"white"} style={{marginRight: 24}}>
+              Настройки
+            </Button>
           </MenuItem>
+          {user_id != 1 &&
+            <MenuItem
+              className={classNames(
+                classes.profileMenuItem,
+                classes.headerMenuItem
+              )}
+            >
+              <Button onClick={handleRemoveAcc} color={"white"} style={{ marginRight: 24 }}>
+                Удалить аккаунт (DEBUG)
+            </Button>
+            </MenuItem>
+          }
           <MenuItem
             className={classNames(
               classes.profileMenuItem,

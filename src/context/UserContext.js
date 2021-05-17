@@ -276,63 +276,31 @@ export function doInit() {
   }
 }
 
-export function confirmUser(
+export function registerUser(
   dispatch,
   name,
   email,
   password,
-  key,
   history,
   setIsLoading,
   setError
 ) {
     return () => {
-      console.log("in func");
-      if (email.length > 0 && password.length > 0 && key.length > 0 && name.length > 0) {
-        axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
-        axios.post("/register/", {username: name, email: email, password: password, hash: localStorage.getItem("verification_key"), key: key}).then(res => {
-          dispatch({
-            type: 'REGISTER_SUCCESS'
-          });
-//          toast.success("You've been registered successfully. Please check your email for verification link");
-          history.push('/login');
-        }).catch(err => {
-          dispatch(authError(err.response.data));
-        })
-      } else {
-        dispatch(authError('Something was wrong. Try again'));
-      }
-  };
-}
-
-export function registerUser(
-  dispatch,
-  login,
-  history,
-  setIsLoading,
-  setError,
-  social = ""
-) {
-  return () => {
       dispatch({
         type: 'REGISTER_REQUEST',
       });
-      if (login.length > 0) {
-//        console.log(login, password);
-//        axios.defaults.xsrfCookieName = 'csrftoken';
-//       axios.defaults.headers.xsrfHeaderName = "X-CSRFTOKEN"; 
+      if (email.length > 0) {
+        localStorage.setItem("email", email);
+        localStorage.setItem("password", password);
+        localStorage.setItem("name", name);
         axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
-        axios.post("/register/email/", {email: login}).then(res => {
-//          console.log(res.data.key);
+        axios.post("/register/email/", { email: email }).then(res => {
           localStorage.setItem("verification_key", res.data.key);
           dispatch({
             type: 'REGISTER_SUCCESS'
           });
-          //toast.success("Please check your email for verification link");
-//          console.log(res.data.key);
           history.push('/confirm');
         }).catch(err => {
-          //console.log(err.response.data); 
           dispatch(authError(err.response.data));
         })
   
@@ -341,6 +309,36 @@ export function registerUser(
       }
   };
 }
+
+export function confirmUser(
+  dispatch,
+  key,
+  history,
+  setIsLoading,
+  setError,
+  social = ""
+) {
+  return () => {
+    var email = localStorage.getItem("email")
+    var password = localStorage.getItem("password")
+    var name = localStorage.getItem("name")
+    console.log("in func");
+    if (email.length > 0 && password.length > 0 && key.length > 0 && name.length > 0) {
+      axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
+      axios.post("/register/", { username: email, email: email, password: password, hash: localStorage.getItem("verification_key"), key: key, nickname: name}).then(res => {
+        dispatch({
+          type: 'REGISTER_SUCCESS'
+        });
+        //          toast.success("You've been registered successfully. Please check your email for verification link");
+        history.push('/login');
+      }).catch(err => {
+        dispatch(authError(err.response.data));
+      })
+    } else {
+      dispatch(authError('Something was wrong. Try again'));
+    }
+  };
+} 
 
 export function verifyEmail(token, history) {
   return(dispatch) => {

@@ -7,7 +7,7 @@ import {
   Fade,
   TextField as Input
 } from "@material-ui/core";
-import { withRouter } from "react-router-dom";
+import { withRouter, useHistory } from "react-router-dom";
 import classnames from "classnames";
 
 // styles
@@ -18,20 +18,22 @@ import logo from "./logo.svg";
 import google from "../../images/google.svg";
 
 // context
-import { useUserDispatch, loginUser, registerUser, confirmUser, sendPasswordResetEmail } from "../../context/UserContext";
+import { useUserDispatch, loginUser, confirmUser, sendPasswordResetEmail } from "../../context/UserContext";
 import { receiveToken, doInit } from "../../context/UserContext";
 
 //components
 import { Button, Typography } from "../../components/Wrappers";
 import Widget from "../../components/Widget";
 import config from "../../config";
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 const getGreeting = () => {
-    return "Подтвердите регистрацию в Eqvium";
+    return "Авторизация в Eqvium";
 };
 
 function Confirm(props) {
   var classes = useStyles();
+  const history = useHistory();
 
   // global
   var userDispatch = useUserDispatch();
@@ -53,7 +55,6 @@ function Confirm(props) {
   var [nameValue, setNameValue] = useState("");
   var [loginValue, setLoginValue] = useState("");
   var [passwordValue, setPasswordValue] = useState("");
-  var [keyValue, setKeyValue] = useState("");
   var [forgotEmail, setForgotEmail] = useState("");
   var [isForgot, setIsForgot] = useState(false);
 
@@ -61,128 +62,57 @@ function Confirm(props) {
     <Grid container className={classes.container}>
       <div className={!isForgot ? classes.formContainer : classes.customFormContainer}>
         <div className={classes.form}>
-            <>
-            <React.Fragment>
-              {config.isBackend ? (
-                <Widget
-                  disableWidgetMenu
-                  inheritHeight
-                  style={{ marginTop: 32 }}
-                >
-                  <Typography
-                    variant={"body2"}
-                    block
-                    style={{ textAlign: "center" }}
-                  >
-                    This is a real app with Node.js backend - use
-                    <Typography variant={"body2"} weight={"bold"}>
-                      "admin@flatlogic.com / password"
-                    </Typography>{" "}
-                    to login!
-                  </Typography>
-                </Widget>
-              ) : null}
-              <Typography variant="h2" className={classes.greeting}>
-                {getGreeting()}
-              </Typography>
-              <Fade
-                in={error}
-                style={
-                  !error ? { display: "none" } : { display: "inline-block" }
+          <Typography variant="h2" className={classes.subGreeting}>
+            <ArrowBackIosIcon onClick={() => { history.push('/register') }} />
+            Введите 6-значный ключ
+          </Typography>
+          <Fade in={error}>
+            <Typography color="secondary" className={classes.errorMessage}>
+              Пароль или логин неверны :(
+            </Typography>
+          </Fade>
+          <Input
+            id="key"
+            InputProps={{
+              classes: {
+                underline: classes.InputUnderline,
+                input: classes.Input
+              }
+            }}
+            value={loginValue}
+            onChange={e => setLoginValue(e.target.value)}
+            margin="normal"
+            placeholder="Ключ"
+            type="key"
+            fullWidth
+          />
+          <div className={classes.creatingButtonContainer}>
+            {isLoading ? (
+              <CircularProgress size={26} />
+            ) : (
+              <Button
+                onClick={() =>
+                  confirmUser(
+                    userDispatch,
+                    loginValue,
+                    props.history,
+                    setIsLoading,
+                    setError
+                  )()
                 }
+                disabled={
+                  loginValue.length === 0
+                }
+                size="large"
+                variant="contained"
+                color="primary"
+                fullWidth
+                className={classes.createAccountButton}
               >
-                <Typography color="secondary" className={classes.errorMessage}>
-                  Пароль или логин неверны :(
-                </Typography>
-              </Fade>
-              <Input
-                id="email"
-                InputProps={{
-                  classes: {
-                    underline: classes.InputUnderline,
-                    input: classes.Input
-                  }
-                }}
-                value={loginValue}
-                onChange={e => setLoginValue(e.target.value)}
-                margin="normal"
-                placeholder="Email"
-                type="email"
-                fullWidth
-              />
-              <Input
-                id="password"
-                InputProps={{
-                  classes: {
-                    underline: classes.InputUnderline,
-                    input: classes.Input
-                  }
-                }}
-                value={passwordValue}
-                onChange={e => setPasswordValue(e.target.value)}
-                margin="normal"
-                placeholder="Пароль"
-                type="password"
-                fullWidth
-              />
-              <Input
-                id="name"
-                InputProps={{
-                  classes: {
-                    underline: classes.InputUnderline,
-                    input: classes.Input
-                  }
-                }}
-                value={nameValue}
-                onChange={e => setNameValue(e.target.value)}
-                margin="normal"
-                placeholder="Имя"
-                type="name"
-                fullWidth
-              />
-              <Input
-                id="key"
-                InputProps={{
-                  classes: {
-                    underline: classes.InputUnderline,
-                    input: classes.Input
-                  }
-                }}
-                value={keyValue}
-                onChange={e => setKeyValue(e.target.value)}
-                margin="normal"
-                placeholder="Код"
-                type="password"
-                fullWidth
-              />
-              <div className={classes.formButtons}>
-                  <Button
-                    disabled={
-                      loginValue.length === 0 || passwordValue.length === 0 || keyValue.length === 0 || nameValue.length === 0
-                    }
-
-                    onClick={() => {
-                      confirmUser(
-                        userDispatch,
-                        nameValue,
-                        loginValue,
-                        passwordValue,
-                        keyValue,
-                        props.history,
-                        setIsLoading,
-                        setError
-                      )()
-                      }
-                    }
-                    variant="contained"
-                    color="primary"
-                    size="large"
-                  >
-                    Войти
-                  </Button>
-              </div>
-            </React.Fragment>
-          </>
+                Подтвердить
+              </Button>
+            )}
+          </div>
         </div>
       </div>
     </Grid>

@@ -25,7 +25,7 @@ function StreamConponent(props) {
 
   return (
     <div style={{ marginLeft: 24, marginRight: "2%", display: "flex", alignItems: "center", flexDirection: "column" }}>
-      <Typography style={{ width: 800 }}>
+      <Typography variant="h3" style={{ fontWeight: "bold", marginBottom: 24, width: 800 }}>
         {props.title}
       </Typography>
       <Stream src={source} style={{ width: 800 }} />

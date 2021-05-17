@@ -147,13 +147,13 @@ const Nav = props => {
   return (
     <nav className="nav sub_toolbar">
       <div style={{ margin: 24 }}>
-        <Typography variant="h6" style={{ color: "white", marginBottom: 6 }} noWrap>Прогресс</Typography>
+        <Typography variant="h6" style={{ color: "white", marginBottom: 6 }}>{content.title}</Typography>
         <LinearProgress className={classes.progressBar} color="primary" variant="determinate" value={courseProgress} />
         <div style={{ color: "white" }}>{`${courseProgress || 0}/${content.max_score || 0}`}</div>
       </div>
       {content.themes.sort((a, b) => a.index > b.index ? 1 : -1).map(t => (
         <ul className="nav_ul">
-          <li><Typography variant="subtitle2" style={{ color: "white", margin: 12 }} noWrap>{`${content.themes.indexOf(t) + 1}. ${t.title}`}</Typography></li>
+          <li><Typography variant="subtitle2" style={{ color: "white", margin: 12 }}>{`${content.themes.indexOf(t) + 1}. ${t.title}`}</Typography></li>
           <li>
             {t.modules.sort((a, b) => a.index > b.index ? 1 : -1).map(m => (
               <>

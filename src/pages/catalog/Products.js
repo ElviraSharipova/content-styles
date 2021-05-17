@@ -46,13 +46,29 @@ import payment1 from "../../images/mastercard.svg";
 import payment2 from "../../images/paypal.svg";
 import payment3 from "../../images/visa.svg";
 import payment4 from "../../images/aexpress.svg";
-import standActive from "../../images/stand_active.png";
+import standActive from "../../images/stand_preview.jpg";
 import standInactive from "../../images/stand_inactive.png";
 import Logo from '../../images/logo-eqvium.png';
 
 export const rows = [
   {
-    id: 4,
+    id: 1,
+    img: img3,
+    hardware: "стэнд 20A-0004",
+    hardware_status: "оффлайн",
+    title: "Нейротехнологии и нейроанатомия",
+    subtitle: "Нейротехнологии и нейроанатомия",
+    description: "Курс БФУ по нейротехнологиям и нейроанатомии",
+    technology: "Python, Arduino",
+    price: 37,
+    progress: 100,
+    rating: 4.6,
+    color: "primary",
+    status: "Shipped",
+    process: "100%",
+  },
+  {
+    id: 2,
     img: standActive,
     hardware: "стэнд 20A-0004",
     hardware_status: "оффлайн",
@@ -80,22 +96,6 @@ export const rows = [
     color: "primary",
     status: "Shipped",
     process: "64%",
-  },
-  {
-    id: 5,
-    img: standActive,
-    hardware: "стэнд 20A-0004",
-    hardware_status: "оффлайн",
-    title: "Нейротехнологии и нейроанатомия",
-    subtitle: "Нейротехнологии и нейроанатомия",
-    description: "Курс БФУ по нейротехнологиям и нейроанатомии",
-    technology: "Python, Arduino",
-    price: 37,
-    progress: 100,
-    rating: 4.6,
-    color: "primary",
-    status: "Shipped",
-    process: "100%",
   },
 ];
 

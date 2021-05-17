@@ -29,6 +29,7 @@ import config from "../../config";
 
 import axios from "axios";
 import Cookies from 'js-cookie';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 const getGreeting = () => {
     return "Авторизация в Eqvium";
@@ -198,6 +199,7 @@ function Login(props) {
           <>
             <React.Fragment>
               <Typography variant="h2" className={classes.greeting}>
+                <ArrowBackIosIcon onClick={() => { history.push('/') }} />
                 {getGreeting()}
               </Typography>
               <Button
