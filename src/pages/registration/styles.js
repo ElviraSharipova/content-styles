@@ -1,6 +1,10 @@
 import { makeStyles } from "@material-ui/styles";
 
 export default makeStyles(theme => ({
+  fakeToolbar: {
+    minHeight: "10vh",
+    width: "100%"
+  },
   container: {
     height: "100vh",
     width: "100%",
@@ -64,7 +68,7 @@ export default makeStyles(theme => ({
     }
   },
   form: {
-    width: 320
+    // width: 320
   },
   tab: {
     fontWeight: 400,

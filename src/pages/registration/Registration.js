@@ -25,6 +25,7 @@ import { receiveToken, doInit } from "../../context/UserContext";
 import { Button, Typography } from "../../components/Wrappers";
 import Widget from "../../components/Widget";
 import config from "../../config";
+import Header from "../../components/Header/HeaderLanding";
 
 import axios from "axios";
 import Cookies from 'js-cookie';
@@ -94,6 +95,8 @@ function Registration(props) {
 
   return (
     <Grid container className={classes.container}>
+      <Header />
+      <div className={classes.fakeToolbar} />
       <div className={!isForgot ? classes.formContainer : classes.customFormContainer}>
         <div className={classes.form}>
             <>
@@ -118,7 +121,6 @@ function Registration(props) {
                 </Widget>
               ) : null}
               <Typography variant="h2" className={classes.greeting}>
-                <ArrowBackIosIcon onClick={() => { history.push('/login') }} />
                 {getGreeting()}
               </Typography>
               <Fade
@@ -145,6 +147,7 @@ function Registration(props) {
                 placeholder="Email"
                 type="email"
                 fullWidth
+                helperText="На указанный e-mail будет отправлен ключ подтверждения"
               />
               <Input
                 id="password"
@@ -178,6 +181,17 @@ function Registration(props) {
               />
               <div className={classes.formButtons}>
                 <Button
+                  onClick={() => { history.push('/login') }}
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                >
+                  Назад
+                </Button>
+                <Typography className={classes.greeting}>
+                  {helperText}
+                </Typography>
+                <Button
                   disabled={
                     loginValue.length === 0 || passwordValue.length === 0 || nameValue.length === 0
                   }
@@ -192,7 +206,7 @@ function Registration(props) {
                       setIsLoading,
                       setError
                     )()
-                    }
+                  }
                   }
                   variant="contained"
                   color="primary"
@@ -200,9 +214,6 @@ function Registration(props) {
                 >
                   Далее
                 </Button>
-                <Typography className={classes.greeting}>
-                  {helperText}
-                </Typography>
               </div>
             </React.Fragment>
           </>

@@ -30,9 +30,10 @@ import config from "../../config";
 import axios from "axios";
 import Cookies from 'js-cookie';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import Header from "../../components/Header/HeaderLanding";
 
 const getGreeting = () => {
-    return "Авторизация в Eqvium";
+  return "Авторизация в Syncwoia";
 };
 
 function Login(props) {
@@ -90,6 +91,8 @@ function Login(props) {
 
   return (
     <Grid container className={classes.container}>
+      <Header />
+      <div className={classes.fakeToolbar} />
       <div className={!isForgot ? classes.formContainer : classes.customFormContainer}>
         <div className={classes.form}>
           {isForgot ? (

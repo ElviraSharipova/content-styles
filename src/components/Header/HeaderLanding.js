@@ -108,8 +108,8 @@ export default function Header(props) {
           </Grid>
           <Grid item xs={12} md={3}>
             <div style={{ position: 'fixed', right: '1%' }}>
-              <Button href="/#/app/cabinet" variant="outlined" color="primary" size="large" style={{ marginRight: 24 }}><span style={{ marginLeft: 24, marginRight: 24 }}>Вход</span></Button>
-              <Button href="/#/register" variant="outlined" size="large"><span>Регистрация</span></Button>
+              <Button href="/#/app/catalog" variant="outlined" color="primary" size="large" style={{ marginRight: 24 }}><span style={{ marginLeft: 24, marginRight: 24 }}>Вход</span></Button>
+              <Button href="/#/register" variant="outlined" color="primary" size="large"><span>Регистрация</span></Button>
             </div>
           </Grid>
         </Grid>

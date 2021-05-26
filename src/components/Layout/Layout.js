@@ -27,68 +27,87 @@ import Profile from '../../pages/profile/Profile'
 
 // context
 import { useLayoutState } from '../../context/LayoutContext'
+import { useUserState } from "../../context/UserContext";
 
 //Sidebar structure
 import structure from '../Sidebar/SidebarStructure_module'
 
 function Layout(props) {
-    const classes = useStyles()
-    const [value, setValue] = React.useState(2)
-    const [anchorEl, setAnchorEl] = React.useState(null)
+  var { isAuthenticated } = useUserState();
+  const isAuth = isAuthenticated()
 
-    const open = Boolean(anchorEl)
-    const id = open ? 'add-section-popover' : undefined
-    const handleClick = event => {
-        setAnchorEl(open ? null : event.currentTarget)
-    }
+  const classes = useStyles()
+  const [value, setValue] = React.useState(2)
+  const [anchorEl, setAnchorEl] = React.useState(null)
 
-    // global
-    var layoutState = useLayoutState()
+  const open = Boolean(anchorEl)
+  const id = open ? 'add-section-popover' : undefined
+  const handleClick = event => {
+      setAnchorEl(open ? null : event.currentTarget)
+  }
 
-    const handleChange = (event, newValue) => {
-        setValue(newValue)
-    }
+  // global
+  var layoutState = useLayoutState()
 
-    function a11yProps(index) {
-        return {
-            id: `simple-tab-${index}`,
-            'aria-controls': `simple-tabpanel-${index}`,
-        }
-    }
+  const handleChange = (event, newValue) => {
+      setValue(newValue)
+  }
 
+  function a11yProps(index) {
+      return {
+          id: `simple-tab-${index}`,
+          'aria-controls': `simple-tabpanel-${index}`,
+      }
+  }
+
+  function PrivateRoute({ component, ...rest }) {
     return (
-        <div className={classes.root}>
-            <Header history={props.history} />
-            <div
-                className={classnames(classes.content, {
-                    [classes.contentShift]: layoutState.isSidebarOpened,
-                })}
-            >
+      <Route
+        {...rest}
+        render={props =>
+          isAuth ? (
+            React.createElement(component, props)
+          ) : (
+              <Redirect to={"/login"} />
+            )
+        }
+      />
+    );
+  }
+
+  return (
+      <div className={classes.root}>
+          <Header history={props.history} />
+          <div
+              className={classnames(classes.content, {
+                  [classes.contentShift]: layoutState.isSidebarOpened,
+              })}
+          >
               
-                                <div className={classes.fakeToolbar} />
+                              <div className={classes.fakeToolbar} />
  
-                <Switch>
-                    <Route path="/app/cabinet" component={Cabinet} />
-                    <Route
-                        path="/app/catalog/product/:id"
-                        component={Product}
-                    />
-                    <Route
-                        path="/app/course/:id"
-                        component={Module}
-                    />
-                    <Route path="/app/hardware" component={Hardware} />
-                    <Route path="/app/course" component={Module} />
-                    <Route path="/app/catalog/product" component={Product} />
-                    <Route
-                        path="/app/catalog"
-                        component={Catalog}
-                    />
-                    <Route path="/app/profile" component={Profile} />
-                </Switch>
-           </div>
-        </div>
-    )
+              <Switch>
+                  <PrivateRoute path="/app/cabinet" component={Cabinet} />
+                  <Route
+                      path="/app/catalog/product/:id"
+                      component={Product}
+                  />
+                  <PrivateRoute
+                      path="/app/course/:id"
+                      component={Module}
+                  />
+                  <PrivateRoute path="/app/hardware" component={Hardware} />
+                  <PrivateRoute path="/app/course" component={Module} />
+                  <PrivateRoute path="/app/catalog/product" component={Product} />
+                  <PrivateRoute
+                      path="/app/catalog"
+                      component={Catalog}
+                  />
+                  <PrivateRoute path="/app/profile" component={Profile} />
+              </Switch>
+          </div>
+      </div>
+  )
 }
 
 export default withRouter(Layout)

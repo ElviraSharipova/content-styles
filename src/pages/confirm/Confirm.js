@@ -28,7 +28,7 @@ import config from "../../config";
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 const getGreeting = () => {
-    return "Авторизация в Eqvium";
+    return "Авторизация в Syncwoia";
 };
 
 function Confirm(props) {
@@ -63,7 +63,6 @@ function Confirm(props) {
       <div className={!isForgot ? classes.formContainer : classes.customFormContainer}>
         <div className={classes.form}>
           <Typography variant="h2" className={classes.subGreeting}>
-            <ArrowBackIosIcon onClick={() => { history.push('/register') }} />
             Введите 6-значный ключ
           </Typography>
           <Fade in={error}>
@@ -90,27 +89,37 @@ function Confirm(props) {
             {isLoading ? (
               <CircularProgress size={26} />
             ) : (
-              <Button
-                onClick={() =>
-                  confirmUser(
-                    userDispatch,
-                    loginValue,
-                    props.history,
-                    setIsLoading,
-                    setError
-                  )()
-                }
-                disabled={
-                  loginValue.length === 0
-                }
-                size="large"
-                variant="contained"
-                color="primary"
-                fullWidth
-                className={classes.createAccountButton}
-              >
-                Подтвердить
-              </Button>
+              <div className={classes.formButtons}>
+                <Button
+                  onClick={() => { history.push('/register') }}
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                >
+                  Назад
+                </Button>
+                <Button
+                  onClick={() =>
+                    confirmUser(
+                      userDispatch,
+                      loginValue,
+                      props.history,
+                      setIsLoading,
+                      setError
+                    )()
+                  }
+                  disabled={
+                    loginValue.length === 0
+                  }
+                  size="large"
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  className={classes.createAccountButton}
+                >
+                  Подтвердить
+                </Button>
+              </div>
             )}
           </div>
         </div>

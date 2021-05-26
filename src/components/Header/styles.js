@@ -26,14 +26,14 @@ export default makeStyles(theme => ({
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
     display: "flex",
-    justifyContent: "space-between",
+    justifyContent: "center",
     alignItems: "center",
   },
   hide: {
     display: "none"
   },
   grow: {
-    flexGrow: 0
+    flexGrow: 2
   },
   search: {
     position: "relative",

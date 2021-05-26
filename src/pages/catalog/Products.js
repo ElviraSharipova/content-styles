@@ -142,7 +142,7 @@ const Product = props => {
                   <CardMedia
                     image={rows[props.match.params.id - 1].img}
                     title={rows[props.match.params.id - 1].title}
-                    style={{ width: "100%", height: 600 }}
+                    style={{ width: "100%", height: "50vh" }}
                   />
                 )}
               </Grid>
@@ -176,22 +176,22 @@ const Product = props => {
                       </>
                     )}{" "}
                   </Box>*/}
-                  <Box style={{ margin: "10%" }}>
+                  <Box style={{ margin: "4%" }}>
                     {!props.match.params.id ? (
                       <>
-                        <Typography variant="h3" uppercase>
+                        <Typography variant="h3">
                           {rows[0].title}
                         </Typography>
                         <Typography>{rows[0].subtitle}</Typography>
                       </>
                     ) : (
                       <>
-                        <Typography variant="h3" uppercase>
-                          {rows[props.match.params.id - 1].title}
-                        </Typography>
-                        <Typography>
-                          {rows[props.match.params.id - 1].subtitle}
-                        </Typography>
+                          <Typography variant="h3" style={{ fontWeight: "bold" }}>
+                            {rows[props.match.params.id - 1].title}
+                          </Typography>
+                          <Typography>
+                            {rows[props.match.params.id - 1].subtitle}
+                          </Typography>
                       </>
                     )}{" "}
                   </Box>
@@ -210,11 +210,11 @@ const Product = props => {
                       </>
                     )}{" "}
                   </Box>*/}
-                  <Box display="flex" alignItems="center">
+                  <Box display="flex" alignItems="center" justifyContent="center">
                     <Button component={Link} href={`#/app/course/${rows[props.match.params.id - 1].id}/mod1_1_1`}
                       color="primary"
                       variant="contained"
-                      style={{ flexGrow: 3 }}
+                      style={{ width: "30%" }}
                     >
                       Продолжить
                     </Button>
@@ -230,10 +230,12 @@ const Product = props => {
               <Grid item xs={12}>
                 <Grid container item spacing={3}>
                   <div style={{ margin: "3%" }}>
-                    <Typography variant="h3" style={{ marginBottom: 16 }}>
+                    <Typography variant="h3" style={{ marginBottom: 16, fontWeight: "bold" }}>
                       Описание 
                     </Typography>
-                    <p>{rows[props.match.params.id - 1].description}</p>
+                    <Typography>
+                      {rows[props.match.params.id - 1].description}
+                    </Typography>
                   </div>
                   <Grid
                     item
@@ -319,7 +321,7 @@ const Product = props => {
         <Grid item xs={4}>
           <Widget disableWidgetMenu title="">
             <div style={{ margin: "3%" }}>
-              <Typography variant="h3" style={{ marginBottom: 16 }}>
+              <Typography variant="h3" style={{ marginBottom: 16, fontWeight: "bold" }}>
                 Организаторы
               </Typography>
               <img

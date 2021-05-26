@@ -49,7 +49,8 @@ export default function App() {
             path="/app"
             render={() => <Redirect to="/app/cabinet" />}
           />
-          <PrivateRoute path="/app" component={Layout} />
+          {/*<PrivateRoute path="/app" component={Layout} />*/}
+          <Route path="/app" component={Layout} />
           <Route path="/" exact component={Landing} />
           <PublicRoute path="/login" component={Login} />
           <PublicRoute path="/register" component={Registration} />
@@ -87,7 +88,7 @@ export default function App() {
             isAuth ? (
             <Redirect
               to={{
-                pathname: "/app/cabinet"
+                pathname: "/app/catalog"
               }}
             />
           ) : (

@@ -51,6 +51,7 @@ import Logo from '../../images/logo-eqvium.png';
 import axios from "axios";
 import Cookies from 'js-cookie';
 import { useHistory } from "react-router-dom";
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 const messages = [
 ];
@@ -116,12 +117,12 @@ export default function Header(props) {
   return (
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
-        <a href="/#/" style={{ marginRight: "10vw" }}><img src={Logo} style={{ marginLeft: 24 }} /></a>
-        <Button component={Link} href="/#/app/cabinet" color={"white"}>Личный кабинет</Button>
-        <Button component={Link} href="/#/app/catalog" color={"white"}>Каталог</Button>
-        <Button component={Link} href="/#/app/courses" color={"white"} disabled>Курсы и события</Button>
-        <Button component={Link} href="/#/app/commands" color={"white"} disabled>Мои команды</Button>
-        <Button component={Link} href="/#/app/hardware" color={"white"}>Оборудование</Button>
+        <a href="/#/" style={{ marginRight: "10vw", flexGrow: 1 }}><img src={Logo} style={{ marginLeft: 24 }} /></a>
+        {/*<Button component={Link} href="/#/app/cabinet" color={"white"} style={{ marginRight: 12 }}>Личный кабинет</Button>*/}
+        <Button component={Link} href="/#/app/catalog" color={"white"} style={{ marginRight: 12 }}>Каталог</Button>
+        {/*<Button component={Link} href="/#/app/courses" color={"white"} style={{ marginRight: 12 }} disabled>Курсы и события</Button>*/}
+        <Button component={Link} href="/#/app/commands" color={"white"} style={{ marginRight: 12 }} disabled>Мои команды</Button>
+        <Button component={Link} href="/#/app/hardware" color={"white"} style={{ marginRight: 12 }}>Оборудование</Button>
         <div className={classes.grow} />
         {/*<IconButton
           color="inherit"
@@ -158,7 +159,7 @@ export default function Header(props) {
           </Badge>
         </IconButton>*/}
         <div style={{ display: "flex", justifyContent: "left" }}>
-          <IconButton
+          <Button
             aria-haspopup="true"
             color="inherit"
             className={classes.headerMenuButton}
@@ -170,10 +171,11 @@ export default function Header(props) {
               src={config.isBackend ? (managementValue.currentUser && managementValue.currentUser.avatar.length >=1 && managementValue.currentUser.avatar[managementValue.currentUser.avatar.length-1].publicUrl || profile) : profile}
               classes={{ root: classes.headerIcon }}
             />
-          </IconButton>
-          <Typography variant="body2" weight={"bold"} color="primary" style={{ marginLeft: 12, marginRight: 24, marginTop: 12 }}>
-            {nickname}
-          </Typography>
+            <Typography variant="body2" weight={"bold"} color="primary" style={{ marginLeft: 12, marginRight: 12, marginTop: 12 }}>
+              {nickname}
+            </Typography>
+            <ArrowDropDownIcon color="primary" />
+          </Button>
         </div>
         <Menu
           id="mail-menu"

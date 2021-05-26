@@ -226,158 +226,156 @@ const Profile = () => {
     return (
         <Grid container spacing={3}>
             <Grid item xs={12}>
-                <Widget>
-                    <Grid item justify={'center'} container>
-                        <Box
-                            display={'flex'}
-                            flexDirection={'column'}
-                            width={600}
-                        >
-                                <>
-                                    <Typography
-                                        variant={'h5'}
-                                        weight={'medium'}
-                                        style={{ marginBottom: 24, alignSelf: "center"  }}
-                                    >
-                                        Редактировать профиль
-                                    </Typography>
-                                    <Typography
-                                        weight={'medium'}
-                                        style={{ marginBottom: 12 }}
-                                    >
-                                        Имя пользователя
-                                    </Typography>
-                                    <TextField
-                                        id="outlined-basic"
-                                        variant="outlined"
-                                        style={{ marginBottom: 35 }}
-                                        type={'nickname'}
-                                        defaultValue={data_nickname}
-                                        value={data && data.nickname}
-                                        name="nickname"
-                                        onChange={handleChange}
-                                    />
-                    {/*<Typography weight={'medium'}>
-                                        Аватар:
-                                    </Typography>
-                                    <div class={classes.galleryWrap}>
-                                    {data && data.avatar && data.avatar.length !== 0 ? (
-                                      data.avatar.map((avatar, idx) => (
-                                        <div className={classes.imgWrap}>
-                                          <span className={classes.deleteImageX} onClick={() => deleteOneImage(avatar.id)}>×</span>
-                                          <img
-                                              src={avatar.publicUrl}
-                                              alt="photo"
-                                              height={'100%'}
-                                          />                                          
-                                        </div>
-                                      ))
-                                    ): null}
+                <Grid item justify={'center'} container>
+                    <Box
+                        display={'flex'}
+                        flexDirection={'column'}
+                        width={600}
+                    >
+                            <>
+                                <Typography
+                                    variant={'h5'}
+                                    weight={'medium'}
+                                    style={{ marginBottom: 24, alignSelf: "center"  }}
+                                >
+                                    Редактировать профиль
+                                </Typography>
+                                <Typography
+                                    weight={'medium'}
+                                    style={{ marginBottom: 12 }}
+                                >
+                                    Имя пользователя
+                                </Typography>
+                                <TextField
+                                    id="outlined-basic"
+                                    variant="outlined"
+                                    style={{ marginBottom: 35 }}
+                                    type={'nickname'}
+                                    defaultValue={data_nickname}
+                                    value={data && data.nickname}
+                                    name="nickname"
+                                    onChange={handleChange}
+                                />
+                {/*<Typography weight={'medium'}>
+                                    Аватар:
+                                </Typography>
+                                <div class={classes.galleryWrap}>
+                                {data && data.avatar && data.avatar.length !== 0 ? (
+                                  data.avatar.map((avatar, idx) => (
+                                    <div className={classes.imgWrap}>
+                                      <span className={classes.deleteImageX} onClick={() => deleteOneImage(avatar.id)}>×</span>
+                                      <img
+                                          src={avatar.publicUrl}
+                                          alt="photo"
+                                          height={'100%'}
+                                      />                                          
                                     </div>
-                                    <label
-                                      className={classes.uploadLabel}
-                                      style={{ cursor: 'pointer' }}
-                                    >
-                                      {'Загрузить фото'}
-                                        <input style={{ display: 'none' }} accept="image/*" type="file" ref={fileInput} onChange={handleFile} />
-                                    </label>
+                                  ))
+                                ): null}
+                                </div>
+                                <label
+                                  className={classes.uploadLabel}
+                                  style={{ cursor: 'pointer' }}
+                                >
+                                  {'Загрузить фото'}
+                                    <input style={{ display: 'none' }} accept="image/*" type="file" ref={fileInput} onChange={handleFile} />
+                                </label>
 
-                                    <Typography
-                                        size={'sm'}
-                                        style={{ marginBottom: 35 }}
-                                    >
-                                        .PNG, .JPG, .JPEG
-                                    </Typography>
-                                    <TextField
-                                        id="outlined-basic"
-                                        variant="outlined"
-                                        style={{ marginBottom: 35 }}
-                                        defaultValue={data_phone}
-                                        value={data && data.phone}
-                                        name="phone"
-                                        onChange={handleChange}
-                                    />
-                                    <TextField
-                                        id="outlined-basic"
-                                        variant="outlined"
-                                        style={{ marginBottom: 35 }}
-                                        type={'email'}
-                                        defaultValue={data_email}
-                                        value={data && data.email}
-                                        name="email"
-                                        onChange={handleChange}
-                                    />*/}
-                                    <Typography
-                                        variant={'h5'}
-                                        weight={'medium'}
-                                        style={{ marginBottom: 24, alignSelf: "center" }}
-                                    >
-                                        Изменить пароль
-                                    </Typography>
-                                    <Typography
-                                        weight={'medium'}
-                                        style={{ marginBottom: 12 }}
-                                    >
-                                        Текущий пароль
-                                    </Typography>
-                                    <TextField
-                                        id="outlined-basic"
-                                        variant="outlined"
-                                        style={{ marginBottom: 35 }}
-                                        defaultValue={'Current Password'}
-                                        value={password.currentPassword || ''}
-                                        name="currentPassword"
-                                        onChange={handleChangePassword}
-                                    />
-                                    <Typography
-                                        weight={'medium'}
-                                        style={{ marginBottom: 12 }}
-                                    >
-                                        Новый пароль
-                                    </Typography>
-                                    <TextField
-                                        id="outlined-basic"
-                                        variant="outlined"
-                                        style={{ marginBottom: 35 }}
-                                        defaultValue={'New Password'}
-                                        value={password.newPassword || ''}
-                                        name="newPassword"
-                                        onChange={handleChangePassword}
-                                    />
-                                    <Typography
-                                        weight={'medium'}
-                                        style={{ marginBottom: 12 }}
-                                    >
-                                        Повторите пароль
-                                    </Typography>
-                                    <TextField
-                                        id="outlined-basic"
-                                        variant="outlined"
-                                        style={{ marginBottom: 35 }}
-                                        defaultValue={'Verify Password'}
-                                        value={password.confirmPassword || ''}
-                                        name="confirmPassword"
-                                        onChange={handleChangePassword}
-                                    />
-                                </>
-                              <Box
-                                  display={'flex'}
-                                  justifyContent={'space-between'}
+                                <Typography
+                                    size={'sm'}
+                                    style={{ marginBottom: 35 }}
+                                >
+                                    .PNG, .JPG, .JPEG
+                                </Typography>
+                                <TextField
+                                    id="outlined-basic"
+                                    variant="outlined"
+                                    style={{ marginBottom: 35 }}
+                                    defaultValue={data_phone}
+                                    value={data && data.phone}
+                                    name="phone"
+                                    onChange={handleChange}
+                                />
+                                <TextField
+                                    id="outlined-basic"
+                                    variant="outlined"
+                                    style={{ marginBottom: 35 }}
+                                    type={'email'}
+                                    defaultValue={data_email}
+                                    value={data && data.email}
+                                    name="email"
+                                    onChange={handleChange}
+                                />*/}
+                                <Typography
+                                    variant={'h5'}
+                                    weight={'medium'}
+                                    style={{ marginBottom: 24, alignSelf: "center" }}
+                                >
+                                    Изменить пароль
+                                </Typography>
+                                <Typography
+                                    weight={'medium'}
+                                    style={{ marginBottom: 12 }}
+                                >
+                                    Текущий пароль
+                                </Typography>
+                                <TextField
+                                    id="outlined-basic"
+                                    variant="outlined"
+                                    style={{ marginBottom: 35 }}
+                                    defaultValue={'Current Password'}
+                                    value={password.currentPassword || ''}
+                                    name="currentPassword"
+                                    onChange={handleChangePassword}
+                                />
+                                <Typography
+                                    weight={'medium'}
+                                    style={{ marginBottom: 12 }}
+                                >
+                                    Новый пароль
+                                </Typography>
+                                <TextField
+                                    id="outlined-basic"
+                                    variant="outlined"
+                                    style={{ marginBottom: 35 }}
+                                    defaultValue={'New Password'}
+                                    value={password.newPassword || ''}
+                                    name="newPassword"
+                                    onChange={handleChangePassword}
+                                />
+                                <Typography
+                                    weight={'medium'}
+                                    style={{ marginBottom: 12 }}
+                                >
+                                    Повторите пароль
+                                </Typography>
+                                <TextField
+                                    id="outlined-basic"
+                                    variant="outlined"
+                                    style={{ marginBottom: 35 }}
+                                    defaultValue={'Verify Password'}
+                                    value={password.confirmPassword || ''}
+                                    name="confirmPassword"
+                                    onChange={handleChangePassword}
+                                />
+                            </>
+                          <Box
+                              display={'flex'}
+                              justifyContent={'space-between'}
+                          >
+                              <Button variant={'contained'} color={'success'} onClick={handleSubmit2}>
+                                  Сохранить
+                              </Button>
+                              <Typography
+                                  variant={'body1'}
+                                  weight={'medium'}
                               >
-                                  <Button variant={'contained'} color={'success'} onClick={handleSubmit2}>
-                                      Сохранить
-                                  </Button>
-                                  <Typography
-                                      variant={'body1'}
-                                      weight={'medium'}
-                                  >
-                                    {helperText}
-                                  </Typography>
-                              </Box>                              
+                                {helperText}
+                              </Typography>
+                          </Box>                              
                              
-                        </Box>
-                    </Grid>
-                </Widget>
+                    </Box>
+                </Grid>
             </Grid>
         </Grid>
     )

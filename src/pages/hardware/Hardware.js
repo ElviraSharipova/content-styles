@@ -24,7 +24,7 @@ import useStyles from "./styles";
 import { Typography, Chip } from "../../components/Wrappers";
 
 import img from "../../images/img1.jpg";
-import img1 from "../../images/img1_1.jpg";
+import img1 from "../../images/stand_preview.jpg";
 
 
 //products array
