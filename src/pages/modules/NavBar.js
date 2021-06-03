@@ -31,7 +31,11 @@ const Nav = props => {
 
   const content = props.content;
   const classes = useStyles();
-  const [open, setOpen] = React.useState(new Array(200).fill(false));
+
+  var initialOpen = new Array(200).fill(false)
+  initialOpen[props.contentId] = true
+
+  const [open, setOpen] = React.useState(initialOpen);
 
   function handleClick(index) {
     open[index] = !open[index];
@@ -133,7 +137,6 @@ const Nav = props => {
         localStorage.setItem("progressId", res.data.id)
         setCourseProgress(res.data.score)
         setProgress(res.data)
-        console.log(res.data)
         if (res.status == 204) {
           axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
           axios.post("/content/progress/start/", { course: props.courseId })

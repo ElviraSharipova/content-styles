@@ -37,7 +37,6 @@ export default function Module (props) {
       const token = res.data.access;
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
       axios.get(`/content/courses/${course_id}/`).then(res => {
-        console.log(res.data);
         setContent(res.data);
       })
     })
@@ -74,12 +73,12 @@ export default function Module (props) {
             {content.themes.map(t => (t.modules.map(m => (m.components.map(c => (
               <Route path={`/app/course/${course_id}/mod${t.index}_${m.index}_${c.index}`}>
                 {contentMapper(c.id, c.type, `${t.index}.${m.index}.${c.index} ${c.title}`)}
+                <Nav courseId={course_id} contentId={(t.index - 1) * 10 + m.index - 1} content={content} />
               </Route>
             ))))))}
           </Switch>
         </div>
       </WhBgr>
-      <Nav courseId={course_id} content={content} />
     </>
   );
 }

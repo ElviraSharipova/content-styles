@@ -3,8 +3,11 @@ import {
   Typography
 } from '@material-ui/core';
 import axios from "axios";
+import useStyles from "./styles";
 
 function VideoConponent(props) {
+  var classes = useStyles();
+
   const [source, setSource] = React.useState("");
   const [text, setText] = React.useState("");
   const [description, setDescription] = React.useState("");

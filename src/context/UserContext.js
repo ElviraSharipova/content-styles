@@ -97,7 +97,7 @@ function useUserDispatch() {
   return context;
 }
 
-export { UserProvider, useUserState, useUserDispatch, loginUser, loginAsDefaultUser, signOut };
+export { UserProvider, useUserState, useUserDispatch, loginUser, responseGoogle, loginAsDefaultUser, signOut };
 
 // ###########################################################
 
@@ -131,6 +131,29 @@ function loginUser(
     } else {
       dispatch({ type: "LOGIN_FAILURE" });
     }
+}
+
+
+function responseGoogle(
+  response,
+  dispatch,
+  setIsLoading,
+  setError
+) {
+  axios.post("/login/social/jwt-pair-user/", {
+    "provider": "google-oauth2",
+    "code": response.code,
+    "redirect_uri": "http://localhost:3000"
+  }).then(res => {
+    console.log(res.data)
+    const token = res.data;
+    setTimeout(() => {
+      setError(null);
+      setIsLoading(false);
+      receiveToken(token, dispatch, true);
+      doInit()(dispatch);
+    }, 2000);
+  })
 }
 
 
@@ -190,7 +213,7 @@ function signOut(dispatch, history) {
   history.push("/login");
 }
 
-export function receiveToken(token, dispatch) {
+export function receiveToken(token, dispatch, social = false) {
   let user;
   // We check if app runs with backend mode
   if (config.isBackend) {
@@ -201,10 +224,16 @@ export function receiveToken(token, dispatch) {
       email: config.auth.email
     };
   }
-  
-  user = jwt.decode(token.access).user_id;
 
-  axios.defaults.headers.common["Authorization"] = "Bearer " + token.access;
+  if (social) {
+    user = token.id
+    axios.defaults.headers.common["Authorization"] = "Bearer " + token.token;
+    localStorage.setItem("token", token.token);
+  } else {
+    user = jwt.decode(token.access).user_id;
+    axios.defaults.headers.common["Authorization"] = "Bearer " + token.access;
+    localStorage.setItem("token", token.access);
+  }
 
   axios.get("/profiles/" + user).then(res => { localStorage.setItem("nickname", res.data.nickname); localStorage.setItem("email", res.data.email); localStorage.setItem("phone", res.data.phone_num); console.log(res.data.email) }).catch(err => console.error(err));
  
@@ -215,11 +244,10 @@ export function receiveToken(token, dispatch) {
   //console.log("ref ", token.refresh); 
   //console.log("acc ", token.access); 
 
-  localStorage.setItem("token", token.access);
   localStorage.setItem("token_ref", token.refresh);
   localStorage.setItem("user", JSON.stringify(user));
   localStorage.setItem("theme", "default");
-  axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+  //axios.defaults.headers.common["Authorization"] = "Bearer " + token;
   dispatch({ type: "LOGIN_SUCCESS" });
 }
 

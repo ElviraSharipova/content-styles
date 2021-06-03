@@ -19,7 +19,7 @@ import logo from "./logo.svg";
 import google from "../../images/google.svg";
 
 // context
-import { useUserDispatch, loginUser, registerUser } from "../../context/UserContext";
+import { useUserDispatch, loginUser, responseGoogle } from "../../context/UserContext";
 import { receiveToken, doInit } from "../../context/UserContext";
 
 //components
@@ -31,6 +31,7 @@ import axios from "axios";
 import Cookies from 'js-cookie';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import Header from "../../components/Header/HeaderLanding";
+import { GoogleLogin } from 'react-google-login';
 
 const getGreeting = () => {
   return "Авторизация в Syncwoia";
@@ -66,14 +67,14 @@ function Login(props) {
   var [forgotHash, setForgotHash] = useState("");
 
   function sendPasswordResetEmail() {
-    const ref_token = localStorage.getItem("token_ref");
-    axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
-      const token = res.data.access;
-      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-      axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
-      axios.post("/forgot/email/", { "email": forgotEmail }).then(res => {
-        setForgotHash(res.data.key)
-      })
+    axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
+    axios.post("/forgot/email/", { "email": forgotEmail }).then(res => {
+      setError(false)
+      setForgotHash(res.data.key)
+    }).catch(err => {
+      if (err.response.status == 404) {
+        setError(true)
+      }
     })
   }
 
@@ -98,21 +99,31 @@ function Login(props) {
           {isForgot ? (
             !forgotHash ? (
               <div>
-              <Input
-                  id="password"
-                  InputProps={{
-                    classes: {
-                      underline: classes.InputUnderline,
-                      input: classes.Input
-                    }
-                  }}
-                  value={forgotEmail}
-                  onChange={e => setForgotEmail(e.target.value)}
-                  margin="normal"
-                  placeholder="Email"
-                  type="Email"
-                  fullWidth
-                />
+                <Fade
+                  in={error}
+                  style={
+                    !error ? { display: "none" } : { display: "inline-block" }
+                  }
+                >
+                  <Typography color="secondary" className={classes.errorMessage}>
+                    Пользователя с таким email не существует
+                  </Typography>
+                </Fade>
+                <Input
+                    id="password"
+                    InputProps={{
+                      classes: {
+                        underline: classes.InputUnderline,
+                        input: classes.Input
+                      }
+                    }}
+                    value={forgotEmail}
+                    onChange={e => setForgotEmail(e.target.value)}
+                    margin="normal"
+                    placeholder="Email"
+                    type="Email"
+                    fullWidth
+                  />
                 <div className={classes.formButtons}>
                   {isLoading ? (
                     <CircularProgress size={26} className={classes.loginLoader} />
@@ -132,7 +143,7 @@ function Login(props) {
                   <Button
                     color="primary"
                     size="large"
-                    onClick={() => setIsForgot(!isForgot)}
+                    onClick={() => {setIsForgot(!isForgot); setError(false)}}
                     className={classes.forgetButton}
                   >
                     Вернуться ко входу
@@ -190,7 +201,7 @@ function Login(props) {
                   <Button
                     color="primary"
                     size="large"
-                    onClick={() => setIsForgot(!isForgot)}
+                      onClick={() => {setIsForgot(!isForgot); setError(false)}}
                     className={classes.forgetButton}
                   >
                     Вернуться ко входу
@@ -200,29 +211,40 @@ function Login(props) {
             )
           ) : (
           <>
-            <React.Fragment>
+            <div>
               <Typography variant="h2" className={classes.greeting}>
                 <ArrowBackIosIcon onClick={() => { history.push('/') }} />
                 {getGreeting()}
               </Typography>
-              <Button
-                size="large"
-                className={classes.googleButton}
-                onClick={() =>
-                  loginUser(
-                    userDispatch,
-                    loginValue,
-                    passwordValue,
-                    props.history,
-                    setIsLoading,
-                    setError,
-                    "google"
-                  )
-                }
-              >
-                <img src={google} alt="google" className={classes.googleIcon} />
-                &nbsp;Войти с Google
-              </Button>
+              <GoogleLogin
+                clientId="108182595919-un4dd9i8uj6640al2jj9640fhegq8nk1.apps.googleusercontent.com"
+                buttonText="Войти с Google"
+                onSuccess={(response) => responseGoogle(
+                  response,
+                  userDispatch,
+                  setIsLoading,
+                  setError
+                )}
+                onFailure={(response) => responseGoogle(
+                  response,
+                  userDispatch,
+                  setIsLoading,
+                  setError
+                )}
+                cookiePolicy={'single_host_origin'}
+                responseType="code"
+                scope="email"
+                render={renderProps => (
+                  <Button
+                    size="large"
+                    className={classes.googleButton}
+                    onClick={renderProps.onClick}
+                  >
+                    <img src={google} alt="google" className={classes.googleIcon} />
+                    &nbsp;Войти с Google
+                  </Button>
+                )}
+              />
               <div className={classes.formDividerContainer}>
                 <div className={classes.formDivider} />
                 <Typography className={classes.formDividerWord}>или</Typography>
@@ -296,13 +318,13 @@ function Login(props) {
                 <Button
                   color="primary"
                   size="large"
-                  onClick={() => setIsForgot(!isForgot)}
+                  onClick={() => {setIsForgot(!isForgot); setError(false)}}
                   className={classes.forgetButton}
                 >
                   Забыли пароль?
                 </Button>
               </div>
-            </React.Fragment>
+            </div>
             <Button
               variant="contained"
               color="primary"

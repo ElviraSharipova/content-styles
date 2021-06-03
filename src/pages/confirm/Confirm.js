@@ -114,7 +114,6 @@ function Confirm(props) {
                   size="large"
                   variant="contained"
                   color="primary"
-                  fullWidth
                   className={classes.createAccountButton}
                 >
                   Подтвердить

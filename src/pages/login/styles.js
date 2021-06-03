@@ -68,7 +68,7 @@ export default makeStyles(theme => ({
     }
   },
   form: {
-    // width: 320
+    width: "100%"
   },
   tab: {
     fontWeight: 400,

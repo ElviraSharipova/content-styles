@@ -109,6 +109,11 @@ export default function Header(props) {
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
       axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
       axios.delete("/profiles/" + user_id + "/").then(res => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        localStorage.removeItem('user_id');
+        document.cookie = "token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+        axios.defaults.headers.common["Authorization"] = "";
         history.push('/');
       }).catch(err => console.error(err));
     });
