@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 
 import useStyles from "./styles";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, useHistory } from "react-router-dom";
 import axios from "axios";
+
+import { Button } from '@material-ui/core';
 
 import "./modules.scss"
 import { Nav, WhBgr } from "./NavBar";
@@ -19,6 +21,7 @@ import Mod2_2_check from "./mod2_2_check"
 
 export default function Module (props) {
   const classes = useStyles();
+  const history = useHistory();
   const course_id = props.match.params.id
   const [content, setContent] = React.useState({});
 
@@ -74,6 +77,18 @@ export default function Module (props) {
               <Route path={`/app/course/${course_id}/mod${t.index}_${m.index}_${c.index}`}>
                 {contentMapper(c.id, c.type, `${t.index}.${m.index}.${c.index} ${c.title}`)}
                 <Nav courseId={course_id} contentId={(t.index - 1) * 10 + m.index - 1} content={content} />
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-evenly" }}>
+                  <Button style={{ margin: 24 }} variant="contained" color="primary" disabled={!(c.index - 1)}
+                    onClick={() => history.push(`/app/course/${course_id}/mod${t.index}_${m.index}_${c.index - 1}`)}
+                  >
+                    Назад
+                  </Button>
+                  <Button style={{ margin: 24 }} variant="contained" color="primary"
+                    onClick={() => history.push(`/app/course/${course_id}/mod${t.index}_${m.index}_${c.index + 1}`)}
+                  >
+                    Вперед
+                  </Button>
+                </div>
               </Route>
             ))))))}
           </Switch>

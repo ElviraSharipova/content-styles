@@ -17,7 +17,7 @@ const Landing = props => {
 
     return (
         <div>
-            <Header />
+            <Header history={props.history}/>
             <img src={Image} style={{ width: '100%' }} />
         </div>
   );

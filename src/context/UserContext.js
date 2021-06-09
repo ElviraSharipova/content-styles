@@ -122,6 +122,7 @@ function loginUser(
             setIsLoading(false);
             receiveToken(token, dispatch);
             doInit()(dispatch);
+            history.goBack();
           }, 2000);
         })
         .catch(() => {
@@ -143,7 +144,7 @@ function responseGoogle(
   axios.post("/login/social/jwt-pair-user/", {
     "provider": "google-oauth2",
     "code": response.code,
-    "redirect_uri": "http://localhost:3000"
+    "redirect_uri": `${config.hostApi}${config.portApi ? `:${config.portApi}` : ``}`
   }).then(res => {
     console.log(res.data)
     const token = res.data;

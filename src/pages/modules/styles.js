@@ -9,7 +9,7 @@ export default makeStyles(theme => ({
     marginBottom: 64
   },
   test: {
-    marginLeft: 24,
+    marginLeft: "calc(10vw - 96px)",
     marginBottom: "3%"
   },
   testButtons: {
@@ -20,6 +20,8 @@ export default makeStyles(theme => ({
     margin: 27
   },
   progressBar: {
+    flexGrow: 1,
+    marginRight: "12px",
     barColorPrimary: {
       backgroundColor: "#00C9FF"
     },
@@ -42,5 +44,16 @@ export default makeStyles(theme => ({
   },
   paper: {
     padding: theme.spacing(1),
+  },
+  contentDescription: {
+    
+  },
+  contentText: {
+    "& > *": {
+      marginBottom: 24,
+    },
+    "& > ul": {
+      listStyleType: "disc",
+    },
   },
 }));

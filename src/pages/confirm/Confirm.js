@@ -72,12 +72,13 @@ function Confirm(props) {
           </Fade>
           <Input
             id="key"
-            InputProps={{
-              classes: {
-                underline: classes.InputUnderline,
-                input: classes.Input
-              }
-            }}
+            //InputProps={{
+            //  classes: {
+            //    underline: classes.InputUnderline,
+            //    input: classes.Input
+            //  }
+            //}}
+            variant="outlined"
             value={loginValue}
             onChange={e => setLoginValue(e.target.value)}
             margin="normal"

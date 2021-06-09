@@ -48,6 +48,7 @@ import {
 import { actions } from '../../context/ManagementContext'
 import { useUserDispatch, signOut } from "../../context/UserContext";
 import Logo from '../../images/logo-eqvium.png';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 const messages = [
 ];
@@ -75,6 +76,8 @@ export default function Header(props) {
   const [isSmall, setSmall] = useState(false);
 
   const managementValue = useManagementState()
+  const nickname = localStorage.getItem("nickname") || localStorage.getItem("email");
+  const user_id = localStorage.getItem("user");
 
   useEffect(() => {
     actions.doFind(sessionStorage.getItem('user_id'))(managementDispatch)
@@ -98,21 +101,77 @@ export default function Header(props) {
   return (
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={5}>
-            <a href="/#/" style={{ marginRight: "10vw" }}><img src={Logo} style={{ marginLeft: 24, marginRight: 24, marginTop: 6 }} /></a>
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <Button component={Link} href="/#/app/catalog" color={"white"} style={{marginRight: 24}}>Каталог</Button>
-            <span style={{ color: "gray", textTransform: "uppercase" }}>Форум</span>
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <div style={{ position: 'fixed', right: '1%' }}>
-              <Button href="/#/app/catalog" variant="outlined" color="primary" size="large" style={{ marginRight: 24 }}><span style={{ marginLeft: 24, marginRight: 24 }}>Вход</span></Button>
-              <Button href="/#/register" variant="outlined" color="primary" size="large"><span>Регистрация</span></Button>
-            </div>
-          </Grid>
-        </Grid>
+        <a href="/#/" style={{ marginRight: "10vw", flexGrow: 1 }}><img src={Logo} style={{ marginLeft: 24 }} /></a>
+        <div>
+          <Button component={Link} href="/#/app/catalog" color={"white"} style={{marginRight: 24}}>Каталог</Button>
+          <span style={{ color: "gray", textTransform: "uppercase" }}>Форум</span>
+        </div>
+        <div className={classes.grow} />
+        {user_id ? (<>
+          <div style={{ display: "flex", justifyContent: "left" }}>
+            <Button
+              aria-haspopup="true"
+              color="inherit"
+              className={classes.headerMenuButton}
+              aria-controls="profile-menu"
+              onClick={e => setProfileMenu(e.currentTarget)}
+            >
+              <Avatar
+                alt="Robert Cotton"
+                src={config.isBackend ? (managementValue.currentUser && managementValue.currentUser.avatar.length >= 1 && managementValue.currentUser.avatar[managementValue.currentUser.avatar.length - 1].publicUrl || profile) : profile}
+                classes={{ root: classes.headerIcon }}
+              />
+              <Typography variant="body2" weight={"bold"} color="primary" style={{ marginLeft: 12, marginRight: 12, marginTop: 12 }}>
+                {nickname}
+              </Typography>
+              <ArrowDropDownIcon color="primary" />
+            </Button>
+          </div>
+          <Menu
+          id="profile-menu"
+          open={Boolean(profileMenu)}
+          anchorEl={profileMenu}
+          onClose={() => setProfileMenu(null)}
+          className={classes.headerMenu}
+          classes={{ paper: classes.profileMenu }}
+          disableAutoFocusItem
+        >
+          <div className={classes.profileMenuUser}>
+          </div>
+          <MenuItem
+            className={classNames(
+              classes.profileMenuItem,
+              classes.headerMenuItem
+            )}
+          >
+            <AccountIcon className={classes.profileMenuIcon} />
+            <Button component={Link} href="/#/app/profile" color={"white"} style={{marginRight: 24}}>
+                Настройки
+            </Button>
+          </MenuItem>
+          <MenuItem
+            className={classNames(
+              classes.profileMenuItem,
+              classes.headerMenuItem
+            )}
+          >
+          </MenuItem>
+          <div className={classes.profileMenuUser}>
+            <Typography
+              className={classes.profileMenuLink}
+              color="primary"
+              onClick={() => signOut(userDispatch, props.history)}
+            >
+                Выход
+            </Typography>
+          </div>
+        </Menu>
+        </>) : (
+          <div style={{ position: 'fixed', right: '1%' }}>
+            <Button href="/#/app/catalog" variant="outlined" color="primary" size="large" style={{ marginRight: 24 }}><span style={{ marginLeft: 24, marginRight: 24 }}>Вход</span></Button>
+            <Button href="/#/register" variant="outlined" color="primary" size="large"><span>Регистрация</span></Button>
+          </div>
+        )}
       </Toolbar>
     </AppBar>
   );

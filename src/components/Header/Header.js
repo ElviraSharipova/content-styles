@@ -127,7 +127,7 @@ export default function Header(props) {
         <Button component={Link} href="/#/app/catalog" color={"white"} style={{ marginRight: 12 }}>Каталог</Button>
         {/*<Button component={Link} href="/#/app/courses" color={"white"} style={{ marginRight: 12 }} disabled>Курсы и события</Button>*/}
         <Button component={Link} href="/#/app/commands" color={"white"} style={{ marginRight: 12 }} disabled>Мои команды</Button>
-        <Button component={Link} href="/#/app/hardware" color={"white"} style={{ marginRight: 12 }}>Оборудование</Button>
+        <Button component={Link} href="/#/app/hardware" color={"white"} style={{ marginRight: 12 }} disabled>Оборудование</Button>
         <div className={classes.grow} />
         {/*<IconButton
           color="inherit"
@@ -163,25 +163,32 @@ export default function Header(props) {
             <MailIcon classes={{ root: classes.headerIcon }} />
           </Badge>
         </IconButton>*/}
-        <div style={{ display: "flex", justifyContent: "left" }}>
-          <Button
-            aria-haspopup="true"
-            color="inherit"
-            className={classes.headerMenuButton}
-            aria-controls="profile-menu"
-            onClick={e => setProfileMenu(e.currentTarget)}
-          >
-            <Avatar
-              alt="Robert Cotton"
-              src={config.isBackend ? (managementValue.currentUser && managementValue.currentUser.avatar.length >=1 && managementValue.currentUser.avatar[managementValue.currentUser.avatar.length-1].publicUrl || profile) : profile}
-              classes={{ root: classes.headerIcon }}
-            />
-            <Typography variant="body2" weight={"bold"} color="primary" style={{ marginLeft: 12, marginRight: 12, marginTop: 12 }}>
-              {nickname}
-            </Typography>
-            <ArrowDropDownIcon color="primary" />
-          </Button>
-        </div>
+        {user_id ? (
+          <div style={{ display: "flex", justifyContent: "left" }}>
+            <Button
+              aria-haspopup="true"
+              color="inherit"
+              className={classes.headerMenuButton}
+              aria-controls="profile-menu"
+              onClick={e => setProfileMenu(e.currentTarget)}
+            >
+              <Avatar
+                alt="Robert Cotton"
+                src={config.isBackend ? (managementValue.currentUser && managementValue.currentUser.avatar.length >= 1 && managementValue.currentUser.avatar[managementValue.currentUser.avatar.length - 1].publicUrl || profile) : profile}
+                classes={{ root: classes.headerIcon }}
+              />
+              <Typography variant="body2" weight={"bold"} color="primary" style={{ marginLeft: 12, marginRight: 12, marginTop: 12 }}>
+                {nickname}
+              </Typography>
+              <ArrowDropDownIcon color="primary" />
+            </Button>
+          </div>
+        ) : (
+          <div style={{ position: 'fixed', right: '1%' }}>
+            <Button href="/#/app/catalog" variant="outlined" color="primary" size="large" style={{ marginRight: 24 }}><span style={{ marginLeft: 24, marginRight: 24 }}>Вход</span></Button>
+            <Button href="/#/register" variant="outlined" color="primary" size="large"><span>Регистрация</span></Button>
+          </div>
+        )}
         <Menu
           id="mail-menu"
           open={Boolean(mailMenu)}

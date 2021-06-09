@@ -151,7 +151,10 @@ const Nav = props => {
     <nav className="nav sub_toolbar">
       <div style={{ margin: 24 }}>
         <Typography variant="h6" style={{ color: "white", marginBottom: 6 }}>{content.title}</Typography>
-        <LinearProgress className={classes.progressBar} color="primary" variant="determinate" value={courseProgress} />
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <LinearProgress className={classes.progressBar} color="primary" variant="determinate" value={courseProgress} />
+          <div style={{ color: "white" }}>{content.max_score ? `${Math.round((courseProgress || 0) / content.max_score * 100)}%` : "100%"}</div>
+        </div>
         <div style={{ color: "white" }}>{`${courseProgress || 0}/${content.max_score || 0}`}</div>
       </div>
       {content.themes.sort((a, b) => a.index > b.index ? 1 : -1).map(t => (

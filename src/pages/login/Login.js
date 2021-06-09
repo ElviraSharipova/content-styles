@@ -65,9 +65,11 @@ function Login(props) {
   var [isForgot, setIsForgot] = useState(false);
   var [forgotKey, setForgotKey] = useState("");
   var [forgotHash, setForgotHash] = useState("");
+  var [helperText, setHelperText] = useState("");
 
   function sendPasswordResetEmail() {
     axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
+    setHelperText("Ключ подтверждения отправлен")
     axios.post("/forgot/email/", { "email": forgotEmail }).then(res => {
       setError(false)
       setForgotHash(res.data.key)
@@ -99,6 +101,9 @@ function Login(props) {
           {isForgot ? (
             !forgotHash ? (
               <div>
+                <Typography variant="h2" className={classes.greeting}>
+                  Восстановление пароля
+                </Typography>
                 <Fade
                   in={error}
                   style={
@@ -111,19 +116,21 @@ function Login(props) {
                 </Fade>
                 <Input
                     id="password"
-                    InputProps={{
-                      classes: {
-                        underline: classes.InputUnderline,
-                        input: classes.Input
-                      }
-                    }}
+                    //InputProps={{
+                    //  classes: {
+                    //    underline: classes.InputUnderline,
+                    //    input: classes.Input
+                    //  }
+                    //}}
+                    variant="outlined"
                     value={forgotEmail}
-                    onChange={e => setForgotEmail(e.target.value)}
+                    onChange={e => { setForgotEmail(e.target.value); if (helperText) { setHelperText(""); } }}
                     margin="normal"
-                    placeholder="Email"
+                    placeholder="Введите e-mail, на который был зарегистрирован Ваш аккаунт"
+                    helperText="На указанный e-mail будет отправлен ключ подтверждения"
                     type="Email"
                     fullWidth
-                  />
+                />
                 <div className={classes.formButtons}>
                   {isLoading ? (
                     <CircularProgress size={26} className={classes.loginLoader} />
@@ -140,6 +147,9 @@ function Login(props) {
                       Отправить
                     </Button>
                   )}
+                  <Typography className={classes.greeting}>
+                    {helperText}
+                  </Typography>
                   <Button
                     color="primary"
                     size="large"
@@ -152,14 +162,18 @@ function Login(props) {
               </div>
             ) : (
               <div>
+              <Typography variant="h2" className={classes.greeting}>
+                  Восстановление пароля
+                </Typography>
               <Input
                 id="key"
-                InputProps={{
-                  classes: {
-                    underline: classes.InputUnderline,
-                    input: classes.Input
-                  }
-                }}
+                //InputProps={{
+                //  classes: {
+                //    underline: classes.InputUnderline,
+                //    input: classes.Input
+                //  }
+                //}}
+                variant="outlined"
                 value={forgotKey}
                 onChange={e => setForgotKey(e.target.value)}
                 margin="normal"
@@ -169,12 +183,13 @@ function Login(props) {
               />
               <Input
                 id="password"
-                InputProps={{
-                  classes: {
-                    underline: classes.InputUnderline,
-                    input: classes.Input
-                  }
-                }}
+                //InputProps={{
+                //  classes: {
+                //    underline: classes.InputUnderline,
+                //    input: classes.Input
+                //  }
+                //}}
+                variant="outlined"
                 value={passwordValue}
                 onChange={e => setPasswordValue(e.target.value)}
                 margin="normal"
@@ -213,7 +228,7 @@ function Login(props) {
           <>
             <div>
               <Typography variant="h2" className={classes.greeting}>
-                <ArrowBackIosIcon onClick={() => { history.push('/') }} />
+                {/*<ArrowBackIosIcon onClick={() => { history.push('/') }} />*/}
                 {getGreeting()}
               </Typography>
               <GoogleLogin
@@ -262,12 +277,13 @@ function Login(props) {
               </Fade>
               <Input
                 id="email"
-                InputProps={{
-                  classes: {
-                    underline: classes.InputUnderline,
-                    input: classes.Input
-                  }
-                }}
+                //InputProps={{
+                //  classes: {
+                //    underline: classes.InputUnderline,
+                //    input: classes.Input
+                //  }
+                //}}
+                variant="outlined"
                 value={loginValue}
                 onChange={e => setLoginValue(e.target.value)}
                 margin="normal"
@@ -277,12 +293,13 @@ function Login(props) {
               />
               <Input
                 id="password"
-                InputProps={{
-                  classes: {
-                    underline: classes.InputUnderline,
-                    input: classes.Input
-                  }
-                }}
+                //InputProps={{
+                //  classes: {
+                //    underline: classes.InputUnderline,
+                //    input: classes.Input
+                //  }
+                //}}
+                variant="outlined"
                 value={passwordValue}
                 onChange={e => setPasswordValue(e.target.value)}
                 margin="normal"
@@ -325,16 +342,6 @@ function Login(props) {
                 </Button>
               </div>
             </div>
-            <Button
-              variant="contained"
-              color="primary"
-              size="large"
-              component={Link}
-              href="/#/register"
-                  style={{ marginTop: 24 }}
-            >
-              Зарегистрироваться
-            </Button>
           </>
         )}
         </div>

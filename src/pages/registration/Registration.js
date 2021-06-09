@@ -59,6 +59,7 @@ function Registration(props) {
   var [nameValue, setNameValue] = useState("");
   var [loginValue, setLoginValue] = useState("");
   var [passwordValue, setPasswordValue] = useState("");
+  var [passwordConfirmValue, setPasswordConfirmValue] = useState("");
   var [forgotEmail, setForgotEmail] = useState("");
   var [isForgot, setIsForgot] = useState(false);
   var [helperText, setHelperText] = useState("");
@@ -68,10 +69,12 @@ function Registration(props) {
     name,
     email,
     password,
+    confirmPassword,
     history,
     setIsLoading,
     setError
   ) {
+    if (password != confirmPassword) return () => { setHelperText("Пароли не совпадают") }
       return () => {
         if (email.length > 0) {
           localStorage.setItem("email", email);
@@ -135,12 +138,13 @@ function Registration(props) {
               </Fade>
               <Input
                 id="email"
-                InputProps={{
-                  classes: {
-                    underline: classes.InputUnderline,
-                    input: classes.Input
-                  }
-                }}
+                //InputProps={{
+                //  classes: {
+                //    underline: classes.InputUnderline,
+                //    input: classes.Input
+                //  }
+                //}}
+                variant="outlined"
                 value={loginValue}
                 onChange={e => setLoginValue(e.target.value)}
                 margin="normal"
@@ -150,13 +154,30 @@ function Registration(props) {
                 helperText="На указанный e-mail будет отправлен ключ подтверждения"
               />
               <Input
+                id="name"
+                //InputProps={{
+                //  classes: {
+                //    underline: classes.InputUnderline,
+                //    input: classes.Input
+                //  }
+                //}}
+                variant="outlined"
+                value={nameValue}
+                onChange={e => setNameValue(e.target.value)}
+                margin="normal"
+                placeholder="Имя"
+                type="name"
+                fullWidth
+              />
+              <Input
                 id="password"
-                InputProps={{
-                  classes: {
-                    underline: classes.InputUnderline,
-                    input: classes.Input
-                  }
-                }}
+                //InputProps={{
+                //  classes: {
+                //    underline: classes.InputUnderline,
+                //    input: classes.Input
+                //  }
+                //}}
+                variant="outlined"
                 value={passwordValue}
                 onChange={e => setPasswordValue(e.target.value)}
                 margin="normal"
@@ -165,18 +186,19 @@ function Registration(props) {
                 fullWidth
               />
               <Input
-                id="name"
-                InputProps={{
-                  classes: {
-                    underline: classes.InputUnderline,
-                    input: classes.Input
-                  }
-                }}
-                value={nameValue}
-                onChange={e => setNameValue(e.target.value)}
+                id="password"
+                //InputProps={{
+                //  classes: {
+                //    underline: classes.InputUnderline,
+                //    input: classes.Input
+                //  }
+                //}}
+                variant="outlined"
+                value={passwordConfirmValue}
+                onChange={e => setPasswordConfirmValue(e.target.value)}
                 margin="normal"
-                placeholder="Имя"
-                type="name"
+                placeholder="Повторите пароль"
+                type="password"
                 fullWidth
               />
               <div className={classes.formButtons}>
@@ -202,6 +224,7 @@ function Registration(props) {
                       nameValue,
                       loginValue,
                       passwordValue,
+                      passwordConfirmValue,
                       props.history,
                       setIsLoading,
                       setError
