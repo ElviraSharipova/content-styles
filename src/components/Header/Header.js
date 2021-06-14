@@ -52,6 +52,7 @@ import axios from "axios";
 import Cookies from 'js-cookie';
 import { useHistory } from "react-router-dom";
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 const messages = [
 ];
@@ -122,7 +123,7 @@ export default function Header(props) {
   return (
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
-        <a href="/#/" style={{ marginRight: "10vw", flexGrow: 1 }}><img src={Logo} style={{ marginLeft: 24 }} /></a>
+        <a href="/#/" style={{ marginRight: "10vw", flexGrow: 1 }}><img src={Logo} style={{ marginLeft: 24, height: 75 }} /></a>
         {/*<Button component={Link} href="/#/app/cabinet" color={"white"} style={{ marginRight: 12 }}>Личный кабинет</Button>*/}
         <Button component={Link} href="/#/app/catalog" color={"white"} style={{ marginRight: 12 }}>Каталог</Button>
         {/*<Button component={Link} href="/#/app/courses" color={"white"} style={{ marginRight: 12 }} disabled>Курсы и события</Button>*/}
@@ -164,7 +165,7 @@ export default function Header(props) {
           </Badge>
         </IconButton>*/}
         {user_id ? (
-          <div style={{ display: "flex", justifyContent: "left" }}>
+          <div style={{ display: "flex", justifyContent: "left", marginRight: 24 }}>
             <Button
               aria-haspopup="true"
               color="inherit"
@@ -172,21 +173,17 @@ export default function Header(props) {
               aria-controls="profile-menu"
               onClick={e => setProfileMenu(e.currentTarget)}
             >
-              <Avatar
-                alt="Robert Cotton"
-                src={config.isBackend ? (managementValue.currentUser && managementValue.currentUser.avatar.length >= 1 && managementValue.currentUser.avatar[managementValue.currentUser.avatar.length - 1].publicUrl || profile) : profile}
-                classes={{ root: classes.headerIcon }}
-              />
-              <Typography variant="body2" weight={"bold"} color="primary" style={{ marginLeft: 12, marginRight: 12, marginTop: 12 }}>
+              <AccountCircleIcon color="primary" fontSize="large" />
+              {/*<Typography variant="body2" weight={"bold"} color="primary" style={{ marginLeft: 12, marginRight: 12, marginTop: 12 }}>
                 {nickname}
-              </Typography>
+              </Typography>*/}
               <ArrowDropDownIcon color="primary" />
             </Button>
           </div>
         ) : (
           <div style={{ position: 'fixed', right: '1%' }}>
-            <Button href="/#/app/catalog" variant="outlined" color="primary" size="large" style={{ marginRight: 24 }}><span style={{ marginLeft: 24, marginRight: 24 }}>Вход</span></Button>
-            <Button href="/#/register" variant="outlined" color="primary" size="large"><span>Регистрация</span></Button>
+            <Button href="/#/app/catalog" variant="outlined" color="primary" size="large" style={{ marginRight: 10, width: 150, height: 40 }}><span style={{ marginLeft: 24, marginRight: 24 }}>Вход</span></Button>
+            <Button href="/#/register" variant="contained" color="primary" size="large" style={{ width: 150, height: 40 }}><span>Регистрация</span></Button>
           </div>
         )}
         <Menu

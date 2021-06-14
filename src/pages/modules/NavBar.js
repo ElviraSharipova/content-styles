@@ -7,7 +7,6 @@ import {
   LinearProgress,
   Typography,
   Grid,
-  Button,
   Popover,
 } from '@material-ui/core';
 import ExpandLess from '@material-ui/icons/ExpandLess';
@@ -17,6 +16,7 @@ import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import CheckIcon from '@material-ui/icons/Check';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import { Button } from "../../components/Wrappers/Wrappers";
 
 import "./nav.scss"
 import "./modules.scss"

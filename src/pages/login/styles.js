@@ -77,7 +77,7 @@ export default makeStyles(theme => ({
   greeting: {
     fontWeight: 500,
     textAlign: "center",
-    marginTop: theme.spacing(4)
+    marginTop: 60,
   },
   subGreeting: {
     fontWeight: 500,
@@ -125,7 +125,8 @@ export default makeStyles(theme => ({
     backgroundColor: theme.palette.text.hint + "40"
   },
   errorMessage: {
-    textAlign: "center"
+    textAlign: "center",
+    color: "red"
   },
   textFieldUnderline: {
     "&:before": {

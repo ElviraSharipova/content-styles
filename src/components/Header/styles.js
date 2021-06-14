@@ -15,12 +15,15 @@ export default makeStyles(theme => ({
   },
   appBar: {
     width: "100%",
-    backgroundColor: theme.palette.background.default,
+    //backgroundColor: theme.palette.background.default,
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(["margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen
-    })
+    }),
+    height: 75,
+    backgroundColor: "white",
+    boxShadow: "0 2px 4px rgb(0 0 0 / 5%)"
   },
   toolbar: {
     paddingLeft: theme.spacing(2),

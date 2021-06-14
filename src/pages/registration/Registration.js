@@ -126,16 +126,9 @@ function Registration(props) {
               <Typography variant="h2" className={classes.greeting}>
                 {getGreeting()}
               </Typography>
-              <Fade
-                in={error}
-                style={
-                  !error ? { display: "none" } : { display: "inline-block" }
-                }
-              >
-                <Typography color="secondary" className={classes.errorMessage}>
-                  Пароль или логин неверны :(
-                </Typography>
-              </Fade>
+              <Typography className={classes.errorMessage}>
+                {helperText}
+              </Typography>
               <Input
                 id="email"
                 //InputProps={{
@@ -204,15 +197,13 @@ function Registration(props) {
               <div className={classes.formButtons}>
                 <Button
                   onClick={() => { history.push('/login') }}
-                  variant="contained"
+                  variant="outlined"
                   color="primary"
                   size="large"
+                  style={{ width: 150, height: 50 }}
                 >
                   Назад
                 </Button>
-                <Typography className={classes.greeting}>
-                  {helperText}
-                </Typography>
                 <Button
                   disabled={
                     loginValue.length === 0 || passwordValue.length === 0 || nameValue.length === 0
@@ -234,6 +225,7 @@ function Registration(props) {
                   variant="contained"
                   color="primary"
                   size="large"
+                  style={{ width: 150, height: 50 }}
                 >
                   Далее
                 </Button>

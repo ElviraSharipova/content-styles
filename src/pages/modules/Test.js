@@ -171,9 +171,9 @@ export default function Test(props) {
       {tests.map(e => (
         <div style={{ width: 1280 }}>
           <FormControl component="fieldset" style={{ marginTop: 48 }}>
-            <FormLabel component="legend" style={{ color: "black" }}>{tests.indexOf(e) + 1}{".  "}{e.question}{" "}{checkpoints != "" ? (stringifyScore(score[tests.indexOf(e)], checkpoints[tests.indexOf(e)].score)) : ("")}</FormLabel>
+            <FormLabel component="legend" style={{ color: "black", maxWidth: 800 }}>{tests.indexOf(e) + 1}{".  "}{e.question}{" "}{checkpoints != "" ? (stringifyScore(score[tests.indexOf(e)], checkpoints[tests.indexOf(e)].score)) : ("")}</FormLabel>
             <div style={{ marginLeft: 20 }}>
-              <img src={e.image} style={{ marginTop: 24, marginBottom: 12 }} />
+              <img src={e.image} style={{ marginTop: 24, marginBottom: 12, maxWidth: 800 }} />
               {e.type == "choice" &&
                 <FormGroup className={classes.testButtons}>
                   {
@@ -188,7 +188,7 @@ export default function Test(props) {
                 </FormGroup>
               }
               {e.type == "matrix" &&
-                <TableContainer component={Paper} style={{ flexGrow: 1, marginBottom: 48 }}>
+                <TableContainer component={Paper} style={{ flexGrow: 1, marginBottom: 48, maxWidth: 800 }}>
                   <Table aria-label="customized table">
                     <TableHead>
                       <TableRow>

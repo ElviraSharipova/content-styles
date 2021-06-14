@@ -9,7 +9,8 @@ export default makeStyles(theme => ({
     marginTop: theme.spacing(2)
   },
   card: {
-    width: "100%"
+    width: "100%",
+    height: "100%"
   },
   cardLink: {
       color: "blue",

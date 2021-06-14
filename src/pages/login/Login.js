@@ -34,7 +34,7 @@ import Header from "../../components/Header/HeaderLanding";
 import { GoogleLogin } from 'react-google-login';
 
 const getGreeting = () => {
-  return "Авторизация в Syncwoia";
+  return "Авторизация";
 };
 
 function Login(props) {
@@ -61,6 +61,7 @@ function Login(props) {
   var [nameValue, setNameValue] = useState("");
   var [loginValue, setLoginValue] = useState("");
   var [passwordValue, setPasswordValue] = useState("");
+  var [passwordConfirmValue, setPasswordConfirmValue] = useState("");
   var [forgotEmail, setForgotEmail] = useState("");
   var [isForgot, setIsForgot] = useState(false);
   var [forgotKey, setForgotKey] = useState("");
@@ -73,14 +74,19 @@ function Login(props) {
     axios.post("/forgot/email/", { "email": forgotEmail }).then(res => {
       setError(false)
       setForgotHash(res.data.key)
+      setHelperText("")
     }).catch(err => {
       if (err.response.status == 404) {
-        setError(true)
+        setHelperText("Пользователя с таким email не существует")
       }
     })
   }
 
   function setNewPassword() {
+    if (passwordValue != passwordConfirmValue) {
+      setHelperText("Пароли не совпадают")
+      return
+    }
     axios.post("/forgot/", {
       "key": forgotKey,
       "password": passwordValue,
@@ -89,8 +95,25 @@ function Login(props) {
     }).then(() => {
       setForgotHash("")
       history.push("/");
+    }).catch(err => {
+      if (err.response.status == 400) {
+        setHelperText("Неверный ключ")
+      }
     })
   }
+
+  const handleKeyDown = React.useCallback(
+    (e) => {
+      if (e.nativeEvent.isComposing) {
+        return;
+      }
+
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendPasswordResetEmail();
+      }
+    },
+  );
 
   return (
     <Grid container className={classes.container}>
@@ -104,18 +127,15 @@ function Login(props) {
                 <Typography variant="h2" className={classes.greeting}>
                   Восстановление пароля
                 </Typography>
-                <Fade
-                  in={error}
-                  style={
-                    !error ? { display: "none" } : { display: "inline-block" }
-                  }
-                >
-                  <Typography color="secondary" className={classes.errorMessage}>
-                    Пользователя с таким email не существует
-                  </Typography>
-                </Fade>
+                <Typography variant="h6" style={{ textAlign: "center", marginTop: 40 }}>
+                  Введите e-mail, на который был зарегистрирован Ваш аккаунт.
+                  На указанный e-mail будет отправлен ключ для смены пароля
+                </Typography>
+                <Typography className={classes.errorMessage}>
+                  {helperText}
+                </Typography>
                 <Input
-                    id="password"
+                    id="email"
                     //InputProps={{
                     //  classes: {
                     //    underline: classes.InputUnderline,
@@ -126,9 +146,9 @@ function Login(props) {
                     value={forgotEmail}
                     onChange={e => { setForgotEmail(e.target.value); if (helperText) { setHelperText(""); } }}
                     margin="normal"
-                    placeholder="Введите e-mail, на который был зарегистрирован Ваш аккаунт"
-                    helperText="На указанный e-mail будет отправлен ключ подтверждения"
-                    type="Email"
+                    placeholder="Email"
+                    type="email"
+                    onKeyDown={handleKeyDown}
                     fullWidth
                 />
                 <div className={classes.formButtons}>
@@ -143,17 +163,15 @@ function Login(props) {
                       variant="contained"
                       color="primary"
                       size="large"
+                      style={{ width: 150, height: 50 }}
                     >
                       Отправить
                     </Button>
                   )}
-                  <Typography className={classes.greeting}>
-                    {helperText}
-                  </Typography>
                   <Button
                     color="primary"
                     size="large"
-                    onClick={() => {setIsForgot(!isForgot); setError(false)}}
+                    onClick={() => { setIsForgot(!isForgot); setError(false); setForgotHash("")}}
                     className={classes.forgetButton}
                   >
                     Вернуться ко входу
@@ -163,8 +181,11 @@ function Login(props) {
             ) : (
               <div>
               <Typography variant="h2" className={classes.greeting}>
-                  Восстановление пароля
-                </Typography>
+                Восстановление пароля
+              </Typography>
+              <Typography className={classes.errorMessage}>
+                {helperText}
+              </Typography>
               <Input
                 id="key"
                 //InputProps={{
@@ -197,6 +218,22 @@ function Login(props) {
                 type="password"
                 fullWidth
               />
+              <Input
+                id="password"
+                //InputProps={{
+                //  classes: {
+                //    underline: classes.InputUnderline,
+                //    input: classes.Input
+                //  }
+                //}}
+                variant="outlined"
+                value={passwordConfirmValue}
+                onChange={e => setPasswordConfirmValue(e.target.value)}
+                margin="normal"
+                placeholder="Повторите пароль"
+                type="password"
+                fullWidth
+              />
               <div className={classes.formButtons}>
                   {isLoading ? (
                     <CircularProgress size={26} className={classes.loginLoader} />
@@ -209,14 +246,15 @@ function Login(props) {
                       variant="contained"
                       color="primary"
                       size="large"
+                      style={{ width: 250, height: 50 }}
                     >
-                      Отправить
+                      Обновить пароль
                     </Button>
                   )}
                   <Button
                     color="primary"
                     size="large"
-                      onClick={() => {setIsForgot(!isForgot); setError(false)}}
+                      onClick={() => {setIsForgot(!isForgot); setError(false); setForgotHash("")}}
                     className={classes.forgetButton}
                   >
                     Вернуться ко входу
@@ -268,11 +306,12 @@ function Login(props) {
               <Fade
                 in={error}
                 style={
-                  !error ? { display: "none" } : { display: "inline-block" }
+                  !error ? { display: "none" } : { display: "inline-block" },
+                  { textAlign: "center", }
                 }
               >
                 <Typography color="secondary" className={classes.errorMessage}>
-                  Пароль или логин неверны :(
+                  Пароль или логин неверны
                 </Typography>
               </Fade>
               <Input
@@ -328,6 +367,7 @@ function Login(props) {
                     variant="contained"
                     color="primary"
                     size="large"
+                    style={{ width: 150, height: 50 }}
                   >
                     Войти
                   </Button>

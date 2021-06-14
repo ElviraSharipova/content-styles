@@ -4,7 +4,7 @@ import useStyles from "./styles";
 import { Route, Switch, useHistory } from "react-router-dom";
 import axios from "axios";
 
-import { Button } from '@material-ui/core';
+import { Button } from "../../components/Wrappers/Wrappers";
 
 import "./modules.scss"
 import { Nav, WhBgr } from "./NavBar";

@@ -125,7 +125,8 @@ export default makeStyles(theme => ({
     backgroundColor: theme.palette.text.hint + "40"
   },
   errorMessage: {
-    textAlign: "center"
+    textAlign: "center",
+    color: "red"
   },
   textFieldUnderline: {
     "&:before": {

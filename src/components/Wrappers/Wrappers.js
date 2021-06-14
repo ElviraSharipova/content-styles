@@ -112,7 +112,11 @@ function Typography({
 function Button({ children, color, className, style, ...props }) {
   const useStyles = makeStyles(theme => ({
     root: {
-      color: getColor(color, theme)
+      color: getColor(color, theme),
+      textTransform: "none",
+      fontFamily: 'Source Sans Pro',
+      fontWeight: 600,
+      fontSize: 18
     },
     contained: {
       backgroundColor: getColor(color, theme),

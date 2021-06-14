@@ -143,7 +143,7 @@ const Catalog = props => {
   };
 
   return (
-    <>
+    <div style={{ marginTop: 30 }}>
       <Grid container spacing={3}>
         <Grid item xs={12} md={8}>
           <Box display="flex" style={{ marginLeft: "2%" }}>
@@ -200,7 +200,7 @@ const Catalog = props => {
         <Typography gutterBottom variant="h5" component="h2" style={{ marginTop: 7 }}>
           События
             </Typography>
-        <Grid item xs={12}>
+        <Grid item xs={12} style={{ marginTop: 30 }}>
           <Box display={"flex"} flexWrap={"wrap"}>
             <Grid container item spacing={3}>
               {rows.filter(c => checkedCourses && c.type === "Course" || checkedEvents && c.type === "Event").map(c => (
@@ -219,7 +219,7 @@ const Catalog = props => {
                         )}
                       </CardMedia>
                       <CardContent>
-                        <Typography gutterBottom noWrap variant="h5" component="h2">
+                        <Typography gutterBottom variant="h5" component="h2">
                           {c.title}
                         </Typography>
                         <Typography
@@ -257,7 +257,7 @@ const Catalog = props => {
           </Box>
         </Grid>
       </Grid>
-    </>
+    </div>
   );
 };
 

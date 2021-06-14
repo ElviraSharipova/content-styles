@@ -122,7 +122,7 @@ function loginUser(
             setIsLoading(false);
             receiveToken(token, dispatch);
             doInit()(dispatch);
-            history.goBack();
+            //history.goBack();
           }, 2000);
         })
         .catch(() => {
@@ -217,36 +217,37 @@ function signOut(dispatch, history) {
 export function receiveToken(token, dispatch, social = false) {
   let user;
   // We check if app runs with backend mode
-  if (config.isBackend) {
-    user = jwt.decode(token).user;
-    delete user.id;
-  } else {
-    user = {
-      email: config.auth.email
-    };
-  }
+  //if (config.isBackend) {
+  //  user = jwt.decode(token).user;
+  //  delete user.id;
+  //} else {
+  //  user = {
+  //    email: config.auth.email
+  //  };
+  //}
 
   if (social) {
-    user = token.id
     axios.defaults.headers.common["Authorization"] = "Bearer " + token.token;
     localStorage.setItem("token", token.token);
   } else {
-    user = jwt.decode(token.access).user_id;
     axios.defaults.headers.common["Authorization"] = "Bearer " + token.access;
     localStorage.setItem("token", token.access);
   }
 
-  axios.get("/profiles/" + user).then(res => { localStorage.setItem("nickname", res.data.nickname); localStorage.setItem("email", res.data.email); localStorage.setItem("phone", res.data.phone_num); console.log(res.data.email) }).catch(err => console.error(err));
- 
-
-  delete user.id;
+  axios.get("/profiles/my_profile").then(res => {
+    localStorage.setItem("user", JSON.stringify(res.data.id));
+    localStorage.setItem("nickname", res.data.nickname);
+    localStorage.setItem("email", res.data.email);
+    localStorage.setItem("phone", res.data.phone_num);
+    console.log(res.data.email)
+  }).catch(err => console.error(err));
 
   
   //console.log("ref ", token.refresh); 
   //console.log("acc ", token.access); 
 
   localStorage.setItem("token_ref", token.refresh);
-  localStorage.setItem("user", JSON.stringify(user));
+  localStorage.setItem("user", JSON.stringify("Waiting"));
   localStorage.setItem("theme", "default");
   //axios.defaults.headers.common["Authorization"] = "Bearer " + token;
   dispatch({ type: "LOGIN_SUCCESS" });
@@ -345,6 +346,7 @@ export function confirmUser(
   history,
   setIsLoading,
   setError,
+  setHelperText,
   social = ""
 ) {
   return () => {
@@ -361,6 +363,9 @@ export function confirmUser(
         //          toast.success("You've been registered successfully. Please check your email for verification link");
         history.push('/login');
       }).catch(err => {
+        if (err.response.status == 400) {
+          setHelperText("Неверный ключ")
+        }
         dispatch(authError(err.response.data));
       })
     } else {

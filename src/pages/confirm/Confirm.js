@@ -25,6 +25,7 @@ import { receiveToken, doInit } from "../../context/UserContext";
 import { Button, Typography } from "../../components/Wrappers";
 import Widget from "../../components/Widget";
 import config from "../../config";
+import Header from "../../components/Header/HeaderLanding";
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 const getGreeting = () => {
@@ -57,19 +58,20 @@ function Confirm(props) {
   var [passwordValue, setPasswordValue] = useState("");
   var [forgotEmail, setForgotEmail] = useState("");
   var [isForgot, setIsForgot] = useState(false);
+  var [helperText, setHelperText] = useState("");
 
   return (
     <Grid container className={classes.container}>
+      <Header />
+      <div className={classes.fakeToolbar} />
       <div className={!isForgot ? classes.formContainer : classes.customFormContainer}>
         <div className={classes.form}>
-          <Typography variant="h2" className={classes.subGreeting}>
+          <Typography variant="h2" className={classes.greeting}>
             Введите 6-значный ключ
           </Typography>
-          <Fade in={error}>
-            <Typography color="secondary" className={classes.errorMessage}>
-              Пароль или логин неверны :(
-            </Typography>
-          </Fade>
+          <Typography className={classes.errorMessage}>
+            {helperText}
+          </Typography>
           <Input
             id="key"
             //InputProps={{
@@ -93,9 +95,10 @@ function Confirm(props) {
               <div className={classes.formButtons}>
                 <Button
                   onClick={() => { history.push('/register') }}
-                  variant="contained"
+                  variant="outlined"
                   color="primary"
                   size="large"
+                  style={{ width: 150, height: 50 }}
                 >
                   Назад
                 </Button>
@@ -106,7 +109,8 @@ function Confirm(props) {
                       loginValue,
                       props.history,
                       setIsLoading,
-                      setError
+                      setError,
+                      setHelperText
                     )()
                   }
                   disabled={
@@ -116,6 +120,7 @@ function Confirm(props) {
                   variant="contained"
                   color="primary"
                   className={classes.createAccountButton}
+                  style={{ width: 150, height: 50 }}
                 >
                   Подтвердить
                 </Button>

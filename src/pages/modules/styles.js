@@ -50,7 +50,8 @@ export default makeStyles(theme => ({
   },
   contentText: {
     "& > *": {
-      marginBottom: 24,
+      marginBottom: 12,
+      fontFamily: "Roboto"
     },
     "& > ul": {
       listStyleType: "disc",
