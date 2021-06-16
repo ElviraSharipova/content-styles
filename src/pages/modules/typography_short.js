@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
+import { Link } from "@material-ui/core";
 import "./typography_short.scss"
 
 const MTxt= props => (
@@ -44,6 +45,10 @@ const MNav = props => (
     <li><NavLink to={props.to} className="nav__link" activeClassName="nav__link_active" onClick={props.onClick}> {props.children} </NavLink></li>
 )
 
+const MLink = props => (
+  <li><p className="nav__link" activeClassName="nav__link_active" onClick={props.onClick}> {props.children} </p></li>
+)
+
 const MChap = props => (
     <div className="txt txt__chap">
             {props.children}
@@ -78,4 +83,4 @@ const MVid = props => (
     <MSub txt={props.children} />
   </div>
 )
-export {MTxt, MChap, MImg, MParg, MEq, MRadio, MVid, MNav}
+export { MTxt, MChap, MImg, MParg, MEq, MRadio, MVid, MNav, MLink}

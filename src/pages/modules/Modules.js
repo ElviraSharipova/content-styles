@@ -24,6 +24,7 @@ export default function Module (props) {
   const history = useHistory();
   const course_id = props.match.params.id
   const [content, setContent] = React.useState({});
+  const [current, setCurrent] = React.useState({theme: 1, module: 1, component: 1});
 
   const manualContentMapping = [
     <Mod1_1_theory />,
@@ -66,32 +67,40 @@ export default function Module (props) {
     }
   }
 
+  function goBack() {
+    setCurrent({ theme: current.theme, module: current.module, component: current.component - 1 })
+  }
+
+  function goForward() {
+    setCurrent({ theme: current.theme, module: current.module, component: current.component + 1 })
+  }
+
+  function getComponent() {
+    return content.themes[current.theme - 1].modules[current.module - 1].components[current.component - 1]
+  }
+
   if (!content.themes) return (<></>)
 
   return (
     <>
       <WhBgr> {/*some light kostyling for fully white background without change parent elevent. Need to be removed when parent will be white too*/}
         <div className="sub_toolbar sub_module">
-          <Switch >
-            {content.themes.map(t => (t.modules.map(m => (m.components.map(c => (
-              <Route path={`/app/course/${course_id}/mod${t.index}_${m.index}_${c.index}`}>
-                {contentMapper(c.id, c.type, `${t.index}.${m.index}.${c.index} ${c.title}`)}
-                <Nav courseId={course_id} contentId={(t.index - 1) * 10 + m.index - 1} content={content} />
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-evenly" }}>
-                  <Button style={{ margin: 24 }} variant="contained" color="primary" disabled={!(c.index - 1)}
-                    onClick={() => history.push(`/app/course/${course_id}/mod${t.index}_${m.index}_${c.index - 1}`)}
-                  >
-                    Назад
-                  </Button>
-                  <Button style={{ margin: 24 }} variant="contained" color="primary"
-                    onClick={() => history.push(`/app/course/${course_id}/mod${t.index}_${m.index}_${c.index + 1}`)}
-                  >
-                    Вперед
-                  </Button>
-                </div>
-              </Route>
-            ))))))}
-          </Switch>
+          <div>
+            {contentMapper(getComponent().id, getComponent().type, `${current.theme}.${current.module}.${current.component} ${getComponent().title}`)}
+            <Nav courseId={course_id} content={content} current={current} setCurrent={setCurrent} />
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-evenly" }}>
+                <Button style={{ margin: 24 }} variant="contained" color="primary" disabled={!(current.component - 1)}
+                  onClick={goBack}
+                >
+                  Назад
+                </Button>
+                <Button style={{ margin: 24 }} variant="contained" color="primary" disabled={!(content.themes[current.theme - 1].modules[current.module - 1].components[current.component])}
+                  onClick={goForward}
+                >
+                  Вперед
+                </Button>
+              </div>
+            </div>
         </div>
       </WhBgr>
     </>

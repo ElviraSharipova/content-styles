@@ -114,8 +114,8 @@ function Button({ children, color, className, style, ...props }) {
     root: {
       color: getColor(color, theme),
       textTransform: "none",
-      fontFamily: 'Source Sans Pro',
-      fontWeight: 600,
+      fontFamily: "Roboto",
+      fontWeight: 500,
       fontSize: 18
     },
     contained: {

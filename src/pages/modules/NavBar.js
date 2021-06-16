@@ -20,7 +20,7 @@ import { Button } from "../../components/Wrappers/Wrappers";
 
 import "./nav.scss"
 import "./modules.scss"
-import { MNav } from "./typography_short"
+import { MNav, MLink } from "./typography_short"
 import useStyles from "./styles";
 import axios from "axios";
 import Cookies from 'js-cookie';
@@ -33,7 +33,7 @@ const Nav = props => {
   const classes = useStyles();
 
   var initialOpen = new Array(200).fill(false)
-  initialOpen[props.contentId] = true
+  initialOpen[0] = true
 
   const [open, setOpen] = React.useState(initialOpen);
 
@@ -203,7 +203,9 @@ const Nav = props => {
                 <Collapse in={open[content.themes.indexOf(t) * 10 + t.modules.indexOf(m)]} timeout="auto" unmountOnExit>
                   <ul>
                     {m.components.sort((a, b) => a.index > b.index ? 1 : -1).map(c => (
-                      <MNav to={`/app/course/${props.courseId}/mod${t.index}_${m.index}_${c.index}`} onClick={() => tryAutoComplete(c, m, t)}><CheckIcon className={classes.checkmarkSecondary} opacity={getComponentProgress(c, m, t)} /> {c.title}</MNav>
+                      <MLink onClick={() => { tryAutoComplete(c, m, t); props.setCurrent({ theme: t.index, module: m.index, component: c.index }) }}>
+                        <CheckIcon className={classes.checkmarkSecondary} opacity={getComponentProgress(c, m, t)} /> {c.title}
+                      </MLink>
                     ))}
                   </ul>
                 </Collapse>

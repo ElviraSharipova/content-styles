@@ -91,36 +91,41 @@ export default function Test(props) {
       }
     }
     console.log(answers);
-    const progressId = localStorage.getItem("progressId");
-    axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
-    axios.put("/content/progress/" + progressId + "/check/", { answers: JSON.stringify(answers), component: props.id }).then(res => {
-      console.log(res.data);
-      var scores = new Array(tests.length).fill(0);
-      var feedback = new Array(tests.length);
-      var answers = JSON.parse(res.data.answers);
-      for (let index = 0; index < tests.length; index++) {
-        for (let response_index = 0; response_index < res.data.passed_checkpoints.length; response_index++) {
-          if (checkpoints[index].id == res.data.passed_checkpoints[response_index].checkpoint) {
-            scores[index] = res.data.passed_checkpoints[response_index].score;
+    const ref_token = localStorage.getItem("token_ref");
+    axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
+      const token = res.data.access;
+      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+      const progressId = localStorage.getItem("progressId");
+      axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
+      axios.put("/content/progress/" + progressId + "/check/", { answers: JSON.stringify(answers), component: props.id }).then(res => {
+        console.log(res.data);
+        var scores = new Array(tests.length).fill(0);
+        var feedback = new Array(tests.length);
+        var answers = JSON.parse(res.data.answers);
+        for (let index = 0; index < tests.length; index++) {
+          for (let response_index = 0; response_index < res.data.passed_checkpoints.length; response_index++) {
+            if (checkpoints[index].id == res.data.passed_checkpoints[response_index].checkpoint) {
+              scores[index] = res.data.passed_checkpoints[response_index].score;
+            }
           }
         }
-      }
-      for (let index = 0; index < tests.length; index++) {
-        for (let response_index = 0; response_index < answers.length; response_index++) {
-          if (checkpoints[index].id == answers[response_index].checkpoint) {
-            feedback[index] = parceFeedback(answers[response_index].feedback)
+        for (let index = 0; index < tests.length; index++) {
+          for (let response_index = 0; response_index < answers.length; response_index++) {
+            if (checkpoints[index].id == answers[response_index].checkpoint) {
+              feedback[index] = parceFeedback(answers[response_index].feedback)
+            }
           }
         }
-      }
-      setScore(scores);
-      setHelperText("Ответы отправлены");
-      setResults(feedback);
-      //window.scroll({
-      //  top: 0,
-      //  left: 0,
-      //  behavior: 'smooth',
-      //});
-    }).catch(err => console.error(err));
+        setScore(scores);
+        setHelperText("Ответы отправлены");
+        setResults(feedback);
+        //window.scroll({
+        //  top: 0,
+        //  left: 0,
+        //  behavior: 'smooth',
+        //});
+      }).catch(err => console.error(err));
+    })
   };
 
   function changeByIndex(object, index, value) {
@@ -188,7 +193,7 @@ export default function Test(props) {
                 </FormGroup>
               }
               {e.type == "matrix" &&
-                <TableContainer component={Paper} style={{ flexGrow: 1, marginBottom: 48, maxWidth: 800 }}>
+                <TableContainer component={Paper} style={{ flexGrow: 1, marginBottom: 48, maxWidth: 1280 }}>
                   <Table aria-label="customized table">
                     <TableHead>
                       <TableRow>
@@ -215,6 +220,17 @@ export default function Test(props) {
               }
               {
                 e.type == "detailed" &&
+                <TextField
+                  id="standard-basic"
+                  style={results[tests.indexOf(e)] != null ? { backgroundColor: results[tests.indexOf(e)][1] ? "#A6FFA6" : "#FFA6A6", marginBottom: 24 } : { marginBottom: 24 }}
+                  label="Ответ"
+                  name={e.name}
+                  value={value[tests.indexOf(e)] ? value[tests.indexOf(e)][e.name] : ""}
+                  onChange={handleChangeDetailed}
+                />
+              }
+              {
+                e.type == "enumerate" &&
                 <TextField
                   id="standard-basic"
                   style={results[tests.indexOf(e)] != null ? { backgroundColor: results[tests.indexOf(e)][1] ? "#A6FFA6" : "#FFA6A6", marginBottom: 24 } : { marginBottom: 24 }}

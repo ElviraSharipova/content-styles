@@ -79,9 +79,9 @@ const Catalog = props => {
     range: 0,
     sort: 0
   });
-  React.useEffect(() => {
-    setWidth({ type: "BRANDS", brandsWidth: brandsRef.current.offsetWidth });
-  }, []);
+  //React.useEffect(() => {
+  //  setWidth({ type: "BRANDS", brandsWidth: brandsRef.current.offsetWidth });
+  //}, []);
   const classes = useStyles();
 
   const selectReducer = (state, action) => {
@@ -145,7 +145,7 @@ const Catalog = props => {
   return (
     <div style={{ marginTop: 30 }}>
       <Grid container spacing={3}>
-        <Grid item xs={12} md={8}>
+        {/*<Grid item xs={12} md={8}>
           <Box display="flex" style={{ marginLeft: "2%" }}>
             <FormControl
               variant="outlined"
@@ -179,27 +179,32 @@ const Catalog = props => {
         <Grid item xs={12} md={1}>
           <Button variant="contained" size="large" fullWidth={true} style={{ marginTop: 12 }} disabled><span style={{ color: "white" }}>Создать</span></Button>
         </Grid>
-        <Grid item xs={12} md={1}></Grid>
-        <Checkbox
-          checked={checkedCourses}
-          onChange={handleChangeCourses}
-          color="primary"
-          inputProps={{ 'aria-label': 'primary checkbox' }}
-          style={{ marginLeft: "2%" }}
-        />
-        <Typography gutterBottom variant="h5" component="h2" style={{ marginTop: 7 }}>
-          Курсы
+        <Grid item xs={12} md={1}></Grid>*/}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+          <div style={{ display: "flex", flexGrow: 1 }}>
+            <Checkbox
+              checked={checkedCourses}
+              onChange={handleChangeCourses}
+              color="primary"
+              inputProps={{ 'aria-label': 'primary checkbox' }}
+              style={{ marginLeft: "2%" }}
+            />
+            <Typography gutterBottom variant="h5" component="h2" style={{ marginTop: 7 }}>
+              Курсы
             </Typography>
-        <Checkbox
-          checked={checkedEvents}
-          onChange={handleChangeEvents}
-          color="primary"
-          inputProps={{ 'aria-label': 'primary checkbox' }}
-          style={{ marginLeft: "2%" }}
-        />
-        <Typography gutterBottom variant="h5" component="h2" style={{ marginTop: 7 }}>
-          События
+            <Checkbox
+              checked={checkedEvents}
+              onChange={handleChangeEvents}
+              color="primary"
+              inputProps={{ 'aria-label': 'primary checkbox' }}
+              style={{ marginLeft: "2%" }}
+            />
+            <Typography gutterBottom variant="h5" component="h2" style={{ marginTop: 7 }}>
+              События
             </Typography>
+          </div>
+          {/*<Button variant="contained" size="large" fullWidth={false} style={{ right: "10%" }} disabled><span style={{ color: "white" }}>Создать</span></Button>*/}
+        </div>
         <Grid item xs={12} style={{ marginTop: 30 }}>
           <Box display={"flex"} flexWrap={"wrap"}>
             <Grid container item spacing={3}>
@@ -227,13 +232,12 @@ const Catalog = props => {
                           color="text"
                           colorBrightness={"secondary"}
                           component="p"
-                          noWrap
                         >
                           {c.subtitle}
                         </Typography>
                       </CardContent>
                     </CardActionArea>
-                    <CardActions style={{ padding: 16 }}>
+                    {/*<CardActions style={{ padding: 16 }}>
                       <Box
                         display={"flex"}
                         justifyContent={"space-between"}
@@ -249,7 +253,7 @@ const Catalog = props => {
                           </div>
                         </Typography>
                       </Box>
-                    </CardActions>
+                    </CardActions>*/}
                   </Card>
                 </Grid>
               ))}

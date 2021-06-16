@@ -7,7 +7,15 @@ container: {
     width: "100vw",
     display: "flex",
       backgroundImage: `url(${Image})`
-  }, 
+  },
+  landingBackground: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    background: "linear-gradient(45deg, #E4595C, #FB7B5E);",
+    height: "100vh"
+  },
   card: {
     minHeight: "100%",
     display: "flex",
