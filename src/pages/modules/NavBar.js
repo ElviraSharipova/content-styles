@@ -32,6 +32,8 @@ const Nav = props => {
   const content = props.content;
   const classes = useStyles();
 
+  console.log(content)
+
   var initialOpen = new Array(200).fill(false)
   initialOpen[0] = true
 
@@ -85,7 +87,21 @@ const Nav = props => {
           if (progress.theme_progress[themeProgressIndex].module_progress[moduleProgressIndex].component_progress[componentProgressIndex].component == component.id
             && progress.theme_progress[themeProgressIndex].module_progress[moduleProgressIndex].module == module.index
             && progress.theme_progress[themeProgressIndex].theme == theme.index) {
-            return progress.theme_progress[themeProgressIndex].module_progress[moduleProgressIndex].component_progress[componentProgressIndex].completed ? 1 : 0;
+            return progress.theme_progress[themeProgressIndex].module_progress[moduleProgressIndex].component_progress[componentProgressIndex].score
+          }
+        }
+      }
+    }
+  };
+
+  function getComponentCompleted(component, module, theme) {
+    for (let themeProgressIndex = 0; themeProgressIndex < progress.theme_progress.length; themeProgressIndex++) {
+      for (let moduleProgressIndex = 0; moduleProgressIndex < progress.theme_progress[themeProgressIndex].module_progress.length; moduleProgressIndex++) {
+        for (let componentProgressIndex = 0; componentProgressIndex < progress.theme_progress[themeProgressIndex].module_progress[moduleProgressIndex].component_progress.length; componentProgressIndex++) {
+          if (progress.theme_progress[themeProgressIndex].module_progress[moduleProgressIndex].component_progress[componentProgressIndex].component == component.id
+            && progress.theme_progress[themeProgressIndex].module_progress[moduleProgressIndex].module == module.index
+            && progress.theme_progress[themeProgressIndex].theme == theme.index) {
+            return progress.theme_progress[themeProgressIndex].module_progress[moduleProgressIndex].component_progress[componentProgressIndex].completed ? 1 : 0
           }
         }
       }
@@ -93,7 +109,7 @@ const Nav = props => {
   };
 
   function tryAutoComplete(component, module, theme) {
-    if (!getComponentProgress(component, module, theme)) {
+    if (!getComponentCompleted(component, module, theme)) {
       const ref_token = localStorage.getItem("token_ref");
       axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
         const token = res.data.access;
@@ -204,7 +220,11 @@ const Nav = props => {
                   <ul>
                     {m.components.sort((a, b) => a.index > b.index ? 1 : -1).map(c => (
                       <MLink onClick={() => { tryAutoComplete(c, m, t); props.setCurrent({ theme: t.index, module: m.index, component: c.index }) }}>
-                        <CheckIcon className={classes.checkmarkSecondary} opacity={getComponentProgress(c, m, t)} /> {c.title}
+                        <CheckIcon className={classes.checkmarkSecondary} opacity={getComponentCompleted(c, m, t)} />
+                        {!getComponentCompleted(c, m, t) && c.type == "test" &&
+                          <div style={{ marginRight: 6 }}>{`${getComponentProgress(c, m, t)}/${c.max_score}`}</div>
+                        }
+                        {c.title}
                       </MLink>
                     ))}
                   </ul>

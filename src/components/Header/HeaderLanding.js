@@ -105,7 +105,10 @@ export default function Header(props) {
         <a href="/#/" style={{ marginRight: "10vw", flexGrow: 1 }}><img src={Logo} style={{ marginLeft: 24, height: 75 }} /></a>
         <div>
           <Button component={Link} href="/#/app/catalog" color={"white"} style={{marginRight: 24}}>Каталог</Button>
-          <Button component={Link} href="/#/app/forum" color={"white"} disabled>Форум</Button>
+          <Button component={Link} href="/#/app/forum" color={"white"} style={{ marginRight: 24 }} disabled>Форум</Button>
+          {user_id == 1 &&
+            <Button component={Link} href="/#/admin" color={"white"}>Администрирование</Button>
+          }
         </div>
         <div className={classes.grow} />
         {user_id ? (<>

@@ -53,7 +53,7 @@ export default function Test(props) {
         setCheckpoints(res.data.checkpoints);
       })
     })
-  }, []);
+  }, [props.id]);
 
   function parceFeedback(feedback) {
     var res = {}
@@ -176,9 +176,9 @@ export default function Test(props) {
       {tests.map(e => (
         <div style={{ width: 1280 }}>
           <FormControl component="fieldset" style={{ marginTop: 48 }}>
-            <FormLabel component="legend" style={{ color: "black", maxWidth: 800 }}>{tests.indexOf(e) + 1}{".  "}{e.question}{" "}{checkpoints != "" ? (stringifyScore(score[tests.indexOf(e)], checkpoints[tests.indexOf(e)].score)) : ("")}</FormLabel>
+            <FormLabel component="legend" style={{ color: "black", maxWidth: 1280 }}>{tests.indexOf(e) + 1}{".  "}{e.question}{" "}{(checkpoints != "" && checkpoints[tests.indexOf(e)]) ? (stringifyScore(score[tests.indexOf(e)], checkpoints[tests.indexOf(e)].score)) : ("")}</FormLabel>
             <div style={{ marginLeft: 20 }}>
-              <img src={e.image} style={{ marginTop: 24, marginBottom: 12, maxWidth: 800 }} />
+              <img src={e.image} style={{ marginTop: 24, marginBottom: 12, maxWidth: 1280 }} />
               {e.type == "choice" &&
                 <FormGroup className={classes.testButtons}>
                   {

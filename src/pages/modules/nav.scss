@@ -31,7 +31,7 @@ ul, ol {
 
 .nav {
   position: fixed;
-  top: 0;
+  top: 75px;
   left: 0;
   height: 100vh;
   background: #343B4D;
@@ -41,6 +41,7 @@ ul, ol {
   min-width: 310px;
   white-space: normal;
   margin: 0;
+  padding-bottom: 150px;
 
   &__h2 {
     color: #FFFFFF;
@@ -79,6 +80,7 @@ ul, ol {
     line-height: 120%;
     font-style: normal;
     font-weight: normal;
+    cursor: pointer;
 
 //    padding-left: 40px;
     padding-top: 5px;
@@ -101,11 +103,12 @@ ul, ol {
 .white_module_bgr{
   overflow:scroll;
   position: fixed;
-  top: 0;
+  top: 75px;
   left: 0;
   height: 100vh;
   width: 100vw;
   background: #ffffff;
   margin: 0;
   padding-left: 40px;
+  padding-bottom: 150px;
 }/* just a kostyl' for white background on the module*/

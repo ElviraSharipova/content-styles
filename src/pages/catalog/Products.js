@@ -218,7 +218,7 @@ const Product = props => {
                     )}{" "}
                   </Box>*/}
                   <Box display="flex" alignItems="center" justifyContent="center">
-                    <Button component={Link} href={`#/app/course/${rows[props.match.params.id - 1].id}/mod1_1_1`}
+                    <Button component={Link} href={`#/app/course/${rows[props.match.params.id - 1].id}`}
                       color="primary"
                       variant="contained"
                       style={{ width: "30%" }}

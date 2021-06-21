@@ -19,6 +19,7 @@ import Verify from "../pages/verify";
 import Reset from "../pages/reset";
 import Landing from "../pages/landing";
 import Registration from "../pages/registration";
+import Admin from "../pages/admin";
 
 // context
 import { useUserState } from "../context/UserContext";
@@ -56,7 +57,8 @@ export default function App() {
           <PublicRoute path="/register" component={Registration} />
           <PublicRoute path="/confirm" component={Confirm} />
           <PublicRoute path="/verify-email" exact component={Verify} />
-          <PublicRoute path="/password-reset" exact component={Reset}/>
+          <PublicRoute path="/password-reset" exact component={Reset} />
+          <PrivateRoute path="/admin" component={Admin} />
           <Route component={Error} />
         </Switch>
       </HashRouter>

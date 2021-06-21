@@ -129,6 +129,9 @@ export default function Header(props) {
         {/*<Button component={Link} href="/#/app/courses" color={"white"} style={{ marginRight: 12 }} disabled>Курсы и события</Button>*/}
         <Button component={Link} href="/#/app/commands" color={"white"} style={{ marginRight: 12 }} disabled>Мои команды</Button>
         <Button component={Link} href="/#/app/hardware" color={"white"} style={{ marginRight: 12 }} disabled>Оборудование</Button>
+        {user_id == 1 &&
+          <Button component={Link} href="/#/admin" color={"white"}>Администрирование</Button>
+        }
         <div className={classes.grow} />
         {/*<IconButton
           color="inherit"
