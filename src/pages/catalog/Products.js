@@ -115,14 +115,14 @@ const Product = props => {
 
   const ws = useRef(null);
 
-  useEffect(() => {
-        ws.current = new WebSocket("ws://79.143.25.41:8080/gear");
-        ws.current.binaryType = 'arraybuffer';
-        ws.current.onclose = () => console.log("ws closed"); //devs - offline
-        return () => {
-            ws.current.close();
-        };
-  }, []);
+  //useEffect(() => {
+  //      ws.current = new WebSocket("ws://79.143.25.41:8080/gear");
+  //      ws.current.binaryType = 'arraybuffer';
+  //      ws.current.onclose = () => console.log("ws closed"); //devs - offline
+  //      return () => {
+  //          ws.current.close();
+  //      };
+  //}, []);
 
   
 

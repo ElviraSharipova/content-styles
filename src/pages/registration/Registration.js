@@ -80,18 +80,20 @@ function Registration(props) {
           localStorage.setItem("email", email);
           localStorage.setItem("password", password);
           localStorage.setItem("name", name);
-          axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
-          axios.post("/register/email/", { email: email }).then(res => {
-            localStorage.setItem("verification_key", res.data.key);
-            dispatch({
-              type: 'REGISTER_SUCCESS'
+          axios.get("/register/email/").then(() => {
+            axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
+            axios.post("/register/email/", { email: email }).then(res => {
+              localStorage.setItem("verification_key", res.data.key);
+              dispatch({
+                type: 'REGISTER_SUCCESS'
+              });
+              history.push('/confirm');
+            }).catch(err => {
+              if (err.response.status == 302) {
+                setHelperText("Такая почта уже зарегистрирована")
+              }
             });
-            history.push('/confirm');
-          }).catch(err => {
-            if (err.response.status == 302) {
-              setHelperText("Такая почта уже зарегистрирована")
-            }
-          });
+          })
         }
       };
     }
