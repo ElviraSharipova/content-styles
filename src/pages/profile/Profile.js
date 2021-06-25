@@ -183,24 +183,25 @@ const Profile = () => {
 
 
     function handleSubmit2() {
-      const user_id = localStorage.getItem("user");
-      console.log(data.email, data.phone, "test");
-      const ref_token = localStorage.getItem("token_ref");
-      axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
-        const token = res.data.access;
-        axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-        axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
-        axios.patch("/profiles/" + user_id + "/", { nickname: data.nickname }).then(res => {
-          console.log(res.data); localStorage.setItem("nickname", data.nickname)
-          if (password.currentPassword && password.newPassword && password.newPassword == password.confirmPassword) {
-            axios.patch("/profiles/password/", {
-              current_password: password.currentPassword,
-              new_password: password.newPassword
+      //const user_id = localStorage.getItem("user");
+      if (password.currentPassword && password.newPassword && password.newPassword == password.confirmPassword) {
+        const ref_token = localStorage.getItem("token_ref");
+        axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
+          const token = res.data.access;
+          axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+          axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
+          //axios.patch("/profiles/" + user_id + "/", { nickname: data.nickname }).then(res => {
+          //  console.log(res.data); localStorage.setItem("nickname", data.nickname)
+          axios.patch("/profiles/password/", {
+            current_password: password.currentPassword,
+            new_password: password.newPassword
           }).catch(err => console.error(err));
-          }
-        }).catch(err => console.error(err));
+          //}).catch(err => console.error(err));
+        });
         setHelperText("Сохранено")
-      });
+      } else {
+        setHelperText("Пароли не совпадают")
+      }
     }
 
 
@@ -233,7 +234,7 @@ const Profile = () => {
                         width={600}
                     >
                             <>
-                                <Typography
+                                {/*<Typography
                                     variant={'h5'}
                                     weight={'medium'}
                                     style={{ marginBottom: 24, alignSelf: "center"  }}
@@ -256,7 +257,7 @@ const Profile = () => {
                                     name="nickname"
                                     onChange={handleChange}
                                 />
-                {/*<Typography weight={'medium'}>
+                                <Typography weight={'medium'}>
                                     Аватар:
                                 </Typography>
                                 <div class={classes.galleryWrap}>

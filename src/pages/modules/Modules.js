@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 import useStyles from "./styles";
 import { Route, Switch, useHistory } from "react-router-dom";
@@ -7,7 +7,7 @@ import axios from "axios";
 import { Button } from "../../components/Wrappers/Wrappers";
 
 import "./modules.scss"
-import { Nav, WhBgr } from "./NavBar";
+import { Nav } from "./NavBar";
 import Test from "./Test.js";
 import Stream from "./Stream.js";
 import Plot from "./Plot.js";
@@ -24,7 +24,9 @@ export default function Module (props) {
   const history = useHistory();
   const course_id = props.match.params.id
   const [content, setContent] = React.useState({});
-  const [current, setCurrent] = React.useState({theme: 1, module: 1, component: 1});
+  const [current, setCurrent] = React.useState({ theme: 1, module: 1, component: 1 });
+
+  const contentWindow = useRef(null)
 
   const manualContentMapping = [
     <Mod1_1_theory />,
@@ -69,10 +71,12 @@ export default function Module (props) {
 
   function goBack() {
     setCurrent({ theme: current.theme, module: current.module, component: current.component - 1 })
+    contentWindow.current.scrollTo(0, 0)
   }
 
   function goForward() {
     setCurrent({ theme: current.theme, module: current.module, component: current.component + 1 })
+    contentWindow.current.scrollTo(0, 0)
   }
 
   function getComponent() {
@@ -83,7 +87,7 @@ export default function Module (props) {
 
   return (
     <>
-      <WhBgr> {/*some light kostyling for fully white background without change parent elevent. Need to be removed when parent will be white too*/}
+      <div className="white_module_bgr sub_toolbar" ref={contentWindow}>
         <div className="sub_toolbar sub_module">
           <div>
             {contentMapper(getComponent().id, getComponent().type, `${current.theme}.${current.module}.${current.component} ${getComponent().title}`)}
@@ -102,7 +106,7 @@ export default function Module (props) {
               </div>
             </div>
         </div>
-      </WhBgr>
+      </div>
     </>
   );
 }

@@ -66,7 +66,6 @@ function Registration(props) {
 
   function registerUser(
     dispatch,
-    name,
     email,
     password,
     confirmPassword,
@@ -79,7 +78,7 @@ function Registration(props) {
         if (email.length > 0) {
           localStorage.setItem("email", email);
           localStorage.setItem("password", password);
-          localStorage.setItem("name", name);
+          //localStorage.setItem("name", name);
           axios.get("/register/email/").then(() => {
             axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
             axios.post("/register/email/", { email: email }).then(res => {
@@ -148,7 +147,7 @@ function Registration(props) {
                 fullWidth
                 helperText="На указанный e-mail будет отправлен ключ подтверждения"
               />
-              <Input
+              {/*<Input
                 id="name"
                 //InputProps={{
                 //  classes: {
@@ -163,7 +162,7 @@ function Registration(props) {
                 placeholder="Имя"
                 type="name"
                 fullWidth
-              />
+              />*/}
               <Input
                 id="password"
                 //InputProps={{
@@ -208,13 +207,12 @@ function Registration(props) {
                 </Button>
                 <Button
                   disabled={
-                    loginValue.length === 0 || passwordValue.length === 0 || nameValue.length === 0
+                    loginValue.length === 0 || passwordValue.length === 0
                   }
 
                   onClick={() => {
                     registerUser(
                       userDispatch,
-                      nameValue,
                       loginValue,
                       passwordValue,
                       passwordConfirmValue,

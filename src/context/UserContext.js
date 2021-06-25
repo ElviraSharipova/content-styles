@@ -308,7 +308,6 @@ export function doInit() {
 
 export function registerUser(
   dispatch,
-  name,
   email,
   password,
   history,
@@ -322,7 +321,7 @@ export function registerUser(
       if (email.length > 0) {
         localStorage.setItem("email", email);
         localStorage.setItem("password", password);
-        localStorage.setItem("name", name);
+        //localStorage.setItem("name", name);
         axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
         axios.post("/register/email/", { email: email }).then(res => {
           localStorage.setItem("verification_key", res.data.key);
@@ -352,11 +351,11 @@ export function confirmUser(
   return () => {
     var email = localStorage.getItem("email")
     var password = localStorage.getItem("password")
-    var name = localStorage.getItem("name")
+    //var name = localStorage.getItem("name")
     console.log("in func");
-    if (email.length > 0 && password.length > 0 && key.length > 0 && name.length > 0) {
+    if (email.length > 0 && password.length > 0 && key.length > 0) {
       axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
-      axios.post("/register/", { username: email, email: email, password: password, hash: localStorage.getItem("verification_key"), key: key, nickname: name}).then(res => {
+      axios.post("/register/", { username: email, email: email, password: password, hash: localStorage.getItem("verification_key"), key: key}).then(res => {
         dispatch({
           type: 'REGISTER_SUCCESS'
         });

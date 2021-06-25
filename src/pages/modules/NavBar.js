@@ -12,10 +12,14 @@ import {
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 
+//icons
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import CheckIcon from '@material-ui/icons/Check';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import CreateIcon from '@material-ui/icons/Create';
+
 import { Button } from "../../components/Wrappers/Wrappers";
 
 import "./nav.scss"
@@ -31,8 +35,6 @@ const Nav = props => {
 
   const content = props.content;
   const classes = useStyles();
-
-  console.log(content)
 
   var initialOpen = new Array(200).fill(false)
   initialOpen[0] = true
@@ -155,7 +157,13 @@ const Nav = props => {
         setProgress(res.data)
         if (res.status == 204) {
           axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
-          axios.post("/content/progress/start/", { course: props.courseId })
+          axios.post("/content/progress/start/", { course: props.courseId }).then(() => {
+            axios.get(`/content/progress/my_progress/?course=${props.courseId}`).then(res => {
+              localStorage.setItem("progressId", res.data.id)
+              setCourseProgress(res.data.score)
+              setProgress(res.data)
+            })
+          })
         }
       })
     })
@@ -166,16 +174,16 @@ const Nav = props => {
   return (
     <nav className="nav sub_toolbar">
       <div style={{ margin: 24 }}>
-        <Typography variant="h6" style={{ color: "white", marginBottom: 6 }}>{content.title}</Typography>
+        <a href="/#/app/catalog/product/1" style={{ textDecoration: "none" }}><Typography variant="h6" style={{ color: "white", marginBottom: 6 }}>{content.title}</Typography></a>
+        <LinearProgress className={classes.progressBar} color="primary" variant="determinate" value={courseProgress} classes={{ barColorPrimary: classes.barColorPromary }} />
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <LinearProgress className={classes.progressBar} color="primary" variant="determinate" value={courseProgress} />
+          <div style={{ color: "white" }}>{`${courseProgress || 0}/${content.max_score || 0}`}</div>
           <div style={{ color: "white" }}>{content.max_score ? `${Math.round((courseProgress || 0) / content.max_score * 100)}%` : "100%"}</div>
         </div>
-        <div style={{ color: "white" }}>{`${courseProgress || 0}/${content.max_score || 0}`}</div>
       </div>
       {content.themes.sort((a, b) => a.index > b.index ? 1 : -1).map(t => (
         <ul className="nav_ul">
-          <li><Typography variant="subtitle2" style={{ color: "white", margin: 12 }}>{`${content.themes.indexOf(t) + 1}. ${t.title}`}</Typography></li>
+          <li><Typography variant="subtitle2" style={{ color: "white", margin: 12, marginLeft: 18 }}>{`${content.themes.indexOf(t) + 1}. ${t.title}`}</Typography></li>
           <li>
             {t.modules.sort((a, b) => a.index > b.index ? 1 : -1).map(m => (
               <>
@@ -184,7 +192,7 @@ const Nav = props => {
                     <CheckCircleIcon className={classes.checkmarkPrimary} opacity={getModuleProgress(m, t)} />
                     <Typography
                       variant="body2"
-                      noWrap
+                      //noWrap
                       aria-owns={openPopover(content.themes.indexOf(t) * 10 + t.modules.indexOf(m)) ? `mouse-over-popover-${content.themes.indexOf(t) + 1}.${t.modules.indexOf(m) + 1}` : undefined}
                       aria-haspopup="true"
                       onMouseEnter={(event) => handlePopoverOpen(content.themes.indexOf(t) * 10 + t.modules.indexOf(m), event)}
@@ -192,7 +200,7 @@ const Nav = props => {
                     >
                       {`${content.themes.indexOf(t) + 1}.${t.modules.indexOf(m) + 1} ${m.title}`}
                     </Typography>
-                    <Popover
+                    {/*<Popover
                       id={`mouse-over-popover-${content.themes.indexOf(t) + 1}.${t.modules.indexOf(m) + 1}`}
                       className={classes.popover}
                       classes={{
@@ -212,19 +220,19 @@ const Nav = props => {
                       disableRestoreFocus
                     >
                       <Typography variant="body2">{`${m.title}`}</Typography>
-                    </Popover>
-                    <div style={{ flexGrow: 1 }} align="right">{open[content.themes.indexOf(t) * 10 + t.modules.indexOf(m)] ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}</div>
+                    </Popover>*/}
+                    <div style={{ flexGrow: 1 }} align="right">{open[content.themes.indexOf(t) * 10 + t.modules.indexOf(m)] ? <ArrowDropUpIcon style={{ marginLeft: 18 }} /> : <ArrowDropDownIcon style={{ marginLeft: 18 }} />}</div>
                   </p>
                 </span>
                 <Collapse in={open[content.themes.indexOf(t) * 10 + t.modules.indexOf(m)]} timeout="auto" unmountOnExit>
-                  <ul>
+                  <ul style={{ backgroundColor: "rgba(0, 0, 0, 0.2)", paddingTop: 12, paddingBottom: 12, paddingRight: 18 }}>
                     {m.components.sort((a, b) => a.index > b.index ? 1 : -1).map(c => (
-                      <MLink onClick={() => { tryAutoComplete(c, m, t); props.setCurrent({ theme: t.index, module: m.index, component: c.index }) }}>
+                      <MLink onClick={() => { tryAutoComplete(c, m, t); props.setCurrent({ theme: t.index, module: m.index, component: c.index }) }} >
                         <CheckIcon className={classes.checkmarkSecondary} opacity={getComponentCompleted(c, m, t)} />
+                        {c.type == "video" ? (<><PlayArrowIcon className={classes.iconSecondary} /> {`${c.title}`}</>) : (<><CreateIcon className={classes.iconSecondary} /> {`${c.title}`}</>)}
                         {!getComponentCompleted(c, m, t) && c.type == "test" &&
-                          <div style={{ marginRight: 6 }}>{`${getComponentProgress(c, m, t)}/${c.max_score}`}</div>
+                          <div style={{ marginLeft: 6 }}>{`(${getComponentProgress(c, m, t)}/${c.max_score} баллов)`}</div>
                         }
-                        {c.title}
                       </MLink>
                     ))}
                   </ul>
@@ -239,10 +247,4 @@ const Nav = props => {
   );
 }
 
-const WhBgr = props => ( // {just a kostyl' for white background on the module
-    <div className="white_module_bgr sub_toolbar">
-        {props.children}
-    </div>
-)
-
-export {Nav, WhBgr}
+export {Nav}

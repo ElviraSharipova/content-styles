@@ -21,10 +21,11 @@ export default makeStyles(theme => ({
   },
   progressBar: {
     flexGrow: 1,
-    marginRight: "12px",
-    barColorPrimary: {
-      backgroundColor: "#00C9FF"
-    },
+    marginBottom: "6px",
+    backgroundColor: "rgba(0, 0, 0, 0.2)",
+  },
+  barColorPromary: {
+    backgroundColor: "#00C9FF"
   },
   dataStreamButton: {
     margin: 24
@@ -37,6 +38,11 @@ export default makeStyles(theme => ({
   checkmarkSecondary: {
     color: "#00C9FF",
     fontSize: 16,
+    marginRight: 10,
+    marginLeft: 18,
+  },
+  iconSecondary: {
+    fontSize: 20,
     marginRight: 10
   },
   popover: {

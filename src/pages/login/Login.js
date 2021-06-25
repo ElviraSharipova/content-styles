@@ -269,7 +269,7 @@ function Login(props) {
                 {/*<ArrowBackIosIcon onClick={() => { history.push('/') }} />*/}
                 {getGreeting()}
               </Typography>
-              <GoogleLogin
+                  {/*<GoogleLogin
                 clientId="108182595919-un4dd9i8uj6640al2jj9640fhegq8nk1.apps.googleusercontent.com"
                 buttonText="Войти с Google"
                 onSuccess={(response) => responseGoogle(
@@ -302,7 +302,7 @@ function Login(props) {
                 <div className={classes.formDivider} />
                 <Typography className={classes.formDividerWord}>или</Typography>
                 <div className={classes.formDivider} />
-              </div>
+              </div>*/}
               <Fade
                 in={error}
                 style={
