@@ -2,7 +2,18 @@ import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 
 import useStyles from "./styles";
-import { Button, TextField, Typography } from "@material-ui/core";
+import {
+  Button,
+  TextField,
+  Typography,
+  FormControl,
+  FormLabel,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  Tabs,
+  Tab,
+} from "@material-ui/core";
 import Header from "../../components/Header/HeaderLanding";
 
 import axios from "axios";
@@ -16,6 +27,9 @@ const Admin = props => {
   const [content, setContent] = React.useState({});
   const [exists, setExists] = React.useState(false);
   const [helperText, setHelperText] = React.useState("");
+  const [tab, setTab] = React.useState(0);
+  const [user, setUser] = React.useState(null);
+  const [users, setUsers] = React.useState(null);
 
   function findComponent() {
     const ref_token = localStorage.getItem("token_ref");
@@ -112,10 +126,87 @@ const Admin = props => {
     setHelperText("")
   }
 
-    return (
-      <div style={{ display: "flex", alignItems: "center", flexDirection: "column" }}>
-        <Header history={props.history} />
-        <div className={classes.fakeToolbar} />
+  function getUsers() {
+    const ref_token = localStorage.getItem("token_ref");
+    axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
+      const token = res.data.access;
+      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+      axios.get("/profiles/").then(res => {
+        setUsers(res.data)
+      })
+    })
+  }
+
+  function deleteUser() {
+    if (users[user].status == "admin") {
+      setHelperText("Нельзя удалить аккаунт администратора")
+    } else {
+      const ref_token = localStorage.getItem("token_ref");
+      axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
+        const token = res.data.access;
+        axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+        axios.get("/profiles/").then(() => {
+          axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
+          axios.delete(`/profiles/${users[user].id}/`)
+          setHelperText("Удалено")
+          getUsers()
+        })
+      })
+    }
+  }
+
+  const handleChangeUser = (event) => {
+    setUser(event.target.value)
+    setHelperText("")
+  }
+
+  const handleChangeTab = (event, newValue) => {
+    setTab(newValue)
+    setHelperText("")
+  }
+
+  return (
+    <div style={{ display: "flex", alignItems: "center", flexDirection: "column" }}>
+      <Header history={props.history} />
+      <div className={classes.fakeToolbar} />
+      <Tabs value={tab} onChange={handleChangeTab} aria-label="tabs" style={{ margin: 48 }}>
+        <Tab label="Пользователи" value={0} />
+        <Tab label="Контент" value={1} />
+      </Tabs>
+      {tab == 0 ? (
+        <div style={{ display: "flex", alignItems: "center", width: 1200, flexDirection: "column" }}>
+          <Button
+            onClick={getUsers}
+            variant="contained"
+            color="primary"
+          >
+            Просмотреть всех пользователей
+          </Button>
+          <Typography variant="h5" style={{ textAlign: "center", color: "red", marginTop: 24 }}>
+            {helperText}
+          </Typography>
+          {users &&
+            <div style={{ display: "flex", alignItems: "center", width: 1200, flexDirection: "column" }}>
+              <FormControl component="fieldset" style={{ margin: 48 }}>
+                <FormLabel component="legend">Пользователи</FormLabel>
+                <RadioGroup aria-label="users" name="users1" value={user} onChange={handleChangeUser}>
+                {users.map(e => (
+                  <FormControlLabel value={`${users.indexOf(e)}`} key={`${e.id}`} control={<Radio />} label={`${e.email} #${e.id}`} />
+                ))}
+                </RadioGroup>
+              </FormControl>
+              <Button
+                onClick={deleteUser}
+                variant="contained"
+                color="primary"
+              >
+                Удалить
+              </Button>
+            </div>
+          }
+        </div>
+      ) : (
+      <>
         <div style={{ display: "flex", justifyContent: "center", width: 1200 }}>
           <TextField
             id="courseName"
@@ -258,7 +349,9 @@ const Admin = props => {
             </Button>
           }
         </div>
-      </div>
+      </>
+      )}
+    </div>
   );
 
 }
