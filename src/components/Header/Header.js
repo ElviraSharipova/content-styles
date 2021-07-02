@@ -7,7 +7,8 @@ import {
   Menu,
   MenuItem,
   Fab,
-  Link
+  Link,
+  Modal
 } from "@material-ui/core";
 import { useTheme } from "@material-ui/styles";
 import {
@@ -79,6 +80,7 @@ export default function Header(props) {
   var [profileMenu, setProfileMenu] = useState(null);
   var [isSearchOpen, setSearchOpen] = useState(false);
   const [isSmall, setSmall] = useState(false);
+  const [openContacts, setOpenContacts] = React.useState(false);
 
   const managementValue = useManagementState()
   const nickname = localStorage.getItem("nickname") || localStorage.getItem("email");
@@ -120,6 +122,14 @@ export default function Header(props) {
     });
   }
 
+  const handleOpenContacts = () => {
+    setOpenContacts(true);
+  };
+
+  const handleCloseContacts = () => {
+    setOpenContacts(false);
+  };
+
   return (
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
@@ -129,10 +139,17 @@ export default function Header(props) {
         {/*<Button component={Link} href="/#/app/courses" color={"white"} style={{ marginRight: 12 }} disabled>Курсы и события</Button>*/}
         <Button component={Link} href="/#/app/commands" color={"white"} style={{ marginRight: 12 }} disabled>Мои команды</Button>
         <Button component={Link} href="/#/app/hardware" color={"white"} style={{ marginRight: 12 }} disabled>Оборудование</Button>
+        <Button onClick={handleOpenContacts} color={"white"} style={{ marginRight: 12 }} >Контакты</Button>
         {user_id == 1 &&
           <Button component={Link} href="/#/admin" color={"white"}>Администрирование</Button>
         }
         <div className={classes.grow} />
+        <Modal
+          open={openContacts}
+          onClose={handleCloseContacts}
+        >
+          <div className={classes.modal}><p>Если у вас возникли вопросы обращайтесь на почту:</p><p>Также пишите нам в Telegram:</p></div>
+        </Modal>
         {/*<IconButton
           color="inherit"
           aria-haspopup="true"

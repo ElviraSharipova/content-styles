@@ -16,6 +16,20 @@ export default makeStyles(theme => ({
     marginTop: -12,
     marginBottom: 48,
   },
+  testHeader: {
+    padding: 36,
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    maxWidth: 1280,
+  },
+  testCheckbox: {
+    paddingBottom: 6,
+    paddingTop: 6,
+  },
+  testCheckboxLabel: {
+    lineHeight: 1.3
+  },
   codeEditor: {
     margin: 27
   },
@@ -59,8 +73,36 @@ export default makeStyles(theme => ({
       marginBottom: 12,
       fontFamily: "Roboto"
     },
-    "& > ul": {
-      listStyleType: "disc",
+    "& p": {
+      marginBottom: 6,
+      marginTop: 6,
     },
+    "& > p": {
+      marginBottom: 18,
+      marginTop: 18,
+    },
+    "& ul": {
+      listStyleType: "disc",
+      marginLeft: 24,
+      marginTop: 6,
+      marginBottom: 18,
+    },
+    "& ol": {
+      listStyleType: "decimal",
+      marginLeft: 24,
+      marginTop: 6,
+      marginBottom: 18,
+    },
+    "& li": {
+      marginBottom: 6,
+    },
+    "& h2": {
+      marginTop: 48,
+    },
+    //        TODO
+    //"& a": {
+    //  target: "_blank",
+    //  rel: "noopener noreferrer",
+    //},
   },
 }));

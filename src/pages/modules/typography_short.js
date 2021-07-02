@@ -46,7 +46,7 @@ const MNav = props => (
 )
 
 const MLink = props => (
-  <li><p className="nav__link" activeClassName="nav__link_active" onClick={props.onClick}> {props.children} </p></li>
+  <li><p className="nav__link" activeClassName="nav__link_active" onClick={props.onClick} style={props.style}> {props.children} </p></li>
 )
 
 const MChap = props => (

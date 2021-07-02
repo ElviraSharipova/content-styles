@@ -223,7 +223,7 @@ const Product = props => {
                       variant="contained"
                       style={{ width: "30%" }}
                     >
-                      Продолжить
+                      Перейти
                     </Button>
                   </Box>
                 </Box>

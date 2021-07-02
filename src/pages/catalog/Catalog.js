@@ -211,7 +211,7 @@ const Catalog = props => {
               {rows.filter(c => checkedCourses && c.type === "Course" || checkedEvents && c.type === "Event").map(c => (
                 <Grid item xs={12} md={3} key={c.id}>
                   <Card className={classes.card}>
-                    <CardActionArea className={c.active ? (classes.cardLink) : (classes.cardLinkDisabled)} component={Link} href={`/#/app/catalog/product/${c.id}`} disabled={!c.active}>
+                    <CardActionArea className={c.active ? (classes.cardLink) : (classes.cardLinkDisabled)} component={Link} href={`/#/app/catalog/product/${c.id}`} disabled={!c.active} style={{ textDecoration: "none" }}>
                       <CardMedia
                         className={classes.media}
                         image={c.img}

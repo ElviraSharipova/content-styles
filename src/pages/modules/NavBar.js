@@ -26,18 +26,21 @@ import "./nav.scss"
 import "./modules.scss"
 import { MNav, MLink } from "./typography_short"
 import useStyles from "./styles";
-import axios from "axios";
-import Cookies from 'js-cookie';
 //import { progress } from "./mock.js";
 import { check } from "prettier";
 
 const Nav = props => {
 
-  const content = props.content;
+  const content = props.content
+  const tryAutoComplete = props.tryAutoComplete
+  const handleRestart = props.handleRestart
+  const progress = props.progress
+  const courseProgress = props.courseProgress
+
   const classes = useStyles();
 
   var initialOpen = new Array(200).fill(false)
-  initialOpen[0] = true
+  initialOpen[(props.current.theme - 1) * 10 + (props.current.module - 1)] = true
 
   const [open, setOpen] = React.useState(initialOpen);
 
@@ -46,23 +49,25 @@ const Nav = props => {
     setOpen([...open]);
   };
 
-  const [progress, setProgress] = React.useState(0);
-  const [courseProgress, setCourseProgress] = React.useState(0);
-  const [anchorEl, setAnchorEl] = React.useState(new Array(200).fill(null));
-
-  function handlePopoverOpen(index, event) {
-    anchorEl[index] = event.currentTarget
-    setAnchorEl([...anchorEl])
-  };
-
-  function handlePopoverClose(index) {
-    anchorEl[index] = null
-    setAnchorEl([...anchorEl])
-  };
-
-  function openPopover(index) {
-    return Boolean(anchorEl[index])
+  function isEqual(obj1, obj2) {
+    return JSON.stringify(obj1) === JSON.stringify(obj2)
   }
+
+  //const [anchorEl, setAnchorEl] = React.useState(new Array(200).fill(null));
+
+  //function handlePopoverOpen(index, event) {
+  //  anchorEl[index] = event.currentTarget
+  //  setAnchorEl([...anchorEl])
+  //};
+
+  //function handlePopoverClose(index) {
+  //  anchorEl[index] = null
+  //  setAnchorEl([...anchorEl])
+  //};
+
+  //function openPopover(index) {
+  //  return Boolean(anchorEl[index])
+  //}
 
   function getThemeProgress(theme) {
     for (let progressIndex = 0; progressIndex < progress.theme_progress.length; progressIndex++) {
@@ -110,72 +115,11 @@ const Nav = props => {
     }
   };
 
-  function tryAutoComplete(component, module, theme) {
-    if (!getComponentCompleted(component, module, theme)) {
-      const ref_token = localStorage.getItem("token_ref");
-      axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
-        const token = res.data.access;
-        axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-        axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
-        axios.post(`/content/components/${component.id}/complete/`).then(res => {
-          if (res.status = 200) {
-            setProgress(res.data)
-          }
-        })
-      })
-    }
-  }
-
-  function handleRestart() {
-    const ref_token = localStorage.getItem("token_ref");
-    axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
-      const token = res.data.access;
-      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-      axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
-      axios.delete(`/content/progress/${progress.id}/restart/`).then(res => {
-        if (res.status == 204) {
-          axios.post("/content/progress/start/", { course: props.courseId }).then(res => {
-            axios.get(`/content/progress/my_progress/?course=${props.courseId}`).then(res => {
-              localStorage.setItem("progressId", res.data.id)
-              setCourseProgress(res.data.score)
-              setProgress(res.data)
-            })
-          })
-        }
-      })
-    })
-  }
-
-  useEffect(() => {
-    const ref_token = localStorage.getItem("token_ref");
-    axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
-      const token = res.data.access;
-      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-      axios.get(`/content/progress/my_progress/?course=${props.courseId}`).then(res => {
-        localStorage.setItem("progressId", res.data.id)
-        setCourseProgress(res.data.score)
-        setProgress(res.data)
-        if (res.status == 204) {
-          axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
-          axios.post("/content/progress/start/", { course: props.courseId }).then(() => {
-            axios.get(`/content/progress/my_progress/?course=${props.courseId}`).then(res => {
-              localStorage.setItem("progressId", res.data.id)
-              setCourseProgress(res.data.score)
-              setProgress(res.data)
-            })
-          })
-        }
-      })
-    })
-  }, []);
-
-  if (!content.themes || !progress) return (<></>)
-
   return (
     <nav className="nav sub_toolbar">
       <div style={{ margin: 24 }}>
         <a href="/#/app/catalog/product/1" style={{ textDecoration: "none" }}><Typography variant="h6" style={{ color: "white", marginBottom: 6 }}>{content.title}</Typography></a>
-        <LinearProgress className={classes.progressBar} color="primary" variant="determinate" value={courseProgress} classes={{ barColorPrimary: classes.barColorPromary }} />
+        <LinearProgress className={classes.progressBar} color="primary" variant="determinate" value={Math.round((courseProgress || 0) / content.max_score * 100)} classes={{ barColorPrimary: classes.barColorPromary }} />
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div style={{ color: "white" }}>{`${courseProgress || 0}/${content.max_score || 0}`}</div>
           <div style={{ color: "white" }}>{content.max_score ? `${Math.round((courseProgress || 0) / content.max_score * 100)}%` : "100%"}</div>
@@ -188,15 +132,16 @@ const Nav = props => {
             {t.modules.sort((a, b) => a.index > b.index ? 1 : -1).map(m => (
               <>
                 <span button onClick={() => handleClick(content.themes.indexOf(t) * 10 + t.modules.indexOf(m))}>
-                  <p className="nav__link">
+                  <p className="nav__link"
+                    style={isEqual({ theme: props.current.theme, module: props.current.module }, { theme: t.index, module: m.index }) && !open[content.themes.indexOf(t) * 10 + t.modules.indexOf(m)] ? { backgroundColor: "#536DFE" } : {}}>
                     <CheckCircleIcon className={classes.checkmarkPrimary} opacity={getModuleProgress(m, t)} />
                     <Typography
                       variant="body2"
                       //noWrap
-                      aria-owns={openPopover(content.themes.indexOf(t) * 10 + t.modules.indexOf(m)) ? `mouse-over-popover-${content.themes.indexOf(t) + 1}.${t.modules.indexOf(m) + 1}` : undefined}
-                      aria-haspopup="true"
-                      onMouseEnter={(event) => handlePopoverOpen(content.themes.indexOf(t) * 10 + t.modules.indexOf(m), event)}
-                      onMouseLeave={() => handlePopoverClose(content.themes.indexOf(t) * 10 + t.modules.indexOf(m))}
+                      //aria-owns={openPopover(content.themes.indexOf(t) * 10 + t.modules.indexOf(m)) ? `mouse-over-popover-${content.themes.indexOf(t) + 1}.${t.modules.indexOf(m) + 1}` : undefined}
+                      //aria-haspopup="true"
+                      //onMouseEnter={(event) => handlePopoverOpen(content.themes.indexOf(t) * 10 + t.modules.indexOf(m), event)}
+                      //onMouseLeave={() => handlePopoverClose(content.themes.indexOf(t) * 10 + t.modules.indexOf(m))}
                     >
                       {`${content.themes.indexOf(t) + 1}.${t.modules.indexOf(m) + 1} ${m.title}`}
                     </Typography>
@@ -225,9 +170,10 @@ const Nav = props => {
                   </p>
                 </span>
                 <Collapse in={open[content.themes.indexOf(t) * 10 + t.modules.indexOf(m)]} timeout="auto" unmountOnExit>
-                  <ul style={{ backgroundColor: "rgba(0, 0, 0, 0.2)", paddingTop: 12, paddingBottom: 12, paddingRight: 18 }}>
+                  <ul style={{ backgroundColor: "rgba(0, 0, 0, 0.2)", paddingTop: 12, paddingBottom: 12 }}>
                     {m.components.sort((a, b) => a.index > b.index ? 1 : -1).map(c => (
-                      <MLink onClick={() => { tryAutoComplete(c, m, t); props.setCurrent({ theme: t.index, module: m.index, component: c.index }) }} >
+                      <MLink onClick={() => { tryAutoComplete(c, m, t); props.setCurrent({ theme: t.index, module: m.index, component: c.index }); props.contentWindow.current.scrollTo(0, 0); }}
+                        style={isEqual(props.current, { theme: t.index, module: m.index, component: c.index }) ? { backgroundColor: "#536DFE", paddingRight: 18 } : { paddingRight: 18 }} >
                         <CheckIcon className={classes.checkmarkSecondary} opacity={getComponentCompleted(c, m, t)} />
                         {c.type == "video" ? (<><PlayArrowIcon className={classes.iconSecondary} /> {`${c.title}`}</>) : (<><CreateIcon className={classes.iconSecondary} /> {`${c.title}`}</>)}
                         {!getComponentCompleted(c, m, t) && c.type == "test" &&
