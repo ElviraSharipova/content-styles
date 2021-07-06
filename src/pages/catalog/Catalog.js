@@ -216,6 +216,7 @@ const Catalog = props => {
                         className={classes.media}
                         image={c.img}
                         title={c.title}
+                        style={{ maxHeight: "15vw" }}
                       >
                         {c.type === "Course" ? (
                           <Chip label={"Курс"} color={"success"} />

@@ -355,7 +355,7 @@ export function confirmUser(
     console.log("in func");
     if (email.length > 0 && password.length > 0 && key.length > 0) {
       axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
-      axios.post("/register/", { username: email, email: email, password: password, hash: localStorage.getItem("verification_key"), key: key}).then(res => {
+      axios.post("/register/", { username: email, email: email, password: password, hash: localStorage.getItem("verification_key"), key: key }).then(res => {
         dispatch({
           type: 'REGISTER_SUCCESS'
         });
@@ -363,9 +363,9 @@ export function confirmUser(
         history.push('/login');
       }).catch(err => {
         if (err.response.status == 400) {
-          setHelperText("Неверный ключ")
+          setHelperText("РќРµРІРµСЂРЅС‹Р№ РєР»СЋС‡")
         }
-        dispatch(authError(err.response.data));
+        //dispatch(authError(err.response.data));
       })
     } else {
       dispatch(authError('Something was wrong. Try again'));

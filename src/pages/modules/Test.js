@@ -252,7 +252,7 @@ export default function Test(props) {
               {tests.indexOf(e) + 1}{".  "}{e.question}{" "}{(checkpoints != "" && checkpoints[tests.indexOf(e)]) ? (stringifyScore(score[tests.indexOf(e)], checkpoints[tests.indexOf(e)].score)) : ("")}
             </FormLabel>
             <div style={{ marginLeft: 20 }}>
-              <img src={e.image} style={{ marginTop: 24, marginBottom: 12, maxWidth: 1280, maxHeight: 480 }} />
+              <img src={e.image} style={{ marginTop: 24, marginBottom: 12, maxWidth: 800, maxHeight: 480 }} />
               {e.type == "choice" &&
                 <FormGroup className={classes.testButtons} style={{ maxWidth: 800 }}>
                   {
@@ -271,8 +271,8 @@ export default function Test(props) {
                 </FormGroup>
               }
               {e.type == "matrix" &&
-                <TableContainer component={Paper} style={{ flexGrow: 1, marginBottom: 48, maxWidth: 1280 }}>
-                  <Table aria-label="customized table">
+                <TableContainer component={Paper} style={{ flexGrow: 1, marginBottom: 48, maxWidth: 800 }}>
+                  <Table aria-label="customized table" size="small">
                     <TableHead>
                       <TableRow>
                         <TableCell></TableCell>

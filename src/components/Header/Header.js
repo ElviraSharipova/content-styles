@@ -78,9 +78,9 @@ export default function Header(props) {
   var [notificationsMenu, setNotificationsMenu] = useState(null);
   var [isNotificationsUnread, setIsNotificationsUnread] = useState(true);
   var [profileMenu, setProfileMenu] = useState(null);
+  var [contactsMenu, setContactsMenu] = useState(null);
   var [isSearchOpen, setSearchOpen] = useState(false);
   const [isSmall, setSmall] = useState(false);
-  const [openContacts, setOpenContacts] = React.useState(false);
 
   const managementValue = useManagementState()
   const nickname = localStorage.getItem("nickname") || localStorage.getItem("email");
@@ -122,14 +122,6 @@ export default function Header(props) {
     });
   }
 
-  const handleOpenContacts = () => {
-    setOpenContacts(true);
-  };
-
-  const handleCloseContacts = () => {
-    setOpenContacts(false);
-  };
-
   return (
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
@@ -139,17 +131,20 @@ export default function Header(props) {
         {/*<Button component={Link} href="/#/app/courses" color={"white"} style={{ marginRight: 12 }} disabled>Курсы и события</Button>*/}
         <Button component={Link} href="/#/app/commands" color={"white"} style={{ marginRight: 12 }} disabled>Мои команды</Button>
         <Button component={Link} href="/#/app/hardware" color={"white"} style={{ marginRight: 12 }} disabled>Оборудование</Button>
-        <Button onClick={handleOpenContacts} color={"white"} style={{ marginRight: 12 }} >Контакты</Button>
+        <Button
+          component={Link}
+          aria-haspopup="true"
+          className={classes.headerMenuButton}
+          aria-controls="contacts-menu"
+          onClick={e => setContactsMenu(e.currentTarget)}
+          style={{ marginRight: 12 }}
+        >
+          Контакты
+        </Button>
         {user_id == 1 &&
           <Button component={Link} href="/#/admin" color={"white"}>Администрирование</Button>
         }
         <div className={classes.grow} />
-        <Modal
-          open={openContacts}
-          onClose={handleCloseContacts}
-        >
-          <div className={classes.modal}><p>Если у вас возникли вопросы обращайтесь на почту:</p><p>Также пишите нам в Telegram:</p></div>
-        </Modal>
         {/*<IconButton
           color="inherit"
           aria-haspopup="true"
@@ -206,7 +201,7 @@ export default function Header(props) {
             <Button href="/#/register" variant="contained" color="primary" size="large" style={{ width: 150, height: 40 }}><span>Регистрация</span></Button>
           </div>
         )}
-        <Menu
+        {/*<Menu
           id="mail-menu"
           open={Boolean(mailMenu)}
           anchorEl={mailMenu}
@@ -278,7 +273,7 @@ export default function Header(props) {
               <Notification {...notification} typographyVariant="inherit" />
             </MenuItem>
           ))}
-        </Menu>
+        </Menu>*/}
         <Menu
           id="profile-menu"
           open={Boolean(profileMenu)}
@@ -328,6 +323,19 @@ export default function Header(props) {
             >
               Выход
             </Typography>
+          </div>
+        </Menu>
+        <Menu
+          id="contacts-menu"
+          open={Boolean(contactsMenu)}
+          anchorEl={contactsMenu}
+          onClose={() => setContactsMenu(null)}
+          className={classes.headerMenu}
+          classes={{ paper: classes.profileMenu }}
+          disableAutoFocusItem
+        >
+          <div className={classes.profileMenuUser}>
+            <p>Если у вас возникли вопросы обращайтесь на почту: syncwoia@gmail.com</p>
           </div>
         </Menu>
       </Toolbar>

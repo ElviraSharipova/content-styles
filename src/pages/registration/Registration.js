@@ -173,7 +173,7 @@ function Registration(props) {
                 //}}
                 variant="outlined"
                 value={passwordValue}
-                onChange={e => setPasswordValue(e.target.value)}
+                onChange={e => setPasswordValue(e.target.value.slice(0, 32))}
                 margin="normal"
                 placeholder="Пароль"
                 type="password"
@@ -189,7 +189,7 @@ function Registration(props) {
                 //}}
                 variant="outlined"
                 value={passwordConfirmValue}
-                onChange={e => setPasswordConfirmValue(e.target.value)}
+                onChange={e => setPasswordConfirmValue(e.target.value.slice(0, 32))}
                 margin="normal"
                 placeholder="Повторите пароль"
                 type="password"

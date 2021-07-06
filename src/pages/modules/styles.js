@@ -65,9 +65,6 @@ export default makeStyles(theme => ({
   paper: {
     padding: theme.spacing(1),
   },
-  contentDescription: {
-    
-  },
   contentText: {
     "& > *": {
       marginBottom: 12,

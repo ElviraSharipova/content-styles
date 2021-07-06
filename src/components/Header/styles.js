@@ -25,16 +25,6 @@ export default makeStyles(theme => ({
     backgroundColor: "white",
     boxShadow: "0 2px 4px rgb(0 0 0 / 5%)"
   },
-  modal: {
-    position: 'absolute',
-    width: 400,
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-    top: 75,
-    left: "50vw",
-  },
   toolbar: {
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),

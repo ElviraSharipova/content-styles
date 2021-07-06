@@ -31,7 +31,7 @@ function VideoConponent(props) {
         {props.title}
       </Typography>
       <Typography style={{ width: 800 }} align='left'>
-        <div className={classes.contentDescription} dangerouslySetInnerHTML={{ __html: description }}></div>
+        <div className={classes.contentText} dangerouslySetInnerHTML={{ __html: description }}></div>
       </Typography>
       <iframe align="absmiddle" width="800" height="450" src={source} frameborder="0" allow="fullscreen; accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style={{ marginTop: 24 }}></iframe>
       <Typography style={{ marginTop: 48, width: 800 }} align='left'>

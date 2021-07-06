@@ -102,7 +102,7 @@ function Login(props) {
     })
   }
 
-  const handleKeyDown = React.useCallback(
+  const handleKeyDownReset = React.useCallback(
     (e) => {
       if (e.nativeEvent.isComposing) {
         return;
@@ -111,6 +111,26 @@ function Login(props) {
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
         sendPasswordResetEmail();
+      }
+    },
+  );
+
+  const handleKeyDown = React.useCallback(
+    (e) => {
+      if (e.nativeEvent.isComposing) {
+        return;
+      }
+
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        loginUser(
+          userDispatch,
+          loginValue,
+          passwordValue,
+          props.history,
+          setIsLoading,
+          setError
+        )
       }
     },
   );
@@ -148,7 +168,7 @@ function Login(props) {
                     margin="normal"
                     placeholder="Email"
                     type="email"
-                    onKeyDown={handleKeyDown}
+                    onKeyDown={handleKeyDownReset}
                     fullWidth
                 />
                 <div className={classes.formButtons}>
@@ -199,7 +219,7 @@ function Login(props) {
                 onChange={e => setForgotKey(e.target.value)}
                 margin="normal"
                 placeholder="Ключ"
-                type="password"
+                type="key"
                 fullWidth
               />
               <Input
@@ -344,6 +364,7 @@ function Login(props) {
                 margin="normal"
                 placeholder="Пароль"
                 type="password"
+                onKeyDown={handleKeyDown}
                 fullWidth
               />
               <div className={classes.formButtons}>

@@ -86,8 +86,10 @@ const Admin = props => {
         axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
         axios.put(`/content/components/${content.id}/`, content).then(res => {
           setHelperText("Confirmed")
+          window.scrollTo(0, 0)
         }).catch(err => {
           setHelperText("Error")
+          window.scrollTo(0, 0)
         })
       })
     } else {
@@ -98,8 +100,10 @@ const Admin = props => {
         axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
         axios.post(`/content/components/`, content).then(res => {
           setHelperText("Confirmed")
+          window.scrollTo(0, 0)
         }).catch(err => {
           setHelperText("Error")
+          window.scrollTo(0, 0)
         })
       })
     }
@@ -113,8 +117,10 @@ const Admin = props => {
       axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
       axios.delete(`/content/components/${content.id}/`).then(res => {
         setHelperText("Confirmed")
+        window.scrollTo(0, 0)
       }).catch(err => {
         setHelperText("Error")
+        window.scrollTo(0, 0)
       })
     })
   }

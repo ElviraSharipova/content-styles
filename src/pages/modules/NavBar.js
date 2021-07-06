@@ -43,6 +43,7 @@ const Nav = props => {
   initialOpen[(props.current.theme - 1) * 10 + (props.current.module - 1)] = true
 
   const [open, setOpen] = React.useState(initialOpen);
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
   function handleClick(index) {
     open[index] = !open[index];
@@ -52,6 +53,10 @@ const Nav = props => {
   function isEqual(obj1, obj2) {
     return JSON.stringify(obj1) === JSON.stringify(obj2)
   }
+
+  //function openPopover(index) {
+  //  return Boolean(anchorEl[index])
+  //}
 
   //const [anchorEl, setAnchorEl] = React.useState(new Array(200).fill(null));
 
@@ -121,7 +126,36 @@ const Nav = props => {
         <a href="/#/app/catalog/product/1" style={{ textDecoration: "none" }}><Typography variant="h6" style={{ color: "white", marginBottom: 6 }}>{content.title}</Typography></a>
         <LinearProgress className={classes.progressBar} color="primary" variant="determinate" value={Math.round((courseProgress || 0) / content.max_score * 100)} classes={{ barColorPrimary: classes.barColorPromary }} />
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <div style={{ color: "white" }}>{`${courseProgress || 0}/${content.max_score || 0}`}</div>
+          <div
+            style={{ color: "white", cursor: "pointer" }}
+            aria-owns={Boolean(anchorEl) ? 'mouse-over-popover' : undefined}
+            aria-haspopup="true"
+            onMouseEnter={(event) => setAnchorEl(event.currentTarget)}
+            onMouseLeave={() => setAnchorEl(null)}
+          >
+            {`${courseProgress || 0}/${content.max_score || 0} (минимум: ${content.min_score})`}
+          </div>
+          <Popover
+            id={'mouse-over-popover'}
+            className={classes.popover}
+            classes={{
+              paper: classes.paper,
+            }}
+            open={Boolean(anchorEl)}
+            anchorEl={anchorEl}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}
+            onClose={() => setAnchorEl(null)}
+            disableRestoreFocus
+          >
+            <Typography variant="body2">{`Минимальный необходимый балл для успешного завершения онлайн-школы и получения сертификата - ${content.min_score}`}</Typography>
+          </Popover>
           <div style={{ color: "white" }}>{content.max_score ? `${Math.round((courseProgress || 0) / content.max_score * 100)}%` : "100%"}</div>
         </div>
       </div>
@@ -170,10 +204,10 @@ const Nav = props => {
                   </p>
                 </span>
                 <Collapse in={open[content.themes.indexOf(t) * 10 + t.modules.indexOf(m)]} timeout="auto" unmountOnExit>
-                  <ul style={{ backgroundColor: "rgba(0, 0, 0, 0.2)", paddingTop: 12, paddingBottom: 12 }}>
+                  <ul style={{ backgroundColor: "rgba(0, 0, 0, 0.2)" }}>
                     {m.components.sort((a, b) => a.index > b.index ? 1 : -1).map(c => (
                       <MLink onClick={() => { tryAutoComplete(c, m, t); props.setCurrent({ theme: t.index, module: m.index, component: c.index }); props.contentWindow.current.scrollTo(0, 0); }}
-                        style={isEqual(props.current, { theme: t.index, module: m.index, component: c.index }) ? { backgroundColor: "#536DFE", paddingRight: 18 } : { paddingRight: 18 }} >
+                        style={isEqual(props.current, { theme: t.index, module: m.index, component: c.index }) ? { backgroundColor: "#536DFE", paddingRight: 18, paddingTop: 12, paddingBottom: 12 } : { paddingRight: 18, paddingTop: 12, paddingBottom: 12 }} >
                         <CheckIcon className={classes.checkmarkSecondary} opacity={getComponentCompleted(c, m, t)} />
                         {c.type == "video" ? (<><PlayArrowIcon className={classes.iconSecondary} /> {`${c.title}`}</>) : (<><CreateIcon className={classes.iconSecondary} /> {`${c.title}`}</>)}
                         {!getComponentCompleted(c, m, t) && c.type == "test" &&
