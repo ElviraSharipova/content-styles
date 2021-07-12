@@ -22,8 +22,8 @@ import Cookies from 'js-cookie';
 const Admin = props => {
   var classes = useStyles();
 
-  const [courseName, setCourseName] = useState("Нейротехнологии и нейроанатомия");
-  const [componentName, setComponentName] = useState("Вводная лекция");
+  const [courseName, setCourseName] = useState("Введение в современные нейронауки");
+  const [componentName, setComponentName] = useState("Введение");
   const [content, setContent] = React.useState({});
   const [exists, setExists] = React.useState(false);
   const [helperText, setHelperText] = React.useState("");

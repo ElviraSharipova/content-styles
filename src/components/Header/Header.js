@@ -126,11 +126,11 @@ export default function Header(props) {
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
         <a href="/#/" style={{ marginRight: "10vw", flexGrow: 1 }}><img src={Logo} style={{ marginLeft: 24, height: 75 }} /></a>
-        {/*<Button component={Link} href="/#/app/cabinet" color={"white"} style={{ marginRight: 12 }}>Личный кабинет</Button>*/}
-        <Button component={Link} href="/#/app/catalog" color={"white"} style={{ marginRight: 12 }}>Каталог</Button>
-        {/*<Button component={Link} href="/#/app/courses" color={"white"} style={{ marginRight: 12 }} disabled>Курсы и события</Button>*/}
-        <Button component={Link} href="/#/app/commands" color={"white"} style={{ marginRight: 12 }} disabled>Мои команды</Button>
-        <Button component={Link} href="/#/app/hardware" color={"white"} style={{ marginRight: 12 }} disabled>Оборудование</Button>
+        {/*<Button component={Link} href="/#/app/cabinet" color={"white"} style={{ marginRight: 12 }} noWrap>Личный кабинет</Button>*/}
+        <Button component={Link} href="/#/app/catalog" color={"white"} style={{ marginRight: 12 }} noWrap>Каталог</Button>
+        {/*<Button component={Link} href="/#/app/courses" color={"white"} style={{ marginRight: 12 }} disabled noWrap>Курсы и события</Button>*/}
+        <Button component={Link} href="/#/app/commands" color={"white"} style={{ marginRight: 12 }} disabled noWrap>Мои команды</Button>
+        <Button component={Link} href="/#/app/hardware" color={"white"} style={{ marginRight: 12 }} disabled noWrap>Оборудование</Button>
         <Button
           component={Link}
           aria-haspopup="true"
@@ -138,11 +138,12 @@ export default function Header(props) {
           aria-controls="contacts-menu"
           onClick={e => setContactsMenu(e.currentTarget)}
           style={{ marginRight: 12 }}
+          noWrap
         >
           Контакты
         </Button>
         {user_id == 1 &&
-          <Button component={Link} href="/#/admin" color={"white"}>Администрирование</Button>
+          <Button component={Link} href="/#/admin" color={"white"} noWrap>Администрирование</Button>
         }
         <div className={classes.grow} />
         {/*<IconButton
@@ -308,13 +309,6 @@ export default function Header(props) {
             </Button>
             </MenuItem>
           }
-          <MenuItem
-            className={classNames(
-              classes.profileMenuItem,
-              classes.headerMenuItem
-            )}
-          >
-          </MenuItem>
           <div className={classes.profileMenuUser}>
             <Typography
               className={classes.profileMenuLink}

@@ -6,6 +6,7 @@ import {
   Tab,
   Fade,
   Link,
+  IconButton,
   TextField as Input
 } from "@material-ui/core";
 import { withRouter, useHistory } from "react-router-dom";
@@ -26,6 +27,10 @@ import { receiveToken, doInit } from "../../context/UserContext";
 import { Button, Typography } from "../../components/Wrappers";
 import Widget from "../../components/Widget";
 import config from "../../config";
+
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 import axios from "axios";
 import Cookies from 'js-cookie';
@@ -67,6 +72,15 @@ function Login(props) {
   var [forgotKey, setForgotKey] = useState("");
   var [forgotHash, setForgotHash] = useState("");
   var [helperText, setHelperText] = useState("");
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  function handleClickShowPassword(e) {
+    setShowPassword(!showPassword)
+  }
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   function sendPasswordResetEmail() {
     axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
@@ -363,7 +377,18 @@ function Login(props) {
                 onChange={e => setPasswordValue(e.target.value)}
                 margin="normal"
                 placeholder="Пароль"
-                type="password"
+                type={showPassword ? "text" : "password"}
+                InputProps={{ endAdornment:
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={(event) => handleClickShowPassword(event)}
+                      onMouseDown={handleMouseDownPassword}
+                    >
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                }}
                 onKeyDown={handleKeyDown}
                 fullWidth
               />
