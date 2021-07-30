@@ -22,6 +22,7 @@ import {
   TableRow,
   Paper,
   withStyles,
+  CircularProgress,
   makeStyles
 } from '@material-ui/core';
 import axios from "axios";
@@ -43,6 +44,7 @@ export default function Test(props) {
   const [showHeader, setShowHeader] = useState(false);
   const [totalScore, setTotalScore] = useState(0);
   const [minScore, setMinScore] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   const reducer = (accumulator, currentValue) => accumulator + currentValue;
   var answer;
@@ -59,7 +61,7 @@ export default function Test(props) {
         }
         setMinScore(res.data.min_score)
         setTotalScore(scoreCounter)
-        setCheckpoints(res.data.checkpoints);
+        setCheckpoints(res.data.checkpoints.sort((a, b) => a.index > b.index ? 1 : -1));
         setTests(JSON.parse(res.data.props));
         setValue(new Array(tests.length).fill({}));
         setResults(new Array(tests.length).fill(null));
@@ -82,7 +84,7 @@ export default function Test(props) {
         }
         setMinScore(res.data.min_score)
         setTotalScore(scoreCounter)
-        setCheckpoints(res.data.checkpoints);
+        setCheckpoints(res.data.checkpoints.sort((a, b) => a.index > b.index ? 1 : -1));
         setTests(JSON.parse(res.data.props));
         setValue(new Array(tests.length).fill({}));
         setResults(new Array(tests.length).fill(null));
@@ -107,6 +109,7 @@ export default function Test(props) {
   }
 
   const handleSubmit = (event) => {
+    setIsLoading(true)
     event.preventDefault();
     var answers = new Array();
     for (let index = 0; index < tests.length; index++) {
@@ -171,6 +174,7 @@ export default function Test(props) {
         setHelperText("Ответы отправлены");
         setResults(feedback);
         setShowHeader(true)
+        setIsLoading(false)
         props.contentWindow.current.scrollTo(0, 0)
       }).catch(err => console.error(err));
     })
@@ -330,9 +334,13 @@ export default function Test(props) {
           </FormControl>
         </div>
       ))}
-      <Button type="submit" variant="contained" color="primary">
-        Отправить
-      </Button>
+      {isLoading ? (
+          <CircularProgress size={26} />
+        ) : (
+          <Button type="submit" variant="contained" color="primary">
+            Отправить
+          </Button>
+        )}
       <FormHelperText style={{ marginBottom: 64 }}>{helperText}</FormHelperText>
     </form>
   );

@@ -25,11 +25,14 @@ const Admin = props => {
   const [courseName, setCourseName] = useState("Введение в современные нейронауки");
   const [componentName, setComponentName] = useState("Введение");
   const [content, setContent] = React.useState({});
+  const [progress, setProgress] = React.useState({});
   const [exists, setExists] = React.useState(false);
   const [helperText, setHelperText] = React.useState("");
   const [tab, setTab] = React.useState(0);
   const [user, setUser] = React.useState(null);
   const [users, setUsers] = React.useState(null);
+  const [score, setScore] = React.useState(null);
+  const [completed, setCompleted] = React.useState(false);
 
   function findComponent() {
     const ref_token = localStorage.getItem("token_ref");
@@ -68,6 +71,30 @@ const Admin = props => {
         if (res.data[0]) {
           console.log(res.data[0])
           setContent({ module: res.data[0].id })
+          setExists(false)
+          setHelperText("")
+        } else {
+          setHelperText("Does not exist")
+        }
+      })
+    })
+  }
+
+  function findProgress() {
+    const ref_token = localStorage.getItem("token_ref");
+    axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
+      const token = res.data.access;
+      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+      axios.get("/content/component_progress/", {
+        params: {
+          module_progress__theme_progress__course_progress__course__title: courseName,
+          component__title: componentName,
+          module_progress__theme_progress__course_progress__user__id: user
+        }
+      }).then(res => {
+        if (res.data[0]) {
+          console.log(res.data[0])
+          setProgress(res.data[0])
           setExists(false)
           setHelperText("")
         } else {
@@ -132,6 +159,51 @@ const Admin = props => {
     setHelperText("")
   }
 
+  function updateProgress(value, field) {
+    progress[field] = value
+    setProgress({ ...progress })
+    setHelperText("")
+  }
+
+  function saveUserProgress() {
+    const ref_token = localStorage.getItem("token_ref");
+    axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
+      const token = res.data.access;
+      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+      axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
+      axios.put(`/content/component_progress/${progress.id}/score/`, progress).then(res => {
+        setHelperText("Confirmed")
+        window.scrollTo(0, 0)
+      }).catch(err => {
+        setHelperText("Error")
+        window.scrollTo(0, 0)
+      })
+    })
+  }
+
+  function setCourseScore() {
+    const ref_token = localStorage.getItem("token_ref");
+    axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
+      const token = res.data.access;
+      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+      axios.get("/content/progress/", {
+        params: {
+          course__title: courseName,
+          user__id: user
+        }
+      }).then(res => {
+        axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
+        axios.put(`/content/progress/${res.data[0].id}/score/`, { score: score, completed: completed }).then(res => {
+          setHelperText("Confirmed")
+          window.scrollTo(0, 0)
+        }).catch(err => {
+          setHelperText("Error")
+          window.scrollTo(0, 0)
+        })
+      })
+    })
+  }
+
   function getUsers() {
     const ref_token = localStorage.getItem("token_ref");
     axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
@@ -177,7 +249,8 @@ const Admin = props => {
       <div className={classes.fakeToolbar} />
       <Tabs value={tab} onChange={handleChangeTab} aria-label="tabs" style={{ margin: 48 }}>
         <Tab label="Пользователи" value={0} />
-        <Tab label="Контент" value={1} />
+        <Tab label="Баллы" value={1} />
+        <Tab label="Контент" value={2} />
       </Tabs>
       {tab == 0 ? (
         <div style={{ display: "flex", alignItems: "center", width: 1200, flexDirection: "column" }}>
@@ -211,6 +284,135 @@ const Admin = props => {
             </div>
           }
         </div>
+      ) : tab == 1 ? (
+          <>
+            <div style={{ display: "flex", justifyContent: "center", width: 1200 }}>
+              <TextField
+                id="courseName"
+                variant="outlined"
+                value={courseName}
+                onChange={e => setCourseName(e.target.value)}
+                placeholder="Название курса"
+                type="email"
+                fullWidth
+                style={{ margin: 24 }}
+              />
+              <TextField
+                id="componentName"
+                variant="outlined"
+                value={componentName}
+                onChange={e => setComponentName(e.target.value)}
+                placeholder="Название компонента"
+                type="name"
+                fullWidth
+                style={{ margin: 24 }}
+              />
+              <TextField
+                id="componentName"
+                variant="outlined"
+                value={user}
+                onChange={e => setUser(e.target.value)}
+                placeholder="ID пользователя"
+                type="name"
+                fullWidth
+                style={{ margin: 24 }}
+              />
+              <div style={{ margin: 24 }}>
+                <Button
+                  onClick={findProgress}
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  style={{ width: 150, height: 50, marginBottom: 6 }}
+                >
+                  Редактировать
+                </Button>
+              </div>
+            </div>
+            <div style={{ width: 1200, padding: 48 }}>
+              <Typography variant="h5" style={{ textAlign: "center", color: "red" }}>
+                {helperText}
+              </Typography>
+              <TextField
+                variant="outlined"
+                value={progress.completed}
+                onChange={e => updateProgress(e.target.value, "completed")}
+                placeholder="Completed"
+                type="email"
+                fullWidth
+              />
+              <TextField
+                variant="outlined"
+                value={progress.score}
+                onChange={e => updateProgress(e.target.value, "score")}
+                placeholder="Score"
+                type="email"
+                fullWidth
+              />
+              <Button
+                onClick={saveUserProgress}
+                variant="outlined"
+                color="primary"
+                size="large"
+                style={{ width: 150, height: 50 }}
+              >
+                Сохранить
+              </Button>
+            </div>
+            <div style={{ display: "flex", justifyContent: "center", width: 1200 }}>
+              <TextField
+                id="courseName"
+                variant="outlined"
+                value={courseName}
+                onChange={e => setCourseName(e.target.value)}
+                placeholder="Название курса"
+                type="email"
+                fullWidth
+                style={{ margin: 24 }}
+              />
+              <TextField
+                id="componentName"
+                variant="outlined"
+                value={user}
+                onChange={e => setUser(e.target.value)}
+                placeholder="ID пользователя"
+                type="name"
+                fullWidth
+                style={{ margin: 24 }}
+              />
+              <TextField
+                id="componentName"
+                variant="outlined"
+                value={score}
+                onChange={e => setScore(e.target.value)}
+                placeholder="Баллы за курс"
+                type="name"
+                fullWidth
+                style={{ margin: 24 }}
+              />
+              <TextField
+                id="componentName"
+                variant="outlined"
+                value={completed}
+                onChange={e => setCompleted(e.target.value)}
+                placeholder="Completed"
+                type="name"
+                fullWidth
+                style={{ margin: 24 }}
+              />
+              <div style={{ margin: 24 }}>
+                <Button
+                  onClick={setCourseScore}
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  style={{ width: 150, height: 50, marginBottom: 6 }}
+                >
+                  Сохранить
+                </Button>
+              </div>
+            </div>
+          </>
       ) : (
       <>
         <div style={{ display: "flex", justifyContent: "center", width: 1200 }}>
