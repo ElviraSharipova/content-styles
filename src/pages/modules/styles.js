@@ -96,7 +96,6 @@ export default makeStyles(theme => ({
     "& h2": {
       marginTop: 48,
     },
-    //        TODO
     //"& a": {
     //  target: "_blank",
     //  rel: "noopener noreferrer",

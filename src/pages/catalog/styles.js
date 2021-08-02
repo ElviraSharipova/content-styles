@@ -2,6 +2,38 @@ import { makeStyles } from "@material-ui/styles";
 import tinycolor from "tinycolor2";
 
 export default makeStyles(theme => ({
+  contentText: {
+    "& > *": {
+      marginBottom: 12,
+      fontFamily: "Roboto"
+    },
+    "& p": {
+      marginBottom: 6,
+      marginTop: 6,
+    },
+    "& > p": {
+      marginBottom: 18,
+      marginTop: 18,
+    },
+    "& ul": {
+      listStyleType: "disc",
+      marginLeft: 24,
+      marginTop: 6,
+      marginBottom: 18,
+    },
+    "& ol": {
+      listStyleType: "decimal",
+      marginLeft: 24,
+      marginTop: 6,
+      marginBottom: 18,
+    },
+    "& li": {
+      marginBottom: 6,
+    },
+    "& h2": {
+      marginTop: 48,
+    },
+  },
   form: {
     flexGrow: 1
   },
