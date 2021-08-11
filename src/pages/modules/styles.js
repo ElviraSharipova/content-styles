@@ -9,7 +9,6 @@ export default makeStyles(theme => ({
     marginBottom: 64
   },
   test: {
-    marginLeft: "calc(10vw - 96px)",
     marginBottom: "3%"
   },
   testButtons: {

@@ -161,7 +161,7 @@ export default function Header(props) {
         </Menu>
         </>) : (
           <div style={{ position: 'fixed', right: 24 }}>
-            <Button href="/#/app/catalog" variant="outlined" color="primary" size="large" style={{ marginRight: 10, width: 150, height: 40 }}><span style={{ marginLeft: 24, marginRight: 24 }}>Вход</span></Button>
+            <Button href="/#/login" variant="outlined" color="primary" size="large" style={{ marginRight: 10, width: 150, height: 40 }}><span style={{ marginLeft: 24, marginRight: 24 }}>Вход</span></Button>
             <Button href="/#/register" variant="contained" color="primary" size="large" style={{ width: 150, height: 40 }}><span>Регистрация</span></Button>
           </div>
         )}

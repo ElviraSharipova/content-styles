@@ -1,5 +1,10 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
+import { EditorState, ContentState, convertToRaw } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
+import '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 import useStyles from "./styles";
 import {
@@ -13,6 +18,8 @@ import {
   Radio,
   Tabs,
   Tab,
+  Checkbox,
+  FormGroup
 } from "@material-ui/core";
 import Header from "../../components/Header/HeaderLanding";
 
@@ -23,6 +30,7 @@ const Admin = props => {
   var classes = useStyles();
 
   const [courseName, setCourseName] = useState("Введение в современные нейронауки");
+  const [courseId, setCourseId] = useState("");
   const [componentName, setComponentName] = useState("Введение");
   const [content, setContent] = React.useState({});
   const [progress, setProgress] = React.useState({});
@@ -31,8 +39,19 @@ const Admin = props => {
   const [tab, setTab] = React.useState(0);
   const [user, setUser] = React.useState(null);
   const [users, setUsers] = React.useState(null);
+  const [checked, setChecked] = React.useState(null);
   const [score, setScore] = React.useState(null);
   const [completed, setCompleted] = React.useState(false);
+  const [enableEditor, setEnableEditor] = React.useState(false);
+
+  const [state, setState] = React.useState(EditorState.createEmpty());
+
+  const onEditorStateChange = (editorState) => {
+    setState(editorState);
+    if (enableEditor) {
+      updateContent(draftToHtml(convertToRaw(editorState.getCurrentContent())), "text")
+    }
+  };
 
   function findComponent() {
     const ref_token = localStorage.getItem("token_ref");
@@ -48,6 +67,11 @@ const Admin = props => {
         if (res.data[0]) {
           console.log(res.data)
           setContent(res.data[0])
+          if (res.data[0].text) {
+            let blocksFromHtml = htmlToDraft(res.data[0].text);
+            let { contentBlocks, entityMap } = blocksFromHtml;
+            setState(EditorState.createWithContent(ContentState.createFromBlockArray(contentBlocks, entityMap)))
+          }
           setExists(true)
           setHelperText("")
         } else {
@@ -210,31 +234,61 @@ const Admin = props => {
       const token = res.data.access;
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
       axios.get("/profiles/").then(res => {
+        setChecked(new Array(res.data.length).fill(false))
         setUsers(res.data)
       })
     })
   }
 
-  function deleteUser() {
-    if (users[user].status == "admin") {
-      setHelperText("Нельзя удалить аккаунт администратора")
-    } else {
-      const ref_token = localStorage.getItem("token_ref");
-      axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
-        const token = res.data.access;
-        axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-        axios.get("/profiles/").then(() => {
-          axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
-          axios.delete(`/profiles/${users[user].id}/`)
-          setHelperText("Удалено")
-          getUsers()
-        })
+  function deleteUsers() {
+    const ref_token = localStorage.getItem("token_ref");
+    axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
+      const token = res.data.access;
+      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+      axios.get("/profiles/").then(() => {
+        axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
+        for (let index = 0; index < users.length; index++) {
+          if (users[index].status == "admin") {
+            setHelperText("Нельзя удалить аккаунт администратора")
+          } else {
+            axios.delete(`/profiles/${users[index].id}/`)
+            setHelperText("Удалено")
+          }
+        }
+        getUsers()
       })
-    }
+    })
+  }
+
+  function addStudents() {
+    const ref_token = localStorage.getItem("token_ref");
+    axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
+      const token = res.data.access;
+      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+      axios.get("/profiles/").then(() => {
+        axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
+        console.log(users.filter(e => checked[users.indexOf(e)]).map(e => e.id))
+        axios.put(`/content/courses/${courseId}/enroll/`, { "whitelist": users.filter(e => checked[users.indexOf(e)]).map(e => e.id) })
+      })
+    })
+  }
+
+  function removeStudents() {
+    const ref_token = localStorage.getItem("token_ref");
+    axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
+      const token = res.data.access;
+      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+      axios.get("/profiles/").then(() => {
+        axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
+        console.log(users.filter(e => checked[users.indexOf(e)]).map(e => e.id))
+        axios.delete(`/content/courses/${courseId}/enroll/`, { "whitelist": users.filter(e => checked[users.indexOf(e)]).map(e => e.id) })
+      })
+    })
   }
 
   const handleChangeUser = (event) => {
-    setUser(event.target.value)
+    checked[event.target.value] = !checked[event.target.value]
+    setChecked([...checked])
     setHelperText("")
   }
 
@@ -268,19 +322,50 @@ const Admin = props => {
             <div style={{ display: "flex", alignItems: "center", width: 1200, flexDirection: "column" }}>
               <FormControl component="fieldset" style={{ margin: 48 }}>
                 <FormLabel component="legend">Пользователи</FormLabel>
-                <RadioGroup aria-label="users" name="users1" value={user} onChange={handleChangeUser}>
+                <FormGroup aria-label="users" name="users1">
                 {users.map(e => (
-                  <FormControlLabel value={`${users.indexOf(e)}`} key={`${e.id}`} control={<Radio />} label={`${e.email} #${e.id}`} />
+                  <FormControlLabel
+                    value={`${users.indexOf(e)}`}
+                    key={`${e.id}`}
+                    control={<Checkbox color="primary" checked={checked[users.indexOf(e)]} value={users.indexOf(e)} onChange={handleChangeUser} />}
+                    label={`${e.email} #${e.id}`}
+                  />
                 ))}
-                </RadioGroup>
+                </FormGroup>
               </FormControl>
               <Button
-                onClick={deleteUser}
+                onClick={deleteUsers}
                 variant="contained"
                 color="primary"
               >
-                Удалить
+              Удалить
               </Button>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <TextField
+                  id="courseId"
+                  variant="outlined"
+                  value={courseId}
+                  onChange={e => setCourseId(e.target.value)}
+                  placeholder="ID курса"
+                  type="email"
+                  fullWidth
+                  style={{ margin: 24 }}
+                />
+                <Button
+                  onClick={addStudents}
+                  variant="contained"
+                  color="primary"
+                >
+                  Дать доступ
+                </Button>
+                <Button
+                  onClick={removeStudents}
+                  variant="contained"
+                  color="primary"
+                >
+                  Забрать доступ
+                </Button>
+              </div>
             </div>
           }
         </div>
@@ -529,6 +614,14 @@ const Admin = props => {
           />
           <TextField
             variant="outlined"
+            value={content.max_score}
+            onChange={e => updateContent(e.target.value, "max_score")}
+            placeholder="Max score"
+            type="email"
+            fullWidth
+          />
+          <TextField
+            variant="outlined"
             value={content.props}
             onChange={e => updateContent(e.target.value, "props")}
             placeholder="Props"
@@ -536,6 +629,16 @@ const Admin = props => {
             fullWidth
             multiline
           />
+          {enableEditor && 
+            <div>
+              <Editor
+                editorState={state}
+                wrapperClassName="demo-wrapper"
+                editorClassName="demo-editor"
+                onEditorStateChange={onEditorStateChange}
+              />
+            </div>
+          }
           <Button
             onClick={updateComponent}
             variant="outlined"
@@ -556,6 +659,14 @@ const Admin = props => {
               Удалить
             </Button>
           }
+          <Typography>
+            Включить визуальный редактор (не рекомендуется использовать с контентом, при создании которого редактор не использовался)
+          </Typography>
+          <Checkbox
+            checked={enableEditor}
+            onChange={() => setEnableEditor(!enableEditor)}
+            color="primary"
+          />
         </div>
       </>
       )}

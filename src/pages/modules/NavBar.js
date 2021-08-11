@@ -210,7 +210,7 @@ const Nav = props => {
                         style={isEqual(props.current, { theme: t.index, module: m.index, component: c.index }) ? { backgroundColor: "#536DFE", paddingRight: 18, paddingTop: 12, paddingBottom: 12 } : { paddingRight: 18, paddingTop: 12, paddingBottom: 12 }} >
                         <CheckIcon className={classes.checkmarkSecondary} opacity={getComponentCompleted(c, m, t)} />
                         {c.type == "video" ? (<><PlayArrowIcon className={classes.iconSecondary} /> {`${c.title}`}</>) : (<><CreateIcon className={classes.iconSecondary} /> {`${c.title}`}</>)}
-                        {!getComponentCompleted(c, m, t) && c.type == "test" &&
+                        {c.max_score > 0 &&
                           <div style={{ marginLeft: 6 }}>{`(${getComponentProgress(c, m, t)}/${c.max_score} баллов)`}</div>
                         }
                       </MLink>

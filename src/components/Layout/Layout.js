@@ -99,7 +99,7 @@ function Layout(props) {
                   <PrivateRoute path="/app/hardware" component={Hardware} />
                   <PrivateRoute path="/app/course" component={Module} />
                   <PrivateRoute path="/app/catalog/product" component={Product} />
-                  <PrivateRoute
+                  <Route
                       path="/app/catalog"
                       component={Catalog}
                   />

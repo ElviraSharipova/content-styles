@@ -46,6 +46,8 @@ export default function Test(props) {
   const [minScore, setMinScore] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
+  const fileInput = React.createRef();
+
   const reducer = (accumulator, currentValue) => accumulator + currentValue;
   var answer;
 
@@ -95,6 +97,23 @@ export default function Test(props) {
     })
   }, [props.id]);
 
+  function sendFile(file, question_index) {
+    const ref_token = localStorage.getItem("token_ref");
+    axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
+      const token = res.data.access;
+      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+      axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
+      axios.put(`/upload/${props.id}/`, file, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Content-Disposition': `attachment; filename=q${question_index}.${file.name.split(".")[1]}`
+        }
+      }).then(res => {
+        console.log("Ok")
+      })
+    })
+  }
+
   function parceFeedback(feedback) {
     var res = {}
     var index
@@ -113,6 +132,9 @@ export default function Test(props) {
     event.preventDefault();
     var answers = new Array();
     for (let index = 0; index < tests.length; index++) {
+      if (tests[index].type == "attach" && typeof (fileInput.current.files[0]) != "undefined") {
+        sendFile(fileInput.current.files[0], index)
+      }
       if (value[index]) {
         if (tests[index].type == "choice") {
           answer = new Array()
@@ -142,7 +164,11 @@ export default function Test(props) {
         if (tests[index].type == "detailed") {
           answer = value[index][tests[index].name]
         }
-        answers.push({ checkpoint: checkpoints[index].id, key: answer })
+        if (props.manual) {
+          answers.push({ question: tests[index].question, key: answer })
+        } else {
+          answers.push({ checkpoint: checkpoints[index].id, key: answer })
+        }
       }
     }
     console.log(answers)
@@ -152,31 +178,33 @@ export default function Test(props) {
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
       const progressId = localStorage.getItem("progressId");
       axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
-      axios.put("/content/progress/" + progressId + "/check/", { answers: JSON.stringify(answers), component: props.id }).then(res => {
-        var scores = new Array(tests.length).fill(0);
-        var feedback = new Array(tests.length);
-        var answers = JSON.parse(res.data.answers);
-        for (let index = 0; index < tests.length; index++) {
-          for (let response_index = 0; response_index < res.data.passed_checkpoints.length; response_index++) {
-            if (checkpoints[index].id == res.data.passed_checkpoints[response_index].checkpoint) {
-              scores[index] = res.data.passed_checkpoints[response_index].score;
+      axios.put("/content/progress/" + progressId + `/${props.manual ? "send" : "check"}/`, { answers: JSON.stringify(answers), component: props.id }).then(res => {
+        if (!props.manual) {
+          var scores = new Array(tests.length).fill(0);
+          var feedback = new Array(tests.length);
+          var answers = JSON.parse(res.data.answers);
+          for (let index = 0; index < tests.length; index++) {
+            for (let response_index = 0; response_index < res.data.passed_checkpoints.length; response_index++) {
+              if (checkpoints[index].id == res.data.passed_checkpoints[response_index].checkpoint) {
+                scores[index] = res.data.passed_checkpoints[response_index].score;
+              }
             }
           }
-        }
-        for (let index = 0; index < tests.length; index++) {
-          for (let response_index = 0; response_index < answers.length; response_index++) {
-            if (checkpoints[index].id == answers[response_index].checkpoint) {
-              feedback[index] = parceFeedback(answers[response_index].feedback)
+          for (let index = 0; index < tests.length; index++) {
+            for (let response_index = 0; response_index < answers.length; response_index++) {
+              if (checkpoints[index].id == answers[response_index].checkpoint) {
+                feedback[index] = parceFeedback(answers[response_index].feedback)
+              }
             }
           }
+          setResults(feedback);
+          setScore(scores);
+          setShowHeader(true)
         }
-        setScore(scores);
         setHelperText("Ответы отправлены");
-        setResults(feedback);
-        setShowHeader(true)
         setIsLoading(false)
         props.contentWindow.current.scrollTo(0, 0)
-      }).catch(err => console.error(err));
+      }).catch(err => { console.error(err); setIsLoading(false) });
     })
   };
 
@@ -221,6 +249,7 @@ export default function Test(props) {
   }))(TableRow);
 
   return (
+    <div style={{ display: "flex", alignItems: "center", flexDirection: "column" }}>
     <form onSubmit={handleSubmit} className={classes.test}>
       <Typography variant="h3" style={{ fontWeight: "bold", marginBottom: 24 }}>
         {props.title}
@@ -317,6 +346,8 @@ export default function Test(props) {
                   name={e.name}
                   value={value[tests.indexOf(e)] ? value[tests.indexOf(e)][e.name] : ""}
                   onChange={handleChangeDetailed}
+                  fullWidth
+                  multiline
                 />
               }
               {
@@ -328,7 +359,20 @@ export default function Test(props) {
                   name={e.name}
                   value={value[tests.indexOf(e)] ? value[tests.indexOf(e)][e.name] : ""}
                   onChange={handleChangeDetailed}
+                  fullWidth
+                  multiline
                 />
+              }
+              {
+                e.type == "attach" &&
+                <>
+                  <Button
+                    variant="contained"
+                    component="label"
+                  >
+                    <input type="file" ref={fileInput} />
+                  </Button>
+                </>
               }
             </div>
           </FormControl>
@@ -342,6 +386,7 @@ export default function Test(props) {
           </Button>
         )}
       <FormHelperText style={{ marginBottom: 64 }}>{helperText}</FormHelperText>
-    </form>
+      </form>
+    </div>
   );
 }

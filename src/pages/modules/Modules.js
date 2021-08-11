@@ -13,6 +13,7 @@ import Test from "./Test.js";
 import Stream from "./Stream.js";
 import Plot from "./Plot.js";
 import Video from "./Video.js";
+import MultipartContent from "./MultipartContent.js"
 import Mod1_1_theory from "./mod1_1_theory"
 import Mod1_2_theory from "./mod1_2_theory"
 import Mod1_3_theory from "./mod1_3_theory"
@@ -59,11 +60,15 @@ export default function Module (props) {
       case 'stream':
         return <Stream id={id} title={title} />
       case 'test':
-        return <Test id={id} title={title} contentWindow={contentWindow} />
+        return <Test id={id} title={title} contentWindow={contentWindow} manual={false} />
       case 'text':
         return manualContentMapping[id]
       case 'plot':
         return <Plot id={id} title={title} />
+      case 'manual-test':
+        return <Test id={id} title={title} contentWindow={contentWindow} manual={true} />
+      case 'multipart-content':
+        return <MultipartContent id={id} title={title} />
       //case 'venv':
       //  return
       //case 'device':

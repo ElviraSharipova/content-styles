@@ -198,7 +198,7 @@ export default function Header(props) {
           </div>
         ) : (
           <div style={{ position: 'fixed', right: '1%' }}>
-            <Button href="/#/app/catalog" variant="outlined" color="primary" size="large" style={{ marginRight: 10, width: 150, height: 40 }}><span style={{ marginLeft: 24, marginRight: 24 }}>Вход</span></Button>
+            <Button href="/#/login" variant="outlined" color="primary" size="large" style={{ marginRight: 10, width: 150, height: 40 }}><span style={{ marginLeft: 24, marginRight: 24 }}>Вход</span></Button>
             <Button href="/#/register" variant="contained" color="primary" size="large" style={{ width: 150, height: 40 }}><span>Регистрация</span></Button>
           </div>
         )}
@@ -297,7 +297,7 @@ export default function Header(props) {
               Настройки
             </Button>
           </MenuItem>
-          {user_id != 1 &&
+          {/*user_id != 1 &&
             <MenuItem
               className={classNames(
                 classes.profileMenuItem,
@@ -308,7 +308,7 @@ export default function Header(props) {
                 Удалить аккаунт (DEBUG)
             </Button>
             </MenuItem>
-          }
+          */}
           <div className={classes.profileMenuUser}>
             <Typography
               className={classes.profileMenuLink}
@@ -330,7 +330,7 @@ export default function Header(props) {
         >
           <div className={classes.profileMenuUser} style={{ maxWidth: 480 }}>
             <p style={{ margin: 0 }}>По всем вопросам обращайтесь на почту syncwoia@gmail.com</p>
-            <p style={{ margin: 0 }}>Обсуждение онлайн-школы ведутся в телеграм-канале <a href="https://t.me/joinchat/ymvFzxprw3xiMmUy">https://t.me/joinchat/ymvFzxprw3xiMmUy</a>, присоединяйтесь!</p>
+            <p style={{ margin: 0 }}>Обсуждение онлайн-школы ведутся в <a href="https://t.me/joinchat/ymvFzxprw3xiMmUy" target="_blank">телеграм-канале</a>, присоединяйтесь!</p>
           </div>
         </Menu>
       </Toolbar>
