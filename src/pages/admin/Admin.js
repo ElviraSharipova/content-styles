@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { EditorState, ContentState, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
@@ -45,6 +45,7 @@ const Admin = props => {
   const [enableEditor, setEnableEditor] = React.useState(false);
 
   const [state, setState] = React.useState(EditorState.createEmpty());
+  const [isAdmin, setIsAdmin] = React.useState(null);
 
   const onEditorStateChange = (editorState) => {
     setState(editorState);
@@ -296,6 +297,19 @@ const Admin = props => {
     setTab(newValue)
     setHelperText("")
   }
+
+  useEffect(() => {
+    const ref_token = localStorage.getItem("token_ref");
+    axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
+      const token = res.data.access;
+      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+      axios.get("/profiles/my_profile/").then(res => {
+        setIsAdmin(res.data.status == "admin")
+      })
+    })
+  }, []);
+
+  if (!isAdmin) return (<></>)
 
   return (
     <div style={{ display: "flex", alignItems: "center", flexDirection: "column" }}>

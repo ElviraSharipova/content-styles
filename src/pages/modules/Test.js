@@ -165,7 +165,7 @@ export default function Test(props) {
           answer = value[index][tests[index].name]
         }
         if (props.manual) {
-          answers.push({ question: tests[index].question, key: answer })
+          answers.push({ question: tests[index].question, key: answer, index: index + 1 })
         } else {
           answers.push({ checkpoint: checkpoints[index].id, key: answer })
         }

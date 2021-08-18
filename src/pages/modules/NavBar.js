@@ -209,7 +209,7 @@ const Nav = props => {
                       <MLink onClick={() => { tryAutoComplete(c, m, t); props.setCurrent({ theme: t.index, module: m.index, component: c.index }); props.contentWindow.current.scrollTo(0, 0); }}
                         style={isEqual(props.current, { theme: t.index, module: m.index, component: c.index }) ? { backgroundColor: "#536DFE", paddingRight: 18, paddingTop: 12, paddingBottom: 12 } : { paddingRight: 18, paddingTop: 12, paddingBottom: 12 }} >
                         <CheckIcon className={classes.checkmarkSecondary} opacity={getComponentCompleted(c, m, t)} />
-                        {c.type == "video" ? (<><PlayArrowIcon className={classes.iconSecondary} /> {`${c.title}`}</>) : (<><CreateIcon className={classes.iconSecondary} /> {`${c.title}`}</>)}
+                        {c.type == "test" || c.type == "manual-test" ? (<><CreateIcon className={classes.iconSecondary} /> {`${c.title}`}</>) : (<><PlayArrowIcon className={classes.iconSecondary} /> {`${c.title}`}</>)}
                         {c.max_score > 0 &&
                           <div style={{ marginLeft: 6 }}>{`(${getComponentProgress(c, m, t)}/${c.max_score} баллов)`}</div>
                         }

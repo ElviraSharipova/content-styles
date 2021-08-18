@@ -329,8 +329,7 @@ export default function Header(props) {
           disableAutoFocusItem
         >
           <div className={classes.profileMenuUser} style={{ maxWidth: 480 }}>
-            <p style={{ margin: 0 }}>По всем вопросам обращайтесь на почту syncwoia@gmail.com</p>
-            <p style={{ margin: 0 }}>Обсуждение онлайн-школы ведутся в <a href="https://t.me/joinchat/ymvFzxprw3xiMmUy" target="_blank">телеграм-канале</a>, присоединяйтесь!</p>
+            <p style={{ margin: 0 }}>По всем вопросам обращайтесь на почту: syncwoia@gmail.com</p>
           </div>
         </Menu>
       </Toolbar>
