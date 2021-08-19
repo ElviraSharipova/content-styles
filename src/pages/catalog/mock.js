@@ -7,7 +7,7 @@ import img5 from "../../images/img5.jpeg";
 import img6 from "../../images/img6.jpg";
 import standActive from "../../images/stand_preview.jpg";
 import standInactive from "../../images/stand_inactive.png";
-import bfuImg from "../../images/bfu-syncwoia-01.png";
+import bfuImg from "../../images/bfu_background.jpg";
 import bitronicsImg from "../../images/bitronics_background.png";
 
 export const rows = [
@@ -23,21 +23,21 @@ export const rows = [
   },
   {
     id: 2,
-    img: standActive,
-    active: false,
-    type: "Course",
-    title: "Демонстрационный курс",
-    subtitle: "Демонстрация возможностей платформы",
-    price: 80,
-    rating: 5
-  },
-  {
-    id: 3,
     img: bitronicsImg,
     active: true,
     type: "Course",
     title: "Старт работы с учебной лабораторией по нейротехнологиям и физиологии человека",
     subtitle: "Онлайн-курс по работе с учебной лабораторией по нейротехнологиям для естественно-научного направления",
+    price: 80,
+    rating: 5
+  },
+  {
+    id: 3,
+    img: standActive,
+    active: false,
+    type: "Course",
+    title: "Демонстрационный курс",
+    subtitle: "Демонстрация возможностей платформы",
     price: 80,
     rating: 5
   },

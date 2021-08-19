@@ -33,7 +33,7 @@ const Nav = props => {
 
   const content = props.content
   const tryAutoComplete = props.tryAutoComplete
-  const handleRestart = props.handleRestart
+  // const handleRestart = props.handleRestart
   const progress = props.progress
   const courseProgress = props.courseProgress
 
@@ -222,7 +222,7 @@ const Nav = props => {
           </li>
         </ul>
       ))}
-      <Button style={{ margin: 24 }} variant="contained" color="primary" onClick={handleRestart}>Пройти заново</Button>
+      {/*<Button style={{ margin: 24 }} variant="contained" color="primary" onClick={handleRestart}>Пройти заново</Button>*/}
     </nav>
   );
 }

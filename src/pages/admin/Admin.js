@@ -34,6 +34,7 @@ const Admin = props => {
   const [componentName, setComponentName] = useState("Введение");
   const [content, setContent] = React.useState({});
   const [progress, setProgress] = React.useState({});
+  const [courseProgress, setCourseProgress] = React.useState(null);
   const [exists, setExists] = React.useState(false);
   const [helperText, setHelperText] = React.useState("");
   const [tab, setTab] = React.useState(0);
@@ -129,6 +130,17 @@ const Admin = props => {
     })
   }
 
+  function getCourseProgress() {
+    const ref_token = localStorage.getItem("token_ref");
+    axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
+      const token = res.data.access;
+      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+      axios.get(`/content/courses/${courseId}/progress/`).then(res => {
+        setCourseProgress(res.data)
+      })
+    })
+  }
+
   function updateComponent() {
     if (exists) {
       const ref_token = localStorage.getItem("token_ref");
@@ -220,6 +232,29 @@ const Admin = props => {
         axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
         axios.put(`/content/progress/${res.data[0].id}/score/`, { score: score, completed: completed }).then(res => {
           setHelperText("Confirmed")
+          window.scrollTo(0, 0)
+        }).catch(err => {
+          setHelperText("Error")
+          window.scrollTo(0, 0)
+        })
+      })
+    })
+  }
+
+  function deleteProgress() {
+    const ref_token = localStorage.getItem("token_ref");
+    axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
+      const token = res.data.access;
+      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+      axios.get("/content/progress/", {
+        params: {
+          course__title: courseName,
+          user__id: user
+        }
+      }).then(res => {
+        axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
+        axios.delete(`/content/progress/${res.data[0].id}/restart/`).then(res => {
+          setHelperText("Deleted")
           window.scrollTo(0, 0)
         }).catch(err => {
           setHelperText("Error")
@@ -337,7 +372,7 @@ const Admin = props => {
               <FormControl component="fieldset" style={{ margin: 48 }}>
                 <FormLabel component="legend">Пользователи</FormLabel>
                 <FormGroup aria-label="users" name="users1">
-                {users.map(e => (
+                {users.sort((a, b) => a.id > b.id ? 1 : -1).map(e => (
                   <FormControlLabel
                     value={`${users.indexOf(e)}`}
                     key={`${e.id}`}
@@ -385,6 +420,30 @@ const Admin = props => {
         </div>
       ) : tab == 1 ? (
           <>
+            <div style={{ width: 1200, padding: 48 }}>
+              <TextField
+                  id="courseId"
+                  variant="outlined"
+                  value={courseId}
+                  onChange={e => setCourseId(e.target.value)}
+                  placeholder="ID курса"
+                  type="email"
+                  fullWidth
+                  style={{ margin: 24 }}
+                />
+              <Button
+                onClick={getCourseProgress}
+                variant="contained"
+                color="primary"
+              >
+                Посмотреть прогресс по курсу
+              </Button>
+              {courseProgress && courseProgress.sort((a, b) => a.user > b.user ? 1 : -1).map(e => (
+                  <Typography>
+                    {e.user}: {e.score} - {e.completed ? "Пройдено" : "Не пройдено"}
+                  </Typography>
+                ))}
+            </div>
             <div style={{ display: "flex", justifyContent: "center", width: 1200 }}>
               <TextField
                 id="courseName"
@@ -508,6 +567,15 @@ const Admin = props => {
                   style={{ width: 150, height: 50, marginBottom: 6 }}
                 >
                   Сохранить
+                </Button>
+                <Button
+                  onClick={deleteProgress}
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  style={{ width: 150, height: 50 }}
+                >
+                  Удалить прогресс
                 </Button>
               </div>
             </div>
