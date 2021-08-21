@@ -48,7 +48,17 @@ export default function Module (props) {
       const token = res.data.access;
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
       axios.get(`/content/courses/${course_id}/`).then(res => {
-        setContent(res.data);
+        var sortedContent = res.data
+        console.log(sortedContent)
+        sortedContent.themes = sortedContent.themes.sort((a, b) => a.index > b.index ? 1 : -1)
+        for (let themeIndex = 0; themeIndex < sortedContent.themes.length; themeIndex++) {
+          sortedContent.themes[themeIndex].modules = sortedContent.themes[themeIndex].modules.sort((a, b) => a.index > b.index ? 1 : -1)
+          for (let moduleIndex = 0; moduleIndex < sortedContent.themes.length; moduleIndex++) {
+            sortedContent.themes[themeIndex].modules[moduleIndex].components = sortedContent.themes[themeIndex].modules[moduleIndex].components.sort((a, b) => a.index > b.index ? 1 : -1)
+          }
+        }
+        console.log(sortedContent)
+        setContent(sortedContent);
       })
     })
   }, []);
@@ -135,18 +145,18 @@ export default function Module (props) {
 
   function goBack() {
     saveCurrent({ theme: current.theme, module: current.module, component: current.component - 1 })
-    tryAutoComplete(content.themes[current.theme - 1].modules[current.module - 1].components.sort((a, b) => a.index > b.index ? 1 : -1)[current.component - 2], content.themes[current.theme - 1].modules[current.module - 1], content.themes[current.theme - 1])
+    tryAutoComplete(content.themes[current.theme - 1].modules[current.module - 1].components[current.component - 2], content.themes[current.theme - 1].modules[current.module - 1], content.themes[current.theme - 1])
     contentWindow.current.scrollTo(0, 0)
   }
 
   function goForward() {
     saveCurrent({ theme: current.theme, module: current.module, component: current.component + 1 })
-    tryAutoComplete(content.themes[current.theme - 1].modules[current.module - 1].components.sort((a, b) => a.index > b.index ? 1 : -1)[current.component], content.themes[current.theme - 1].modules[current.module - 1], content.themes[current.theme - 1])
+    tryAutoComplete(content.themes[current.theme - 1].modules[current.module - 1].components[current.component], content.themes[current.theme - 1].modules[current.module - 1], content.themes[current.theme - 1])
     contentWindow.current.scrollTo(0, 0)
   }
 
   function getComponent() {
-    return content.themes[current.theme - 1].modules[current.module - 1].components.sort((a, b) => a.index > b.index ? 1 : -1)[current.component - 1]
+    return content.themes[current.theme - 1].modules[current.module - 1].components[current.component - 1]
   }
 
   useEffect(() => {

@@ -382,13 +382,13 @@ const Admin = props => {
                 ))}
                 </FormGroup>
               </FormControl>
-              <Button
+              {/*<Button
                 onClick={deleteUsers}
                 variant="contained"
                 color="primary"
               >
-              Удалить
-              </Button>
+                Удалить
+              </Button>*/}
               <div style={{ display: "flex", alignItems: "center" }}>
                 <TextField
                   id="courseId"
