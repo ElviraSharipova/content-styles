@@ -49,15 +49,13 @@ export default function Module (props) {
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
       axios.get(`/content/courses/${course_id}/`).then(res => {
         var sortedContent = res.data
-        console.log(sortedContent)
         sortedContent.themes = sortedContent.themes.sort((a, b) => a.index > b.index ? 1 : -1)
         for (let themeIndex = 0; themeIndex < sortedContent.themes.length; themeIndex++) {
           sortedContent.themes[themeIndex].modules = sortedContent.themes[themeIndex].modules.sort((a, b) => a.index > b.index ? 1 : -1)
-          for (let moduleIndex = 0; moduleIndex < sortedContent.themes.length; moduleIndex++) {
+          for (let moduleIndex = 0; moduleIndex < sortedContent.themes[themeIndex].modules.length; moduleIndex++) {
             sortedContent.themes[themeIndex].modules[moduleIndex].components = sortedContent.themes[themeIndex].modules[moduleIndex].components.sort((a, b) => a.index > b.index ? 1 : -1)
           }
         }
-        console.log(sortedContent)
         setContent(sortedContent);
       })
     })

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Grid,
   Box,
@@ -22,7 +22,8 @@ import useStyles from "./styles";
 import { Typography, Chip, Button } from "../../components/Wrappers";
 
 //products array
-import { rows } from "./mock";
+//import { rows } from "./mock";
+import axios from "axios";
 
 const Catalog = props => {
   const typeRef = React.useRef(null);
@@ -132,6 +133,8 @@ const Catalog = props => {
     valueSort: "Favorite"
   });
 
+  const [rows, setRows] = React.useState(null)
+
   const [checkedCourses, setCheckedCourses] = React.useState(true);
   const [checkedEvents, setCheckedEvents] = React.useState(true);
 
@@ -141,6 +144,20 @@ const Catalog = props => {
   const handleChangeEvents = (event) => {
     setCheckedEvents(event.target.checked);
   };
+
+  useEffect(() => {
+    const ref_token = localStorage.getItem("token_ref");
+    axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
+      const token = res.data.access;
+      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+      axios.get(`/content/courses/previews/`).then(res => {
+        setRows(res.data.sort((a, b) => a.rating < b.rating ? 1 : -1));
+        console.log(res.data.sort((a, b) => a.rating < b.rating ? 1 : -1))
+      })
+    })
+  }, []);
+
+  if (!rows) return (<></>)
 
   return (
     <div style={{ marginTop: 30 }}>
@@ -234,7 +251,7 @@ const Catalog = props => {
                           colorBrightness={"secondary"}
                           component="p"
                         >
-                          {c.subtitle}
+                          {c.description}
                         </Typography>
                       </CardContent>
                     </CardActionArea>

@@ -67,7 +67,6 @@ const Admin = props => {
         }
       }).then(res => {
         if (res.data[0]) {
-          console.log(res.data)
           setContent(res.data[0])
           if (res.data[0].text) {
             let blocksFromHtml = htmlToDraft(res.data[0].text);
@@ -95,9 +94,25 @@ const Admin = props => {
         }
       }).then(res => {
         if (res.data[0]) {
-          console.log(res.data[0])
           setContent({ module: res.data[0].id })
           setExists(false)
+          setHelperText("")
+        } else {
+          setHelperText("Does not exist")
+        }
+      })
+    })
+  }
+
+  function findCourse() {
+    const ref_token = localStorage.getItem("token_ref");
+    axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
+      const token = res.data.access;
+      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+      axios.get(`/content/courses/${courseId}/preview/`).then(res => {
+        if (res.data) {
+          console.log(res.data)
+          setContent(res.data)
           setHelperText("")
         } else {
           setHelperText("Does not exist")
@@ -171,6 +186,22 @@ const Admin = props => {
         })
       })
     }
+  }
+
+  function updateCourse() {
+    const ref_token = localStorage.getItem("token_ref");
+    axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
+      const token = res.data.access;
+      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+      axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
+      axios.patch(`/content/courses/${content.id}/`, content).then(res => {
+        setHelperText("Confirmed")
+        window.scrollTo(0, 0)
+      }).catch(err => {
+        setHelperText("Error")
+        window.scrollTo(0, 0)
+      })
+    })
   }
 
   function deleteComponent() {
@@ -354,6 +385,7 @@ const Admin = props => {
         <Tab label="Пользователи" value={0} />
         <Tab label="Баллы" value={1} />
         <Tab label="Контент" value={2} />
+        <Tab label="Курсы" value={3} />
       </Tabs>
       {tab == 0 ? (
         <div style={{ display: "flex", alignItems: "center", width: 1200, flexDirection: "column" }}>
@@ -580,7 +612,7 @@ const Admin = props => {
               </div>
             </div>
           </>
-      ) : (
+      ) : tab == 2 ? (
       <>
         <div style={{ display: "flex", justifyContent: "center", width: 1200 }}>
           <TextField
@@ -751,6 +783,120 @@ const Admin = props => {
           />
         </div>
       </>
+      ) : (
+            <>
+              <div style={{ display: "flex", justifyContent: "center", width: 1200 }}>
+                <TextField
+                  id="courseId"
+                  variant="outlined"
+                  value={courseId}
+                  onChange={e => setCourseId(e.target.value)}
+                  placeholder="ID курса"
+                  type="email"
+                  fullWidth
+                  style={{ margin: 24 }}
+                />
+                <Button
+                  onClick={findCourse}
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  style={{ width: 150, height: 50, marginBottom: 6 }}
+                >
+                  Найти курс
+                </Button>
+              </div>
+              <div style={{ width: 1200, padding: 48 }}>
+                <Typography variant="h5" style={{ textAlign: "center", color: "red" }}>
+                  {helperText}
+                  </Typography>
+                  <TextField
+                    variant="outlined"
+                    value={content.active}
+                    onChange={e => updateContent(e.target.value, "active")}
+                    placeholder="Active"
+                    type="email"
+                    fullWidth
+                  />
+                  <TextField
+                    variant="outlined"
+                    value={content.title}
+                    onChange={e => updateContent(e.target.value, "title")}
+                    placeholder="Title"
+                    type="email"
+                    fullWidth
+                  />
+                  <TextField
+                    variant="outlined"
+                    value={content.description}
+                    onChange={e => updateContent(e.target.value, "description")}
+                    placeholder="Description"
+                    type="email"
+                    fullWidth
+                    multiline
+                  />
+                  <TextField
+                    variant="outlined"
+                    value={content.type}
+                    onChange={e => updateContent(e.target.value, "type")}
+                    placeholder="Type"
+                    type="email"
+                    fullWidth
+                  />
+                  {/*<TextField
+                    variant="outlined"
+                    value={content.min_score}
+                    onChange={e => updateContent(e.target.value, "min_score")}
+                    placeholder="Min score"
+                    type="email"
+                    fullWidth
+                  />
+                  <TextField
+                    variant="outlined"
+                    value={content.max_score}
+                    onChange={e => updateContent(e.target.value, "max_score")}
+                    placeholder="Max score"
+                    type="email"
+                    fullWidth
+                  />*/}
+                  <TextField
+                    variant="outlined"
+                    value={content.presets}
+                    onChange={e => updateContent(e.target.value, "presets")}
+                    placeholder="Presets"
+                    type="email"
+                    fullWidth
+                    multiline
+                  />
+
+                  <TextField
+                    variant="outlined"
+                    value={content.img}
+                    onChange={e => updateContent(e.target.value, "img")}
+                    placeholder="Image"
+                    type="email"
+                    fullWidth
+                  />
+                  <TextField
+                    variant="outlined"
+                    value={content.rating}
+                    onChange={e => updateContent(e.target.value, "rating")}
+                    placeholder="Rating"
+                    type="email"
+                    fullWidth
+                    multiline
+                  />
+                  <Button
+                    onClick={updateCourse}
+                    variant="outlined"
+                    color="primary"
+                    size="large"
+                    style={{ width: 150, height: 50 }}
+                  >
+                    Обновить
+                  </Button>
+              </div>
+            </>
       )}
     </div>
   );

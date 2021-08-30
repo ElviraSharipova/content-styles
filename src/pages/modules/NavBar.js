@@ -123,7 +123,7 @@ const Nav = props => {
   return (
     <nav className="nav sub_toolbar">
       <div style={{ margin: 24 }}>
-        <a href="/#/app/catalog/product/1" style={{ textDecoration: "none" }}><Typography variant="h6" style={{ color: "white", marginBottom: 6 }}>{content.title}</Typography></a>
+        <a href={`/#/app/catalog/product/${content.id}`} style={{ textDecoration: "none" }}><Typography variant="h6" style={{ color: "white", marginBottom: 6 }}>{content.title}</Typography></a>
         <LinearProgress className={classes.progressBar} color="primary" variant="determinate" value={Math.round((courseProgress || 0) / content.max_score * 100)} classes={{ barColorPrimary: classes.barColorPromary }} />
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div
