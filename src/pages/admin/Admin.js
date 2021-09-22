@@ -26,27 +26,30 @@ import Header from "../../components/Header/HeaderLanding";
 import axios from "axios";
 import Cookies from 'js-cookie';
 
+import JsonEditor from "../../components/JsonEditor";
+
 const Admin = props => {
   var classes = useStyles();
 
-  const [courseName, setCourseName] = useState("Введение в современные нейронауки");
-  const [courseId, setCourseId] = useState("");
-  const [componentName, setComponentName] = useState("Введение");
+  const [courseId, setCourseId] = useState("1");
+  const [componentName, setComponentName] = useState("Test 1");
   const [content, setContent] = React.useState({});
   const [progress, setProgress] = React.useState({});
   const [courseProgress, setCourseProgress] = React.useState(null);
   const [exists, setExists] = React.useState(false);
   const [helperText, setHelperText] = React.useState("");
-  const [tab, setTab] = React.useState(0);
+  const [tab, setTab] = React.useState(2);
   const [user, setUser] = React.useState(null);
   const [users, setUsers] = React.useState(null);
   const [checked, setChecked] = React.useState(null);
   const [score, setScore] = React.useState(null);
   const [completed, setCompleted] = React.useState(false);
   const [enableEditor, setEnableEditor] = React.useState(false);
+  const [presets, setPresets] = React.useState(null);
+  const [checkpoints, setCheckpoints] = React.useState(null);
 
   const [state, setState] = React.useState(EditorState.createEmpty());
-  const [isAdmin, setIsAdmin] = React.useState(null);
+  const [status, setStatus] = React.useState(null);
 
   const onEditorStateChange = (editorState) => {
     setState(editorState);
@@ -62,7 +65,7 @@ const Admin = props => {
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
       axios.get("/content/components/", {
         params: {
-          module__theme__course__title: courseName,
+          module__theme__course__id: courseId,
           title: componentName
         }
       }).then(res => {
@@ -73,6 +76,8 @@ const Admin = props => {
             let { contentBlocks, entityMap } = blocksFromHtml;
             setState(EditorState.createWithContent(ContentState.createFromBlockArray(contentBlocks, entityMap)))
           }
+          setPresets(JSON.parse(res.data[0].props))
+          setCheckpoints(res.data[0].checkpoints)
           setExists(true)
           setHelperText("")
         } else {
@@ -89,7 +94,7 @@ const Admin = props => {
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
       axios.get("/content/modules/", {
         params: {
-          theme__course__title: courseName,
+          theme__course__id: courseId,
           title: componentName
         }
       }).then(res => {
@@ -113,6 +118,7 @@ const Admin = props => {
         if (res.data) {
           console.log(res.data)
           setContent(res.data)
+          setPresets(JSON.parse(res.data.presets))
           setHelperText("")
         } else {
           setHelperText("Does not exist")
@@ -128,7 +134,7 @@ const Admin = props => {
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
       axios.get("/content/component_progress/", {
         params: {
-          module_progress__theme_progress__course_progress__course__title: courseName,
+          module_progress__theme_progress__course_progress__course__id: courseId,
           component__title: componentName,
           module_progress__theme_progress__course_progress__user__id: user
         }
@@ -163,9 +169,15 @@ const Admin = props => {
         const token = res.data.access;
         axios.defaults.headers.common["Authorization"] = "Bearer " + token;
         axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
-        axios.put(`/content/components/${content.id}/`, content).then(res => {
-          setHelperText("Confirmed")
-          window.scrollTo(0, 0)
+        content["props"] = JSON.stringify(presets)
+        axios.put(`/content/components/${content.id}/`, content).then(() => {
+          axios.put(`/content/checkpoints/edit/`, checkpoints).then(() => {
+            setHelperText("Confirmed")
+            window.scrollTo(0, 0)
+          }).catch(err => {
+            setHelperText("Error in checkpoints")
+            window.scrollTo(0, 0)
+          })
         }).catch(err => {
           setHelperText("Error")
           window.scrollTo(0, 0)
@@ -194,6 +206,7 @@ const Admin = props => {
       const token = res.data.access;
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
       axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
+      content["presets"] = JSON.stringify(presets)
       axios.patch(`/content/courses/${content.id}/`, content).then(res => {
         setHelperText("Confirmed")
         window.scrollTo(0, 0)
@@ -256,7 +269,7 @@ const Admin = props => {
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
       axios.get("/content/progress/", {
         params: {
-          course__title: courseName,
+          course__id: courseId,
           user__id: user
         }
       }).then(res => {
@@ -279,7 +292,7 @@ const Admin = props => {
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
       axios.get("/content/progress/", {
         params: {
-          course__title: courseName,
+          course__id: courseId,
           user__id: user
         }
       }).then(res => {
@@ -370,20 +383,20 @@ const Admin = props => {
       const token = res.data.access;
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
       axios.get("/profiles/my_profile/").then(res => {
-        setIsAdmin(res.data.status == "admin")
+        setStatus(res.data.status)
       })
     })
   }, []);
 
-  if (!isAdmin) return (<></>)
+  if (!status == "moderator" || !status == "admin") return (<></>)
 
   return (
     <div style={{ display: "flex", alignItems: "center", flexDirection: "column" }}>
       <Header history={props.history} />
       <div className={classes.fakeToolbar} />
       <Tabs value={tab} onChange={handleChangeTab} aria-label="tabs" style={{ margin: 48 }}>
-        <Tab label="Пользователи" value={0} />
-        <Tab label="Баллы" value={1} />
+        {status == "admin" && <Tab label="Пользователи" value={0} />}
+        {status == "admin" && <Tab label="Баллы" value={1} />}
         <Tab label="Контент" value={2} />
         <Tab label="Курсы" value={3} />
       </Tabs>
@@ -478,11 +491,11 @@ const Admin = props => {
             </div>
             <div style={{ display: "flex", justifyContent: "center", width: 1200 }}>
               <TextField
-                id="courseName"
+                id="courseId"
                 variant="outlined"
-                value={courseName}
-                onChange={e => setCourseName(e.target.value)}
-                placeholder="Название курса"
+                value={courseId}
+                onChange={e => setCourseId(e.target.value)}
+                placeholder="ID курса"
                 type="email"
                 fullWidth
                 style={{ margin: 24 }}
@@ -551,11 +564,11 @@ const Admin = props => {
             </div>
             <div style={{ display: "flex", justifyContent: "center", width: 1200 }}>
               <TextField
-                id="courseName"
+                id="courseId"
                 variant="outlined"
-                value={courseName}
-                onChange={e => setCourseName(e.target.value)}
-                placeholder="Название курса"
+                value={courseId}
+                onChange={e => setCourseId(e.target.value)}
+                placeholder="ID курса"
                 type="email"
                 fullWidth
                 style={{ margin: 24 }}
@@ -616,11 +629,11 @@ const Admin = props => {
       <>
         <div style={{ display: "flex", justifyContent: "center", width: 1200 }}>
           <TextField
-            id="courseName"
+            id="courseId"
             variant="outlined"
-            value={courseName}
-            onChange={e => setCourseName(e.target.value)}
-            placeholder="Название курса"
+            value={courseId}
+            onChange={e => setCourseId(e.target.value)}
+            placeholder="ID курса"
             type="email"
             fullWidth
             style={{ margin: 48 }}
@@ -660,6 +673,22 @@ const Admin = props => {
           <Typography variant="h5" style={{ textAlign: "center", color: "red" }}>
             {helperText}
           </Typography>
+          {Object.entries(content).map(c => (
+            c[0] != "id" && c[0] != "props" && c[0] != "checkpoints" &&
+            <TextField
+              variant="outlined"
+              value={c[1]}
+              onChange={e => updateContent(e.target.value, c[0])}
+              placeholder={c[0]}
+              type="email"
+              helperText={c[0]}
+              fullWidth
+              multiline
+              style={{ margin: 12 }}
+            />
+          ))}
+          {!exists &&
+          <>
           <TextField
             variant="outlined"
             value={content.module}
@@ -667,6 +696,7 @@ const Admin = props => {
             placeholder="Module"
             type="email"
             fullWidth
+            style={{ margin: 12 }}
           />
           <TextField
             variant="outlined"
@@ -675,14 +705,7 @@ const Admin = props => {
             placeholder="Index"
             type="email"
             fullWidth
-          />
-          <TextField
-            variant="outlined"
-            value={content.active}
-            onChange={e => updateContent(e.target.value, "active")}
-            placeholder="Active"
-            type="email"
-            fullWidth
+            style={{ margin: 12 }}
           />
           <TextField
             variant="outlined"
@@ -691,24 +714,7 @@ const Admin = props => {
             placeholder="Title"
             type="email"
             fullWidth
-          />
-          <TextField
-            variant="outlined"
-            value={content.description}
-            onChange={e => updateContent(e.target.value, "description")}
-            placeholder="Description"
-            type="email"
-            fullWidth
-            multiline
-          />
-          <TextField
-            variant="outlined"
-            value={content.text}
-            onChange={e => updateContent(e.target.value, "text")}
-            placeholder="Text"
-            type="email"
-            fullWidth
-            multiline
+            style={{ margin: 12 }}
           />
           <TextField
             variant="outlined"
@@ -717,6 +723,7 @@ const Admin = props => {
             placeholder="Type"
             type="email"
             fullWidth
+            style={{ margin: 12 }}
           />
           <TextField
             variant="outlined"
@@ -725,14 +732,7 @@ const Admin = props => {
             placeholder="Min score"
             type="email"
             fullWidth
-          />
-          <TextField
-            variant="outlined"
-            value={content.max_score}
-            onChange={e => updateContent(e.target.value, "max_score")}
-            placeholder="Max score"
-            type="email"
-            fullWidth
+            style={{ margin: 12 }}
           />
           <TextField
             variant="outlined"
@@ -742,7 +742,20 @@ const Admin = props => {
             type="email"
             fullWidth
             multiline
-          />
+            style={{ margin: 12 }}
+          /></>}
+          {presets &&
+            <>
+              <Typography>Props</Typography>
+              <JsonEditor data={presets} />
+            </>
+          }
+          {checkpoints &&
+            <>
+              <Typography>Checkpoints</Typography>
+              <JsonEditor data={checkpoints} />
+            </>
+          }
           {enableEditor && 
             <div>
               <Editor
@@ -773,14 +786,16 @@ const Admin = props => {
               Удалить
             </Button>
           }
-          <Typography>
-            Включить визуальный редактор (не рекомендуется использовать с контентом, при создании которого редактор не использовался)
-          </Typography>
-          <Checkbox
-            checked={enableEditor}
-            onChange={() => setEnableEditor(!enableEditor)}
-            color="primary"
-          />
+          {exists && 
+            <><Typography>
+              Включить визуальный редактор (не рекомендуется использовать с контентом, при создании которого редактор не использовался)
+            </Typography>
+            <Checkbox
+              checked={enableEditor}
+              onChange={() => setEnableEditor(!enableEditor)}
+              color="primary"
+            /></>
+          }
         </div>
       </>
       ) : (
@@ -810,82 +825,21 @@ const Admin = props => {
                 <Typography variant="h5" style={{ textAlign: "center", color: "red" }}>
                   {helperText}
                   </Typography>
-                  <TextField
-                    variant="outlined"
-                    value={content.active}
-                    onChange={e => updateContent(e.target.value, "active")}
-                    placeholder="Active"
-                    type="email"
-                    fullWidth
-                  />
-                  <TextField
-                    variant="outlined"
-                    value={content.title}
-                    onChange={e => updateContent(e.target.value, "title")}
-                    placeholder="Title"
-                    type="email"
-                    fullWidth
-                  />
-                  <TextField
-                    variant="outlined"
-                    value={content.description}
-                    onChange={e => updateContent(e.target.value, "description")}
-                    placeholder="Description"
-                    type="email"
-                    fullWidth
-                    multiline
-                  />
-                  <TextField
-                    variant="outlined"
-                    value={content.type}
-                    onChange={e => updateContent(e.target.value, "type")}
-                    placeholder="Type"
-                    type="email"
-                    fullWidth
-                  />
-                  {/*<TextField
-                    variant="outlined"
-                    value={content.min_score}
-                    onChange={e => updateContent(e.target.value, "min_score")}
-                    placeholder="Min score"
-                    type="email"
-                    fullWidth
-                  />
-                  <TextField
-                    variant="outlined"
-                    value={content.max_score}
-                    onChange={e => updateContent(e.target.value, "max_score")}
-                    placeholder="Max score"
-                    type="email"
-                    fullWidth
-                  />*/}
-                  <TextField
-                    variant="outlined"
-                    value={content.presets}
-                    onChange={e => updateContent(e.target.value, "presets")}
-                    placeholder="Presets"
-                    type="email"
-                    fullWidth
-                    multiline
-                  />
-
-                  <TextField
-                    variant="outlined"
-                    value={content.img}
-                    onChange={e => updateContent(e.target.value, "img")}
-                    placeholder="Image"
-                    type="email"
-                    fullWidth
-                  />
-                  <TextField
-                    variant="outlined"
-                    value={content.rating}
-                    onChange={e => updateContent(e.target.value, "rating")}
-                    placeholder="Rating"
-                    type="email"
-                    fullWidth
-                    multiline
-                  />
+                  {Object.entries(content).map(c => (
+                    c[0] != "id" && c[0] != "presets" && c[0] != "rating" && c[0] != "is_public" && c[0] != "expire" &&
+                    <TextField
+                      variant="outlined"
+                      value={c[1]}
+                      onChange={e => updateContent(e.target.value, c[0])}
+                      placeholder={c[0]}
+                      type="email"
+                      helperText={c[0]}
+                      fullWidth
+                      multiline
+                      style={{ margin: 12 }}
+                    />
+                  ))}
+                  {presets && <JsonEditor data={presets} />}
                   <Button
                     onClick={updateCourse}
                     variant="outlined"

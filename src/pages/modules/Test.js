@@ -36,10 +36,10 @@ import ClearIcon from '@material-ui/icons/Clear';
 export default function Test(props) {
   const classes = useStyles();
   const [checkpoints, setCheckpoints] = useState("");
-  const [tests, setTests] = useState([]);
-  const [value, setValue] = useState(new Array(tests.length).fill({}));
-  const [results, setResults] = useState(new Array(tests.length).fill(null));
-  const [score, setScore] = useState(new Array(tests.length).fill(0));
+  const [tests, setTests] = useState(null);
+  const [value, setValue] = useState(null);
+  const [results, setResults] = useState(null);
+  const [score, setScore] = useState(null);
   const [helperText, setHelperText] = useState(' ');
   const [showHeader, setShowHeader] = useState(false);
   const [totalScore, setTotalScore] = useState(0);
@@ -64,10 +64,11 @@ export default function Test(props) {
         setMinScore(res.data.min_score)
         setTotalScore(scoreCounter)
         setCheckpoints(res.data.checkpoints.sort((a, b) => a.index > b.index ? 1 : -1));
-        setTests(JSON.parse(res.data.props));
-        setValue(new Array(tests.length).fill({}));
-        setResults(new Array(tests.length).fill(null));
-        setScore(new Array(tests.length).fill(0));
+        let questions = JSON.parse(res.data.props).questions
+        setTests(questions);
+        setValue(new Array(questions.length).fill({}));
+        setResults(new Array(questions.length).fill(null));
+        setScore(new Array(questions.length).fill(0));
         setShowHeader(false)
         setHelperText(' ')
       })
@@ -87,10 +88,11 @@ export default function Test(props) {
         setMinScore(res.data.min_score)
         setTotalScore(scoreCounter)
         setCheckpoints(res.data.checkpoints.sort((a, b) => a.index > b.index ? 1 : -1));
-        setTests(JSON.parse(res.data.props));
-        setValue(new Array(tests.length).fill({}));
-        setResults(new Array(tests.length).fill(null));
-        setScore(new Array(tests.length).fill(0));
+        let questions = JSON.parse(res.data.props).questions
+        setTests(JSON.parse(res.data.props).questions);
+        setValue(new Array(questions.length).fill({}));
+        setResults(new Array(questions.length).fill(null));
+        setScore(new Array(questions.length).fill(0));
         setShowHeader(false)
         setHelperText(' ')
       })
@@ -103,10 +105,11 @@ export default function Test(props) {
       const token = res.data.access;
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
       axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
+      let filename_split = file.name.split(".")
       axios.put(`/upload/${props.id}/`, file, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          'Content-Disposition': `attachment; filename=q${question_index}.${file.name.split(".")[1]}`
+          'Content-Disposition': `attachment; filename=q${question_index}.${filename_split[filename_split.length - 1]}`
         }
       }).then(res => {
         console.log("Ok")
@@ -247,6 +250,8 @@ export default function Test(props) {
       },
     },
   }))(TableRow);
+
+  if (!tests || !value || !results || !score) return (<></>)
 
   return (
     <div style={{ display: "flex", alignItems: "center", flexDirection: "column" }}>
