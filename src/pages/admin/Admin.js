@@ -76,7 +76,11 @@ const Admin = props => {
             let { contentBlocks, entityMap } = blocksFromHtml;
             setState(EditorState.createWithContent(ContentState.createFromBlockArray(contentBlocks, entityMap)))
           }
-          setPresets(JSON.parse(res.data[0].props))
+          if (res.data[0].props) {
+            setPresets(JSON.parse(res.data[0].props))
+          } else {
+            setPresets({})
+          }
           setCheckpoints(res.data[0].checkpoints)
           setExists(true)
           setHelperText("")
@@ -118,7 +122,11 @@ const Admin = props => {
         if (res.data) {
           console.log(res.data)
           setContent(res.data)
-          setPresets(JSON.parse(res.data.presets))
+          if (res.data.presets) {
+            setPresets(JSON.parse(res.data.presets))
+          } else {
+            setPresets({})
+          }
           setHelperText("")
         } else {
           setHelperText("Does not exist")
