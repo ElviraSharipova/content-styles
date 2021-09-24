@@ -411,7 +411,7 @@ const Admin = props => {
     })
   }, []);
 
-  if (status != "moderator" || status != "admin") return (<></>)
+  if (status != "moderator" && status != "admin") return (<></>)
 
   return (
     <div style={{ display: "flex", alignItems: "center", flexDirection: "column" }}>
