@@ -51,6 +51,8 @@ const Admin = props => {
   const [state, setState] = React.useState(EditorState.createEmpty());
   const [status, setStatus] = React.useState(null);
 
+  const fileInput = React.createRef();
+
   const onEditorStateChange = (editorState) => {
     setState(editorState);
     if (enableEditor) {
@@ -198,8 +200,21 @@ const Admin = props => {
         axios.defaults.headers.common["Authorization"] = "Bearer " + token;
         axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
         axios.post(`/content/components/`, content).then(res => {
-          setHelperText("Confirmed")
-          window.scrollTo(0, 0)
+          if (typeof (fileInput.current.files[0]) != "undefined") {
+            let file = fileInput.current.files[0]
+            axios.put(`/content/components/${res.data.id}/upload_props/`, file, {
+              headers: {
+                'Content-Type': 'multipart/form-data',
+                'Content-Disposition': `attachment; filename=${file.name}}`
+              }
+            }).then(res => {
+              setHelperText("Confirmed")
+              window.scrollTo(0, 0)
+            })
+          } else {
+            setHelperText("Confirmed")
+            window.scrollTo(0, 0)
+          }
         }).catch(err => {
           setHelperText("Error")
           window.scrollTo(0, 0)
@@ -396,7 +411,7 @@ const Admin = props => {
     })
   }, []);
 
-  if (!status == "moderator" || !status == "admin") return (<></>)
+  if (status != "moderator" || status != "admin") return (<></>)
 
   return (
     <div style={{ display: "flex", alignItems: "center", flexDirection: "column" }}>
@@ -751,7 +766,15 @@ const Admin = props => {
             fullWidth
             multiline
             style={{ margin: 12 }}
-          /></>}
+          />
+          <div>
+            <Button
+              variant="contained"
+              component="label"
+            >
+              <input type="file" ref={fileInput} />
+            </Button>
+          </div></>}
           {presets &&
             <>
               <Typography>Props</Typography>
