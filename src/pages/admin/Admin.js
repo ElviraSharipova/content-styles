@@ -32,7 +32,8 @@ const Admin = props => {
   var classes = useStyles();
 
   const [courseId, setCourseId] = useState("1");
-  const [componentName, setComponentName] = useState("Test 1");
+  const [moduleName, setModuleName] = useState("");
+  const [componentName, setComponentName] = useState("");
   const [content, setContent] = React.useState({});
   const [progress, setProgress] = React.useState({});
   const [courseProgress, setCourseProgress] = React.useState(null);
@@ -65,11 +66,20 @@ const Admin = props => {
     axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
       const token = res.data.access;
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-      axios.get("/content/components/", {
-        params: {
+      if (moduleName) {
+        var params = {
+          module__theme__course__id: courseId,
+          module__title: moduleName,
+          title: componentName
+        }
+      } else {
+        var params = {
           module__theme__course__id: courseId,
           title: componentName
         }
+      }
+      axios.get("/content/components/", {
+        params: params
       }).then(res => {
         if (res.data[0]) {
           setContent(res.data[0])
@@ -101,7 +111,7 @@ const Admin = props => {
       axios.get("/content/modules/", {
         params: {
           theme__course__id: courseId,
-          title: componentName
+          title: moduleName
         }
       }).then(res => {
         if (res.data[0]) {
@@ -494,7 +504,7 @@ const Admin = props => {
                   variant="outlined"
                   value={courseId}
                   onChange={e => setCourseId(e.target.value)}
-                  placeholder="ID курса"
+                  helperText="ID курса"
                   type="email"
                   fullWidth
                   style={{ margin: 24 }}
@@ -518,7 +528,7 @@ const Admin = props => {
                 variant="outlined"
                 value={courseId}
                 onChange={e => setCourseId(e.target.value)}
-                placeholder="ID курса"
+                helperText="ID курса"
                 type="email"
                 fullWidth
                 style={{ margin: 24 }}
@@ -528,7 +538,7 @@ const Admin = props => {
                 variant="outlined"
                 value={componentName}
                 onChange={e => setComponentName(e.target.value)}
-                placeholder="Название компонента"
+                helperText="Название компонента"
                 type="name"
                 fullWidth
                 style={{ margin: 24 }}
@@ -538,7 +548,7 @@ const Admin = props => {
                 variant="outlined"
                 value={user}
                 onChange={e => setUser(e.target.value)}
-                placeholder="ID пользователя"
+                helperText="ID пользователя"
                 type="name"
                 fullWidth
                 style={{ margin: 24 }}
@@ -563,7 +573,7 @@ const Admin = props => {
                 variant="outlined"
                 value={progress.completed}
                 onChange={e => updateProgress(e.target.value, "completed")}
-                placeholder="Completed"
+                helperText="Completed"
                 type="email"
                 fullWidth
               />
@@ -571,7 +581,7 @@ const Admin = props => {
                 variant="outlined"
                 value={progress.score}
                 onChange={e => updateProgress(e.target.value, "score")}
-                placeholder="Score"
+                helperText="Score"
                 type="email"
                 fullWidth
               />
@@ -591,7 +601,7 @@ const Admin = props => {
                 variant="outlined"
                 value={courseId}
                 onChange={e => setCourseId(e.target.value)}
-                placeholder="ID курса"
+                helperText="ID курса"
                 type="email"
                 fullWidth
                 style={{ margin: 24 }}
@@ -601,7 +611,7 @@ const Admin = props => {
                 variant="outlined"
                 value={user}
                 onChange={e => setUser(e.target.value)}
-                placeholder="ID пользователя"
+                helperText="ID пользователя"
                 type="name"
                 fullWidth
                 style={{ margin: 24 }}
@@ -611,7 +621,7 @@ const Admin = props => {
                 variant="outlined"
                 value={score}
                 onChange={e => setScore(e.target.value)}
-                placeholder="Баллы за курс"
+                helperText="Баллы за курс"
                 type="name"
                 fullWidth
                 style={{ margin: 24 }}
@@ -621,7 +631,7 @@ const Admin = props => {
                 variant="outlined"
                 value={completed}
                 onChange={e => setCompleted(e.target.value)}
-                placeholder="Completed"
+                helperText="Completed"
                 type="name"
                 fullWidth
                 style={{ margin: 24 }}
@@ -656,8 +666,18 @@ const Admin = props => {
             variant="outlined"
             value={courseId}
             onChange={e => setCourseId(e.target.value)}
-            placeholder="ID курса"
+            helperText="ID курса"
             type="email"
+            fullWidth
+            style={{ margin: 48 }}
+          />
+          <TextField
+            id="componentName"
+            variant="outlined"
+            value={moduleName}
+            onChange={e => setModuleName(e.target.value)}
+            helperText="Название модуля"
+            type="name"
             fullWidth
             style={{ margin: 48 }}
           />
@@ -666,7 +686,7 @@ const Admin = props => {
             variant="outlined"
             value={componentName}
             onChange={e => setComponentName(e.target.value)}
-            placeholder="Название компонента/модуля"
+            helperText="Название компонента"
             type="name"
             fullWidth
             style={{ margin: 48 }}
@@ -716,7 +736,7 @@ const Admin = props => {
             variant="outlined"
             value={content.module}
             onChange={e => updateContent(e.target.value, "module")}
-            placeholder="Module"
+            helperText="Module"
             type="email"
             fullWidth
             style={{ margin: 12 }}
@@ -725,7 +745,7 @@ const Admin = props => {
             variant="outlined"
             value={content.index}
             onChange={e => updateContent(e.target.value, "index")}
-            placeholder="Index"
+            helperText="Index"
             type="email"
             fullWidth
             style={{ margin: 12 }}
@@ -734,34 +754,34 @@ const Admin = props => {
             variant="outlined"
             value={content.title}
             onChange={e => updateContent(e.target.value, "title")}
-            placeholder="Title"
+            helperText="Title"
             type="email"
             fullWidth
             style={{ margin: 12 }}
           />
           <TextField
             variant="outlined"
-            value={content.type}
+            value={content.type || "multipart-content"}
             onChange={e => updateContent(e.target.value, "type")}
-            placeholder="Type"
+            helperText="Type"
             type="email"
             fullWidth
             style={{ margin: 12 }}
           />
           <TextField
             variant="outlined"
-            value={content.min_score}
+            value={content.min_score || "0"}
             onChange={e => updateContent(e.target.value, "min_score")}
-            placeholder="Min score"
+            helperText="Min score"
             type="email"
             fullWidth
             style={{ margin: 12 }}
           />
           <TextField
             variant="outlined"
-            value={content.props}
+            value={content.props || "{}"}
             onChange={e => updateContent(e.target.value, "props")}
-            placeholder="Props"
+            helperText="Props"
             type="email"
             fullWidth
             multiline
@@ -837,7 +857,7 @@ const Admin = props => {
                   variant="outlined"
                   value={courseId}
                   onChange={e => setCourseId(e.target.value)}
-                  placeholder="ID курса"
+                  helperText="ID курса"
                   type="email"
                   fullWidth
                   style={{ margin: 24 }}
