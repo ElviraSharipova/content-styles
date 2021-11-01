@@ -207,7 +207,14 @@ export default function Test(props) {
         setHelperText("Ответы отправлены");
         setIsLoading(false)
         props.contentWindow.current.scrollTo(0, 0)
-      }).catch(err => { console.error(err); setIsLoading(false) });
+      }).catch(err => {
+        if (err.response.status == 406) {
+          setHelperText("Превышено число попыток, попробуйте завтра");
+        } else {
+          console.error(err);
+        }
+        setIsLoading(false)
+      });
     })
   };
 

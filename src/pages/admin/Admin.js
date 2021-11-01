@@ -47,6 +47,7 @@ const Admin = props => {
   const [completed, setCompleted] = React.useState(false);
   const [enableEditor, setEnableEditor] = React.useState(false);
   const [presets, setPresets] = React.useState(null);
+  const [structure, setStructure] = React.useState(null);
   const [checkpoints, setCheckpoints] = React.useState(null);
 
   const [state, setState] = React.useState(EditorState.createEmpty());
@@ -138,6 +139,11 @@ const Admin = props => {
             setPresets(JSON.parse(res.data.presets))
           } else {
             setPresets({})
+          }
+          if (res.data.themes) {
+            setStructure(res.data.themes)
+          } else {
+            setStructure({})
           }
           setHelperText("")
         } else {
@@ -240,9 +246,16 @@ const Admin = props => {
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
       axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
       content["presets"] = JSON.stringify(presets)
+      delete content["themes"]
+      console.log(structure)
       axios.patch(`/content/courses/${content.id}/`, content).then(res => {
-        setHelperText("Confirmed")
-        window.scrollTo(0, 0)
+        axios.put(`/content/courses/${content.id}/structure/`, structure).then(res => {
+          setHelperText("Confirmed")
+          window.scrollTo(0, 0)
+        }).catch(err => {
+          setHelperText("Error")
+          window.scrollTo(0, 0)
+        })
       }).catch(err => {
         setHelperText("Error")
         window.scrollTo(0, 0)
@@ -877,7 +890,7 @@ const Admin = props => {
                   {helperText}
                   </Typography>
                   {Object.entries(content).map(c => (
-                    c[0] != "id" && c[0] != "presets" && c[0] != "rating" && c[0] != "is_public" && c[0] != "expire" &&
+                    c[0] != "id" && c[0] != "presets" && c[0] != "rating" && c[0] != "is_public" && c[0] != "expire" && c[0] != "themes" &&
                     <TextField
                       variant="outlined"
                       value={c[1]}
@@ -890,7 +903,8 @@ const Admin = props => {
                       style={{ margin: 12 }}
                     />
                   ))}
-                  {presets && <JsonEditor data={presets} />}
+                  {presets && <JsonEditor data={presets} setter={setPresets} />}
+                  {structure && <JsonEditor data={structure} setter={setStructure} />}
                   <Button
                     onClick={updateCourse}
                     variant="outlined"

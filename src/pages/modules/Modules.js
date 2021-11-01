@@ -9,6 +9,7 @@ import { Button } from "../../components/Wrappers/Wrappers";
 
 import "./modules.scss"
 import { Nav } from "./NavBar";
+import { NavL2 } from "./NavBarL2";
 import Test from "./Test.js";
 import Stream from "./Stream.js";
 import Plot from "./Plot.js";
@@ -108,7 +109,7 @@ export default function Module (props) {
         axios.defaults.headers.common["Authorization"] = "Bearer " + token;
         axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
         axios.post(`/content/components/${component.id}/complete/`).then(res => {
-          if (res.status = 200) {
+          if (res.status == 200) {
             setProgress(res.data)
           }
         })
@@ -187,8 +188,14 @@ export default function Module (props) {
       <div className="white_module_bgr sub_toolbar" ref={contentWindow}>
         <div className="sub_toolbar sub_module">
           <div>
-            {contentMapper(getComponent().id, getComponent().type, `${current.theme}.${current.module}.${current.component} ${getComponent().title}`, contentWindow)}
-            <Nav courseId={course_id} content={content} current={current} setCurrent={saveCurrent} progress={progress} courseProgress={courseProgress} tryAutoComplete={tryAutoComplete} handleRestart={handleRestart} contentWindow={contentWindow} />
+            {content.levels == 3 && contentMapper(getComponent().id, getComponent().type, `${current.theme}.${current.module}.${current.component} ${getComponent().title}`, contentWindow)}
+            {content.levels == 2 && contentMapper(getComponent().id, getComponent().type, `${current.module}.${current.component} ${getComponent().title}`, contentWindow)}
+            {content.levels == 3 &&
+              <Nav courseId={course_id} content={content} current={current} setCurrent={saveCurrent} progress={progress} courseProgress={courseProgress} tryAutoComplete={tryAutoComplete} handleRestart={handleRestart} contentWindow={contentWindow} />
+            }
+            {content.levels == 2 &&
+              <NavL2 courseId={course_id} content={content} current={current} setCurrent={saveCurrent} progress={progress} courseProgress={courseProgress} tryAutoComplete={tryAutoComplete} handleRestart={handleRestart} contentWindow={contentWindow} />
+            }
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-evenly" }}>
                 <Button style={{ margin: 24 }} variant="contained" color="primary" disabled={!(current.component - 1)}
                   onClick={goBack}

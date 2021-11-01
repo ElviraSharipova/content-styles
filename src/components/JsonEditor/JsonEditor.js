@@ -10,10 +10,12 @@ import {
 
 
 export default function JsonEditor(props) {
-  const [data, setData] = React.useState(props.data);
   const [newName, setNewName] = React.useState(null);
   const [newValue, setNewValue] = React.useState(null);
   const [open, setOpen] = React.useState({});
+
+  var data = props.data
+  var setData = props.setter
 
   function handleOpen(index) {
     open[index] = !open[index];
@@ -37,7 +39,11 @@ export default function JsonEditor(props) {
     } else {
       obj[keys[keys.length - 1]] = value
     }
-    setData({ ...data })
+    if (Array.isArray(data)) {
+      setData([...data])
+    } else {
+      setData({ ...data })
+    }
   }
 
   function deleteData(keys) {
@@ -47,9 +53,11 @@ export default function JsonEditor(props) {
     }
     if (Array.isArray(obj)) {
       obj = [...obj.slice(0, keys[keys.length - 1]), ...obj.slice(keys[keys.length - 1] + 1)]
+      setData([...obj])
+    } else {
+      delete obj[keys[keys.length - 1]]
+      setData({ ...data })
     }
-    delete obj[keys[keys.length - 1]]
-    setData({ ...data })
   }
 
   function objectCreator(parent_keys = []) {
