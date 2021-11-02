@@ -19,8 +19,9 @@ import {
   Tabs,
   Tab,
   Checkbox,
-  FormGroup
+  FormGroup,
 } from "@material-ui/core";
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import Header from "../../components/Header/HeaderLanding";
 
 import axios from "axios";
@@ -32,8 +33,9 @@ const Admin = props => {
   var classes = useStyles();
 
   const [courseId, setCourseId] = useState("1");
-  const [moduleName, setModuleName] = useState("");
-  const [componentName, setComponentName] = useState("");
+  const [themeId, setThemeId] = useState("1");
+  const [moduleId, setModuleId] = useState(null);
+  const [componentId, setComponentId] = useState(null);
   const [content, setContent] = React.useState({});
   const [progress, setProgress] = React.useState({});
   const [courseProgress, setCourseProgress] = React.useState(null);
@@ -41,6 +43,7 @@ const Admin = props => {
   const [helperText, setHelperText] = React.useState("");
   const [tab, setTab] = React.useState(2);
   const [user, setUser] = React.useState(null);
+  const [emails, setEmails] = React.useState(null);
   const [users, setUsers] = React.useState(null);
   const [checked, setChecked] = React.useState(null);
   const [score, setScore] = React.useState(null);
@@ -62,22 +65,25 @@ const Admin = props => {
     }
   };
 
+  function clearOnUpdate() {
+    setContent({})
+    setPresets(null)
+    setStructure(null)
+    setCheckpoints(null)
+    setExists(false)
+  }
+
   function findComponent() {
     const ref_token = localStorage.getItem("token_ref");
     axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
       const token = res.data.access;
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-      if (moduleName) {
-        var params = {
-          module__theme__course__id: courseId,
-          module__title: moduleName,
-          title: componentName
-        }
-      } else {
-        var params = {
-          module__theme__course__id: courseId,
-          title: componentName
-        }
+      if (!courseId || !themeId || !moduleId || !componentId) return
+      var params = {
+        module__theme__course__id: courseId,
+        module__theme__index: themeId,
+        module__index: moduleId,
+        index: componentId
       }
       axios.get("/content/components/", {
         params: params
@@ -109,10 +115,12 @@ const Admin = props => {
     axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
       const token = res.data.access;
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+      if (!courseId || !themeId || !moduleId) return
       axios.get("/content/modules/", {
         params: {
           theme__course__id: courseId,
-          title: moduleName
+          theme__index: themeId,
+          index: moduleId
         }
       }).then(res => {
         if (res.data[0]) {
@@ -161,7 +169,9 @@ const Admin = props => {
       axios.get("/content/component_progress/", {
         params: {
           module_progress__theme_progress__course_progress__course__id: courseId,
-          component__title: componentName,
+          component__module__theme__index: themeId,
+          component__module__index: moduleId,
+          component__index: componentId,
           module_progress__theme_progress__course_progress__user__id: user
         }
       }).then(res => {
@@ -199,6 +209,7 @@ const Admin = props => {
         axios.put(`/content/components/${content.id}/`, content).then(() => {
           axios.put(`/content/checkpoints/edit/`, checkpoints).then(() => {
             setHelperText("Confirmed")
+            clearOnUpdate()
             window.scrollTo(0, 0)
           }).catch(err => {
             setHelperText("Error in checkpoints")
@@ -225,6 +236,7 @@ const Admin = props => {
               }
             }).then(res => {
               setHelperText("Confirmed")
+              clearOnUpdate()
               window.scrollTo(0, 0)
             })
           } else {
@@ -251,6 +263,7 @@ const Admin = props => {
       axios.patch(`/content/courses/${content.id}/`, content).then(res => {
         axios.put(`/content/courses/${content.id}/structure/`, structure).then(res => {
           setHelperText("Confirmed")
+          clearOnUpdate()
           window.scrollTo(0, 0)
         }).catch(err => {
           setHelperText("Error")
@@ -362,6 +375,7 @@ const Admin = props => {
       axios.get("/profiles/").then(res => {
         setChecked(new Array(res.data.length).fill(false))
         setUsers(res.data)
+        setEmails(res.data.map(e => e.email))
       })
     })
   }
@@ -386,40 +400,80 @@ const Admin = props => {
     })
   }
 
-  function addStudents() {
+  //function addStudents() {
+  //  const ref_token = localStorage.getItem("token_ref");
+  //  axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
+  //    const token = res.data.access;
+  //    axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+  //    axios.get("/profiles/").then(() => {
+  //      axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
+  //      console.log(users.filter(e => checked[users.indexOf(e)]).map(e => e.id))
+  //      axios.put(`/content/courses/${courseId}/enroll/`, { "whitelist": users.filter(e => checked[users.indexOf(e)]).map(e => e.id) }).then(res => {
+  //        setHelperText("Доступ дан")
+  //      })
+  //    })
+  //  })
+  //}
+
+  //function removeStudents() {
+  //  const ref_token = localStorage.getItem("token_ref");
+  //  axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
+  //    const token = res.data.access;
+  //    axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+  //    axios.get("/profiles/").then(() => {
+  //      axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
+  //      console.log(users.filter(e => checked[users.indexOf(e)]).map(e => e.id))
+  //      axios.delete(`/content/courses/${courseId}/enroll/`, { "whitelist": users.filter(e => checked[users.indexOf(e)]).map(e => e.id) }).then(res => {
+  //        setHelperText("Доступ забран")
+  //      })
+  //    })
+  //  })
+  //}
+
+  function addStudent() {
     const ref_token = localStorage.getItem("token_ref");
     axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
       const token = res.data.access;
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
       axios.get("/profiles/").then(() => {
         axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
-        console.log(users.filter(e => checked[users.indexOf(e)]).map(e => e.id))
-        axios.put(`/content/courses/${courseId}/enroll/`, { "whitelist": users.filter(e => checked[users.indexOf(e)]).map(e => e.id) })
+        console.log(user.email)
+        axios.put(`/content/courses/${courseId}/enroll/`, { "whitelist": [user.id] }).then(res => {
+          setHelperText("Доступ дан")
+        })
       })
     })
   }
 
-  function removeStudents() {
+  function removeStudent() {
     const ref_token = localStorage.getItem("token_ref");
     axios.post("/token/refresh/", { "refresh": ref_token }).then(res => {
       const token = res.data.access;
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
       axios.get("/profiles/").then(() => {
         axios.defaults.headers['X-CSRFTOKEN'] = Cookies.get('csrftoken');
-        console.log(users.filter(e => checked[users.indexOf(e)]).map(e => e.id))
-        axios.delete(`/content/courses/${courseId}/enroll/`, { "whitelist": users.filter(e => checked[users.indexOf(e)]).map(e => e.id) })
+        console.log(user.email)
+        axios.delete(`/content/courses/${courseId}/enroll/`, { "whitelist": [user.id] }).then(res => {
+          setHelperText("Доступ забран")
+        })
       })
     })
   }
 
-  const handleChangeUser = (event) => {
-    checked[event.target.value] = !checked[event.target.value]
-    setChecked([...checked])
-    setHelperText("")
+  //const handleChangeUser = (event) => {
+  //  checked[event.target.value] = !checked[event.target.value]
+  //  setChecked([...checked])
+  //  setHelperText("")
+  //}
+
+  const handleChangeUser = (event, newValue) => {
+    setUser(users.filter(e => e.email == newValue)[0])
   }
 
   const handleChangeTab = (event, newValue) => {
+    if (newValue == 0) { getUsers() }
     setTab(newValue)
+    clearOnUpdate()
     setHelperText("")
   }
 
@@ -448,19 +502,12 @@ const Admin = props => {
       </Tabs>
       {tab == 0 ? (
         <div style={{ display: "flex", alignItems: "center", width: 1200, flexDirection: "column" }}>
-          <Button
-            onClick={getUsers}
-            variant="contained"
-            color="primary"
-          >
-            Просмотреть всех пользователей
-          </Button>
           <Typography variant="h5" style={{ textAlign: "center", color: "red", marginTop: 24 }}>
             {helperText}
           </Typography>
           {users &&
             <div style={{ display: "flex", alignItems: "center", width: 1200, flexDirection: "column" }}>
-              <FormControl component="fieldset" style={{ margin: 48 }}>
+            {/*<FormControl component="fieldset" style={{ margin: 48 }}>
                 <FormLabel component="legend">Пользователи</FormLabel>
                 <FormGroup aria-label="users" name="users1">
                 {users.sort((a, b) => a.id > b.id ? 1 : -1).map(e => (
@@ -472,7 +519,16 @@ const Admin = props => {
                   />
                 ))}
                 </FormGroup>
-              </FormControl>
+              </FormControl>*/}
+            <div style={{ marginTop: 48 }}>
+              <Autocomplete
+                disablePortal
+                id="emails"
+                onChange={handleChangeUser}
+                options={emails}
+                renderInput={(params) => <TextField {...params} variant="outlined" style={{ width: 800, marginTop: -48 }} label="Email" />}
+              />
+            </div>
               {/*<Button
                 onClick={deleteUsers}
                 variant="contained"
@@ -486,20 +542,20 @@ const Admin = props => {
                   variant="outlined"
                   value={courseId}
                   onChange={e => setCourseId(e.target.value)}
-                  placeholder="ID курса"
+                  helperText="ID курса"
                   type="email"
                   fullWidth
                   style={{ margin: 24 }}
                 />
                 <Button
-                  onClick={addStudents}
+                  onClick={addStudent}
                   variant="contained"
                   color="primary"
                 >
                   Дать доступ
                 </Button>
                 <Button
-                  onClick={removeStudents}
+                  onClick={removeStudent}
                   variant="contained"
                   color="primary"
                 >
@@ -541,23 +597,43 @@ const Admin = props => {
                 variant="outlined"
                 value={courseId}
                 onChange={e => setCourseId(e.target.value)}
-                helperText="ID курса"
+                helperText="Индекс курса"
                 type="email"
                 fullWidth
                 style={{ margin: 24 }}
               />
               <TextField
-                id="componentName"
+                id="themeId"
                 variant="outlined"
-                value={componentName}
-                onChange={e => setComponentName(e.target.value)}
-                helperText="Название компонента"
+                value={themeId}
+                onChange={e => setThemeId(e.target.value)}
+                helperText="Индекс темы"
+                type="email"
+                fullWidth
+                style={{ margin: 24 }}
+              />
+              <TextField
+                id="moduleId"
+                variant="outlined"
+                value={moduleId}
+                onChange={e => setModuleId(e.target.value)}
+                helperText="Индекс модуля"
+                type="email"
+                fullWidth
+                style={{ margin: 24 }}
+              />
+              <TextField
+                id="componentId"
+                variant="outlined"
+                value={componentId}
+                onChange={e => setComponentId(e.target.value)}
+                helperText="Индекс компонента"
                 type="name"
                 fullWidth
                 style={{ margin: 24 }}
               />
               <TextField
-                id="componentName"
+                id="userId"
                 variant="outlined"
                 value={user}
                 onChange={e => setUser(e.target.value)}
@@ -620,7 +696,7 @@ const Admin = props => {
                 style={{ margin: 24 }}
               />
               <TextField
-                id="componentName"
+                id="userId"
                 variant="outlined"
                 value={user}
                 onChange={e => setUser(e.target.value)}
@@ -630,7 +706,7 @@ const Admin = props => {
                 style={{ margin: 24 }}
               />
               <TextField
-                id="componentName"
+                id="score"
                 variant="outlined"
                 value={score}
                 onChange={e => setScore(e.target.value)}
@@ -640,7 +716,7 @@ const Admin = props => {
                 style={{ margin: 24 }}
               />
               <TextField
-                id="componentName"
+                id="completed"
                 variant="outlined"
                 value={completed}
                 onChange={e => setCompleted(e.target.value)}
@@ -685,21 +761,31 @@ const Admin = props => {
             style={{ margin: 48 }}
           />
           <TextField
-            id="componentName"
+            id="themeId"
             variant="outlined"
-            value={moduleName}
-            onChange={e => setModuleName(e.target.value)}
-            helperText="Название модуля"
+            value={themeId}
+            onChange={e => setThemeId(e.target.value)}
+            helperText="Индекс темы"
             type="name"
             fullWidth
             style={{ margin: 48 }}
           />
           <TextField
-            id="componentName"
+            id="moduleId"
             variant="outlined"
-            value={componentName}
-            onChange={e => setComponentName(e.target.value)}
-            helperText="Название компонента"
+            value={moduleId}
+            onChange={e => setModuleId(e.target.value)}
+            helperText="Индекс модуля"
+            type="name"
+            fullWidth
+            style={{ margin: 48 }}
+          />
+          <TextField
+            id="componentId"
+            variant="outlined"
+            value={componentId}
+            onChange={e => setComponentId(e.target.value)}
+            helperText="Индекс компонента"
             type="name"
             fullWidth
             style={{ margin: 48 }}
