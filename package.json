@@ -125,7 +125,7 @@
     "start:backend": "cross-env REACT_APP_BACKEND=true node scripts/start.js",
     "test": "node scripts/test.js"
   },
-  "proxy": "http://eqviumjs.herokuapp.com",
+  "proxy": "http://127.0.0.1:8000",
   "eslintConfig": {
     "extends": "react-app"
   },
