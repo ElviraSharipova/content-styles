@@ -173,7 +173,7 @@ const NavL2 = props => {
                 //onMouseEnter={(event) => handlePopoverOpen(content.themes.indexOf(t) * 10 + t.modules.indexOf(m), event)}
                 //onMouseLeave={() => handlePopoverClose(content.themes.indexOf(t) * 10 + t.modules.indexOf(m))}
               >
-                {`${1}.${content.themes[0].modules.indexOf(m) + 1} ${m.title}`}
+                {`${content.themes[0].modules.indexOf(m) + 1}. ${m.title}`}
               </Typography>
               {/*<Popover
                 id={`mouse-over-popover-${content.themes.indexOf(t) + 1}.${t.modules.indexOf(m) + 1}`}
