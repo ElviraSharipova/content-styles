@@ -152,7 +152,6 @@ const Catalog = props => {
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
       axios.get(`/content/courses/previews/`).then(res => {
         setRows(res.data.sort((a, b) => a.rating < b.rating ? 1 : -1));
-        console.log(res.data.sort((a, b) => a.rating < b.rating ? 1 : -1))
       })
     })
   }, []);

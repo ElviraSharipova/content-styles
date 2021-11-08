@@ -52,10 +52,17 @@ export default function JsonEditor(props) {
       var obj = obj[keys[index]]
     }
     if (Array.isArray(obj)) {
-      obj = [...obj.slice(0, keys[keys.length - 1]), ...obj.slice(keys[keys.length - 1] + 1)]
-      setData([...obj])
+      obj = data
+      for (let index = 0; index < keys.length - 2; index++) {
+        obj = obj[keys[index]]
+      }
+      obj[keys[keys.length - 2]] = [...obj[keys[keys.length - 2]].slice(0, keys[keys.length - 1]), ...obj[keys[keys.length - 2]].slice(keys[keys.length - 1] + 1)]
     } else {
       delete obj[keys[keys.length - 1]]
+    }
+    if (Array.isArray(data)) {
+      setData([...data])
+    } else {
       setData({ ...data })
     }
   }
