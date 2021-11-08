@@ -897,13 +897,13 @@ const Admin = props => {
           {presets &&
             <>
               <Typography>Props</Typography>
-              <JsonEditor data={presets} />
+              <JsonEditor data={presets} setter={setPresets} />
             </>
           }
           {checkpoints &&
             <>
               <Typography>Checkpoints</Typography>
-              <JsonEditor data={checkpoints} />
+              <JsonEditor data={checkpoints} setter={setCheckpoints} />
             </>
           }
           {enableEditor && 

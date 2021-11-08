@@ -16,7 +16,7 @@ export default {
   baseURLApi,
   redirectUrl,
   remote: "http://eqviumjs.herokuapp.com",
-  isBackend: process.env.REACT_APP_BACKEND,
+  isBackend: false,
   auth: {
     email: "admin@flatlogic.com",
     password: "password"
