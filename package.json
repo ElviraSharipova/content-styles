@@ -36,6 +36,7 @@
     "babel-jest": "^24.9.0",
     "babel-loader": "8.0.6",
     "babel-plugin-named-asset-import": "^0.3.4",
+    "babel-plugin-styled-components": "^1.13.3",
     "babel-preset-react-app": "^9.0.2",
     "camelcase": "^5.2.0",
     "caniuse-lite": "^1.0.30001279",
@@ -114,6 +115,7 @@
     "screenres": "^2.0.1",
     "semver": "6.3.0",
     "style-loader": "1.0.0",
+    "styled-components": "^5.3.3",
     "terser-webpack-plugin": "^1.4.1",
     "tinycolor2": "^1.4.1",
     "ts-pnp": "1.1.4",
@@ -129,7 +131,7 @@
     "start:backend": "cross-env REACT_APP_BACKEND=true node scripts/start.js",
     "test": "node scripts/test.js"
   },
-  "proxy": "http://127.0.0.1:8000",
+  "proxy": "http://eqviumjs.herokuapp.com",
   "eslintConfig": {
     "extends": "react-app"
   },

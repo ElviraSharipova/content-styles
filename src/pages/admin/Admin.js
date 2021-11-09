@@ -520,13 +520,13 @@ const Admin = props => {
                 ))}
                 </FormGroup>
               </FormControl>*/}
-            <div style={{ marginTop: 48 }}>
+            <div>
               <Autocomplete
                 disablePortal
                 id="emails"
                 onChange={handleChangeUser}
                 options={emails}
-                renderInput={(params) => <TextField {...params} variant="outlined" style={{ width: 800, marginTop: -48 }} label="Email" />}
+                renderInput={(params) => <TextField {...params} variant="outlined" style={{ width: 800 }} label="Email" />}
               />
               <Typography>
                 {user && `${user.email} #${user.id}`}
