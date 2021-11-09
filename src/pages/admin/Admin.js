@@ -528,6 +528,9 @@ const Admin = props => {
                 options={emails}
                 renderInput={(params) => <TextField {...params} variant="outlined" style={{ width: 800, marginTop: -48 }} label="Email" />}
               />
+              <Typography>
+                {user && `${user.email} #${user.id}`}
+              </Typography>
             </div>
               {/*<Button
                 onClick={deleteUsers}
