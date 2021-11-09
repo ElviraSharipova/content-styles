@@ -5,7 +5,7 @@ import {
   Box,
   Grid,
   Switch as SwitchMode
-} from "@material-ui/core";
+} from "@mui/material";
 
 //import ApexLineChart from "./ApexLineChart";
 import CustomLineChart from "./CustomLineChart";
@@ -84,7 +84,7 @@ export default function DataStreamButton({ open, id, anchorEl }) {
   };
 
   return (
-    <Grid container spacing={0} alignItems="center" justify="center" direction="column">
+    <Grid container spacing={0} alignItems="center" justifyContent="center" direction="column">
       <Grid item xs={6}>
         <Button
           color={"primary"}

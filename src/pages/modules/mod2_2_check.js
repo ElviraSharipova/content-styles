@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Fab} from "@material-ui/core";
+import { Grid, Fab} from "@mui/material";
 import Iframe from 'react-iframe';
 import {MTxt, MChap, MImg, MParg, MEq} from "./typography_short"
 import CodeStatic from './components/CodeStatic';

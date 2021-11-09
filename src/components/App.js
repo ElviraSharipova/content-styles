@@ -6,7 +6,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import { Close as CloseIcon } from "@material-ui/icons";
+import { Close as CloseIcon } from "@mui/icons-material";
 import useStyles from './styles';
 // components
 import Layout from "./Layout";

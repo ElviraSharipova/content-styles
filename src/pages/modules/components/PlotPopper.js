@@ -9,7 +9,7 @@ import {
   Radio,
   Grid,
   Switch as SwitchMode
-} from "@material-ui/core";
+} from "@mui/material";
 
 //import ReactApexChart from "react-apexcharts";
 import ApexLineChart from "./ApexLineChart";

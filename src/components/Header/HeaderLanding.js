@@ -9,8 +9,8 @@ import {
   Fab,
   Grid,
   Link
-} from "@material-ui/core";
-import { useTheme } from "@material-ui/styles";
+} from "@mui/material";
+import { useTheme } from "@mui/styles";
 import {
   Menu as MenuIcon,
   MailOutline as MailIcon,
@@ -19,7 +19,7 @@ import {
   Search as SearchIcon,
   Send as SendIcon,
   ArrowBack as ArrowBackIcon
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 import classNames from "classnames";
 
 //images
@@ -48,8 +48,8 @@ import {
 import { actions } from '../../context/ManagementContext'
 import { useUserDispatch, signOut } from "../../context/UserContext";
 import Logo from '../../images/logo-eqvium.png';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const messages = [
 ];

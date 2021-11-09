@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@mui/styles";
 import Image from '../../images/adrian-marc-amarc-cyberoom-v3.jpg';
 
 export default makeStyles(theme => ({

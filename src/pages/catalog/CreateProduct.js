@@ -6,7 +6,7 @@ import {
   MenuItem,
   Select,
   TextField as Input
-} from "@material-ui/core";
+} from "@mui/material";
 import { useParams, useHistory } from "react-router-dom";
 import useStyles from "./styles";
 
@@ -24,7 +24,7 @@ import Widget from "../../components/Widget";
 import { Typography, Button } from "../../components/Wrappers";
 import config from "../../config";
 import { toast, ToastContainer } from "react-toastify";
-import { Close as CloseIcon } from "@material-ui/icons";
+import { Close as CloseIcon } from "@mui/icons-material";
 import Notification from "../../components/Notification";
 
 const CreateProduct = () => {

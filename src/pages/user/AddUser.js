@@ -1,15 +1,15 @@
 import React from 'react'
-import Stepper from '@material-ui/core/Stepper'
-import Step from '@material-ui/core/Step'
-import StepLabel from '@material-ui/core/StepLabel'
-import Grid from '@material-ui/core/Grid'
-import Box from '@material-ui/core/Box'
-import TextField from '@material-ui/core/TextField'
-import FormControl from '@material-ui/core/FormControl'
-import InputLabel from '@material-ui/core/InputLabel'
-import Select from '@material-ui/core/Select'
-import MenuItem from '@material-ui/core/MenuItem'
-import FormHelperText from '@material-ui/core/FormHelperText'
+import Stepper from '@mui/material/Stepper'
+import Step from '@mui/material/Step'
+import StepLabel from '@mui/material/StepLabel'
+import Grid from '@mui/material/Grid'
+import Box from '@mui/material/Box'
+import TextField from '@mui/material/TextField'
+import FormControl from '@mui/material/FormControl'
+import InputLabel from '@mui/material/InputLabel'
+import Select from '@mui/material/Select'
+import MenuItem from '@mui/material/MenuItem'
+import FormHelperText from '@mui/material/FormHelperText'
 import { useHistory } from 'react-router-dom'
 import useStyles from './styles'
 import { toast } from 'react-toastify'
@@ -216,7 +216,7 @@ const AddUser = () => {
             </Grid>
             <Grid item xs={12}>
                 <Widget>
-                    <Grid item justify={'center'} container>
+                    <Grid item justifyContent={'center'} container>
                         <Box
                             display={'flex'}
                             flexDirection={'column'}
@@ -595,7 +595,7 @@ const AddUser = () => {
                 </Widget>
             </Grid>
         </Grid>
-    )
+    );
 }
 
 export default AddUser

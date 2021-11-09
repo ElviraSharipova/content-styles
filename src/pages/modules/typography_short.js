@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
-import { Link } from "@material-ui/core";
+import { Link } from "@mui/material";
 import "./typography_short.scss"
 
 const MTxt= props => (

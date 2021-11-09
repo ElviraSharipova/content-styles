@@ -8,7 +8,7 @@ import {
   Link,
   IconButton,
   TextField as Input
-} from "@material-ui/core";
+} from "@mui/material";
 import { withRouter, useHistory } from "react-router-dom";
 import classnames from "classnames";
 
@@ -28,13 +28,13 @@ import { Button, Typography } from "../../components/Wrappers";
 import Widget from "../../components/Widget";
 import config from "../../config";
 
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import InputAdornment from '@mui/material/InputAdornment';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import axios from "axios";
 import Cookies from 'js-cookie';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import Header from "../../components/Header/HeaderLanding";
 import { GoogleLogin } from 'react-google-login';
 
@@ -340,8 +340,7 @@ function Login(props) {
               <Fade
                 in={error}
                 style={
-                  !error ? { display: "none" } : { display: "inline-block" },
-                  { textAlign: "center", }
+                  (!error ? { display: "none" } : { display: "inline-block" }, { textAlign: "center", })
                 }
               >
                 <Typography color="secondary" className={classes.errorMessage}>
@@ -384,7 +383,7 @@ function Login(props) {
                       aria-label="toggle password visibility"
                       onClick={(event) => handleClickShowPassword(event)}
                       onMouseDown={handleMouseDownPassword}
-                    >
+                      size="large">
                       {showPassword ? <Visibility /> : <VisibilityOff />}
                     </IconButton>
                   </InputAdornment>

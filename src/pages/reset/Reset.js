@@ -3,7 +3,7 @@ import {
   Grid,
   CircularProgress,
   TextField as Input
-} from "@material-ui/core";
+} from "@mui/material";
 import { withRouter, useHistory } from "react-router-dom";
 
 // styles

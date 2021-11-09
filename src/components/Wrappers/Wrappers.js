@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  withStyles,
   Badge as BadgeBase,
   Typography as TypographyBase,
   Button as ButtonBase,
@@ -12,9 +11,10 @@ import {
   Link as LinkBase,
   CircularProgress as CircularProgressBase,
   LinearProgress as LinearProgressBase,
-  Radio as RadioBase
-} from "@material-ui/core";
-import { useTheme, makeStyles } from "@material-ui/styles";
+  Radio as RadioBase,
+} from "@mui/material";
+import withStyles from '@mui/styles/withStyles';
+import { useTheme, makeStyles } from "@mui/styles";
 import classnames from "classnames";
 
 // styles
@@ -122,7 +122,7 @@ function Button({ children, color, className, style, ...props }) {
       backgroundColor: getColor(color, theme),
       boxShadow: theme.customShadows.widget,
       color:
-        theme.palette.type === "dark" && !color
+        theme.palette.mode === "dark" && !color
           ? "#000"
           : `${color ? "white" : theme.palette.text.primary} !important`,
       "&:hover": {

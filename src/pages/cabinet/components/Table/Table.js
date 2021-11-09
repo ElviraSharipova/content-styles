@@ -6,7 +6,7 @@ import {
   TableBody,
   TableCell,
   Box
-} from "@material-ui/core";
+} from "@mui/material";
 
 import { Button, Avatar } from "../../../../components/Wrappers";
 

@@ -7,8 +7,8 @@ import {
   TextField as Input,
   InputAdornment,
   Box
-} from "@material-ui/core";
-import { MoreVert as MoreIcon, Search as SearchIcon } from "@material-ui/icons";
+} from "@mui/material";
+import { MoreVert as MoreIcon, Search as SearchIcon } from "@mui/icons-material";
 import classnames from "classnames";
 
 //components
@@ -111,7 +111,7 @@ export default function Widget({
                   aria-haspopup="true"
                   onClick={() => setMoreMenuOpen(true)}
                   buttonRef={setMoreButtonRef}
-                >
+                  size="large">
                   <MoreIcon />
                 </IconButton>
               )}

@@ -17,8 +17,8 @@ import {
     FolderOpen as FolderIcon,
     Description as DocumentationIcon,
     Person as PersonIcon
-} from '@material-ui/icons'
-import { makeStyles } from '@material-ui/styles'
+} from '@mui/icons-material'
+import { makeStyles } from '@mui/styles'
 
 // components
 import Dot from './components/Dot'

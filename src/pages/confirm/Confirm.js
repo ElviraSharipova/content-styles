@@ -6,7 +6,7 @@ import {
   Tab,
   Fade,
   TextField as Input
-} from "@material-ui/core";
+} from "@mui/material";
 import { withRouter, useHistory } from "react-router-dom";
 import classnames from "classnames";
 
@@ -26,7 +26,7 @@ import { Button, Typography } from "../../components/Wrappers";
 import Widget from "../../components/Widget";
 import config from "../../config";
 import Header from "../../components/Header/HeaderLanding";
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 const getGreeting = () => {
     return "Авторизация в Syncwoia";

@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@mui/styles";
 
 const drawerWidth = 240;
 
@@ -29,13 +29,13 @@ export default makeStyles(theme => ({
     }),
     overflowX: "hidden",
     width: theme.spacing(7) + 40,
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down('xl')]: {
       width: drawerWidth
     }
   },
   toolbar: {
     ...theme.mixins.toolbar,
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down('xl')]: {
       display: "none"
     }
   },

@@ -6,11 +6,11 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText
-} from "@material-ui/core";
+} from "@mui/material";
 import {
   Done as DoneIcon,
   ArrowRightAlt as ArrowRight
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 
 import useStyles from './styles'
 

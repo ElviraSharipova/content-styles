@@ -1,11 +1,11 @@
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@mui/styles";
 
 export default makeStyles(theme => ({
   menuIcon: {
     marginRight: theme.spacing(2)
   },
   icons: {
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down('xl')]: {
       display: "none"
     }
   },
@@ -31,19 +31,19 @@ export default makeStyles(theme => ({
     flexGrow: 1,
     display: "flex",
     alignItems: "center",
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down('xl')]: {
       display: "none"
     },
     marginLeft: 20,
     marginRight: 20
   },
   headerButtons: {
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down('xl')]: {
       marginLeft: "auto"
     }
   },
   fullWidthXs: {
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down('xl')]: {
       width: "100%"
     }
   }

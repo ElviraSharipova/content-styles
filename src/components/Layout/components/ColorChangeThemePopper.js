@@ -7,7 +7,7 @@ import {
   Box,
   Radio,
   Switch as SwitchMode
-} from "@material-ui/core";
+} from "@mui/material";
 
 import useStyles from "../styles";
 

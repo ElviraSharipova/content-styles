@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import {
   Typography
-} from '@material-ui/core';
+} from '@mui/material';
 import Stream from "../../components/Stream";
 import axios from "axios";
 

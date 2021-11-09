@@ -2,7 +2,7 @@ import React from "react";
 import img1 from "../../images/modules/1_2_pic1.jpg";
 import img2 from "../../images/modules/1_2_pic2.gif";
 import { MTxt, MChap, MImg, MParg, MEq, MVid } from "./typography_short";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 
 import 'katex/dist/katex.min.css';
 import { InlineMath, BlockMath } from 'react-katex';

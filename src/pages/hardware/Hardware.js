@@ -15,9 +15,9 @@ import {
   CardMedia,
   Link,
   Checkbox
-} from "@material-ui/core";
-import { Star as StarIcon } from "@material-ui/icons";
-import { yellow } from "@material-ui/core/colors/index";
+} from "@mui/material";
+import { Star as StarIcon } from "@mui/icons-material";
+import { yellow } from "@mui/material/colors/index";
 import useStyles from "./styles";
 
 //components

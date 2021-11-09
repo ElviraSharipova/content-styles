@@ -1,9 +1,10 @@
 import defaultTheme from './default'
+import { adaptV4Theme } from '@mui/material/styles';
 import successTheme from './success'
 import secondaryTheme from './secondary'
 import darkTheme from './dark'
 
-import { createMuiTheme } from '@material-ui/core'
+import { createTheme } from '@mui/material';
 
 const overrides = {
     typography: {
@@ -197,8 +198,8 @@ const darkModeOverrides = {
 }
 
 export default {
-    default: createMuiTheme({ ...defaultTheme, ...overrides }),
-    secondary: createMuiTheme({ ...secondaryTheme, ...overrides }),
-    success: createMuiTheme({ ...successTheme, ...overrides }),
-    dark: createMuiTheme({ ...darkTheme, ...overrides, ...darkModeOverrides }),
+    default: createTheme(adaptV4Theme({ ...defaultTheme, ...overrides })),
+    secondary: createTheme(adaptV4Theme({ ...secondaryTheme, ...overrides })),
+    success: createTheme(adaptV4Theme({ ...successTheme, ...overrides })),
+    dark: createTheme(adaptV4Theme({ ...darkTheme, ...overrides, ...darkModeOverrides })),
 }

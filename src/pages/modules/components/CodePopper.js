@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect, useRef } from "react";
 import Iframe from 'react-iframe';
-import Input from "@material-ui/core/TextField";
+import Input from "@mui/material/TextField";
 
 import {
   Popper,
@@ -11,7 +11,7 @@ import {
   Radio,
   Grid,
   Switch as SwitchMode
-} from "@material-ui/core";
+} from "@mui/material";
 
 //import ReactApexChart from "react-apexcharts";
 import ApexLineChart from "./ApexLineChart";

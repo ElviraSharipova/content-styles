@@ -9,21 +9,21 @@ import {
     DialogContentText,
     DialogTitle,
     TextField as Input,
-} from '@material-ui/core'
+} from '@mui/material'
 import moment from 'moment'
 import Widget from '../../components/Widget'
 import { Button } from '../../components/Wrappers'
-import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
-import TableCell from '@material-ui/core/TableCell'
-import TableContainer from '@material-ui/core/TableContainer'
-import TableHead from '@material-ui/core/TableHead'
-import TablePagination from '@material-ui/core/TablePagination'
-import TableRow from '@material-ui/core/TableRow'
-import TableSortLabel from '@material-ui/core/TableSortLabel'
-import Checkbox from '@material-ui/core/Checkbox'
-import IconButton from '@material-ui/core/IconButton'
-import DeleteIcon from '@material-ui/icons/DeleteOutlined'
+import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
+import TableCell from '@mui/material/TableCell'
+import TableContainer from '@mui/material/TableContainer'
+import TableHead from '@mui/material/TableHead'
+import TablePagination from '@mui/material/TablePagination'
+import TableRow from '@mui/material/TableRow'
+import TableSortLabel from '@mui/material/TableSortLabel'
+import Checkbox from '@mui/material/Checkbox'
+import IconButton from '@mui/material/IconButton'
+import DeleteIcon from '@mui/icons-material/DeleteOutlined'
 import Notification from '../../components/Notification/Notification'
 import { toast } from 'react-toastify'
 
@@ -41,7 +41,7 @@ import {
     Search as SearchIcon,
     CreateOutlined as CreateIcon,
     HelpOutline as HelpIcon,
-} from '@material-ui/icons'
+} from '@mui/icons-material'
 
 import { actions } from '../../context/ManagementContext'
 
@@ -494,30 +494,23 @@ const UserList = () => {
                                                             marginLeft: -12,
                                                         }}
                                                     >
-                                                        <IconButton
-                                                            color={'primary'}
-                                                        >
+                                                        <IconButton color={'primary'} size="large">
                                                           <Link href={`#app/user/${row.id}/edit`} color="#fff">
                                                             <CreateIcon />
                                                           </Link>
                                                         </IconButton>
-                                                        <IconButton
-                                                            color={'primary'}
-                                                        >
+                                                        <IconButton color={'primary'} size="large">
                                                             <Link href={`#app/user/${row.id}`} color="#fff">
                                                               <HelpIcon />
                                                             </Link>
                                                         </IconButton>
-                                                        <IconButton
-                                                            onClick={() => openModal(row.id)}
-                                                            color={'primary'}
-                                                        >
+                                                        <IconButton onClick={() => openModal(row.id)} color={'primary'} size="large">
                                                             <DeleteIcon />
                                                         </IconButton>
                                                     </Box>
                                                 </TableCell>
                                             </TableRow>
-                                        )
+                                        );
                                     })}
                                 {emptyRows > 0 && (
                                     <TableRow
@@ -538,13 +531,13 @@ const UserList = () => {
                         count={usersRows.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
-                        onChangePage={handleChangePage}
-                        onChangeRowsPerPage={handleChangeRowsPerPage}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
                     />
                 </Widget>
             </Grid>
         </Grid>
-    )
+    );
 }
 
 export default UserList

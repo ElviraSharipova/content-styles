@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@mui/styles";
 
 export default makeStyles(theme => ({
   container: {
@@ -19,10 +19,10 @@ export default makeStyles(theme => ({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down('xl')]: {
       width: "50%"
     },
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down('xl')]: {
       display: "none"
     }
   },
@@ -34,7 +34,7 @@ export default makeStyles(theme => ({
     color: "white",
     fontWeight: 500,
     fontSize: 84,
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down('xl')]: {
       fontSize: 48
     }
   },
@@ -46,7 +46,7 @@ export default makeStyles(theme => ({
     justifyContent: "center",
     overflow: "auto",
     alignItems: "center",
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down('xl')]: {
       width: "50%",
       overflow: "visible"
     }
@@ -58,7 +58,7 @@ export default makeStyles(theme => ({
     flexDirection: "column",
     overflow: "auto",
     alignItems: "center",
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down('xl')]: {
       width: "50%",
       overflow: "visible"
     }

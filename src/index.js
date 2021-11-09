@@ -1,7 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
-import { ThemeProvider } from "@material-ui/styles";
+import { ThemeProvider } from "@mui/styles";
+import { StyledEngineProvider } from '@mui/material/styles';
 import App from "./components/App";
 import * as serviceWorker from "./serviceWorker";
 import { LayoutProvider } from "./context/LayoutContext";
@@ -11,7 +12,7 @@ import {
   ThemeProvider as ThemeChangeProvider,
   ThemeStateContext
 } from "./context/ThemeContext";
-import { CssBaseline } from "@material-ui/core";
+import { CssBaseline } from "@mui/material";
 import config from "../src/config";
 
 axios.defaults.baseURL = config.baseURLApi;
@@ -27,12 +28,14 @@ ReactDOM.render(
         <ThemeChangeProvider>
           <ThemeStateContext.Consumer>
             {theme => (
-              <ThemeProvider theme={theme}>
-                <ManagementProvider>
-                <CssBaseline />
-                <App />
-                </ManagementProvider>
-              </ThemeProvider>
+              <StyledEngineProvider injectFirst>
+                <ThemeProvider theme={theme}>
+                  <ManagementProvider>
+                  <CssBaseline />
+                  <App />
+                  </ManagementProvider>
+                </ThemeProvider>
+              </StyledEngineProvider>
             )}
           </ThemeStateContext.Consumer>
         </ThemeChangeProvider>

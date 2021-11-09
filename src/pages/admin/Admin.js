@@ -20,8 +20,8 @@ import {
   Tab,
   Checkbox,
   FormGroup,
-} from "@material-ui/core";
-import Autocomplete from '@material-ui/lab/Autocomplete';
+} from "@mui/material";
+import Autocomplete from '@mui/material/Autocomplete';
 import Header from "../../components/Header/HeaderLanding";
 
 import axios from "axios";

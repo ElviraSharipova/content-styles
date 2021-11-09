@@ -10,11 +10,11 @@ import {
   Popover,
   TextField as Input,
   Typography
-} from "@material-ui/core";
+} from "@mui/material";
 import {
   Inbox as InboxIcon,
   ExpandMore as ExpandIcon
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import classnames from "classnames";
 
@@ -25,7 +25,6 @@ import useStyles2 from "../../styles";
 // components
 import Dot from "../Dot";
 import { Button, Badge } from "../../../Wrappers";
-import Chat from "../../../Chat";
 
 export default function SidebarLink({
   link,
@@ -143,7 +142,6 @@ export default function SidebarLink({
             primary={label}
           />
         </ListItem>
-        <Chat open={isChat} onClose={chatSetClose} />
         <Popover
           id={id}
           open={open}

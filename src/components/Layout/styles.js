@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles } from '@mui/styles'
 
 export default makeStyles(theme => ({
     root: {
@@ -82,11 +82,11 @@ export default makeStyles(theme => ({
         borderBottomLeftRadius: '50%',
     },
     navPadding: {
-        paddingTop: `${theme.spacing(1)}px !important`,
+        paddingTop: `${theme.spacing(1)} !important`,
         paddingBottom: `6px !important`,
     },
     date: {
         marginRight: 38,
-        color: theme.palette.type === 'dark' ? '#D6D6D6' : '#4A494A',
+        color: theme.palette.mode === 'dark' ? '#D6D6D6' : '#4A494A',
     },
 }))

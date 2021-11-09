@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
-import { Grid, Box, TextField } from '@material-ui/core'
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
+import { Grid, Box, TextField } from '@mui/material'
+import Tabs from '@mui/material/Tabs'
+import Tab from '@mui/material/Tab'
 import { useParams } from 'react-router'
-import Checkbox from '@material-ui/core/Checkbox'
-import Switch from '@material-ui/core/Switch'
+import Checkbox from '@mui/material/Checkbox'
+import Switch from '@mui/material/Switch'
 import { useLocation, useHistory } from 'react-router-dom';
 import useStyles from './styles'
 
@@ -12,15 +12,15 @@ import {
     PersonOutline as PersonOutlineIcon,
     Lock as LockIcon,
     Settings as SettingsIcon,
-} from '@material-ui/icons'
+} from '@mui/icons-material'
 import uuid from 'uuid/v4'
 
 import Widget from '../../components/Widget'
 import { Typography, Button } from '../../components/Wrappers'
-import Select from '@material-ui/core/Select'
-import MenuItem from '@material-ui/core/MenuItem'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import FormControl from '@material-ui/core/FormControl'
+import Select from '@mui/material/Select'
+import MenuItem from '@mui/material/MenuItem'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import FormControl from '@mui/material/FormControl'
 import { toast } from 'react-toastify'
 
 import Notification from '../../components/Notification'
@@ -223,7 +223,7 @@ const EditUser = () => {
             </Grid>
             <Grid item xs={12}>
                 <Widget>
-                    <Grid item justify={'center'} container>
+                    <Grid item justifyContent={'center'} container>
                         <Box
                             display={'flex'}
                             flexDirection={'column'}
@@ -653,7 +653,7 @@ const EditUser = () => {
                 </Widget>
             </Grid>
         </Grid>
-    )
+    );
 }
 
 export default EditUser

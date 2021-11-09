@@ -21,16 +21,16 @@ import {
   TableHead,
   TableRow,
   Paper,
-  withStyles,
   CircularProgress,
-  makeStyles
-} from '@material-ui/core';
+} from '@mui/material';
+import withStyles from '@mui/styles/withStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import axios from "axios";
 import Cookies from 'js-cookie';
 import Widget from "../../components/Widget";
 
-import CheckIcon from '@material-ui/icons/Check';
-import ClearIcon from '@material-ui/icons/Clear';
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Clear';
 
 
 export default function Test(props) {

@@ -8,17 +8,17 @@ import {
   Typography,
   Grid,
   Popover,
-} from '@material-ui/core';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
+} from '@mui/material';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
 
 //icons
-import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import CheckIcon from '@material-ui/icons/Check';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import CreateIcon from '@material-ui/icons/Create';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import CheckIcon from '@mui/icons-material/Check';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import CreateIcon from '@mui/icons-material/Create';
 
 import { Button } from "../../components/Wrappers/Wrappers";
 

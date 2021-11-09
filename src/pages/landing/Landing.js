@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 
-import { useTheme, makeStyles } from "@material-ui/styles";
-import { CardMedia } from "@material-ui/core";
+import { useTheme, makeStyles } from "@mui/styles";
+import { CardMedia } from "@mui/material";
 
 import LandingText from '../../images/landing-text.svg';
 import Background from '../../images/landing-pic-final-sequence-1.png';
 //import Logo from '../../images/syncwoia-logo-06.png';
 // styles
 import useStyles from "./styles";
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
 import Header from "../../components/Header/HeaderLanding";
 
 const Landing = props => {

@@ -5,7 +5,7 @@ import {
   Box,
   Grid,
   Switch as SwitchMode
-} from "@material-ui/core";
+} from "@mui/material";
 
 import ApexLineChart from "./ApexLineChart";
 //import ApexHeatmap from "./ApexHeatmap";

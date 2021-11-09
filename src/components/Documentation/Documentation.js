@@ -33,9 +33,9 @@ import classnames from "classnames";
 
 //context
 import { useLayoutState } from "../../context/LayoutContext";
-import { Box, Breadcrumbs, Grid } from "@material-ui/core";
+import { Box, Breadcrumbs, Grid } from "@mui/material";
 
-import { NavigateNext as NavigateNextIcon } from "@material-ui/icons";
+import { NavigateNext as NavigateNextIcon } from "@mui/icons-material";
 
 const Documentation = props => {
   // global
@@ -56,7 +56,7 @@ const Documentation = props => {
           <Grid
             container
             direction="row"
-            justify="space-between"
+            justifyContent="space-between"
             alignItems="center"
           >
             {structure.map(c => { // eslint-disable-line

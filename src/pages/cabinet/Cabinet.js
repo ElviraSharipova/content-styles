@@ -5,10 +5,10 @@ import { Typography, Chip, Button } from "../../components/Wrappers";
 
 import {
   Link
-} from "@material-ui/core";
+} from "@mui/material";
 
 import ImageMapper from 'react-image-mapper';
-import { useTheme, makeStyles } from "@material-ui/styles";
+import { useTheme, makeStyles } from "@mui/styles";
 
 //import Image from '../../images/adrian-marc-amarc-cyberoom-v3.svg';
 import Image from '../../images/LK_v2.jpg';

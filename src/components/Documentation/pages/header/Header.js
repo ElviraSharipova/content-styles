@@ -1,7 +1,7 @@
 import React from 'react'
-import { AppBar, Tabs, Tab, Box, Toolbar, IconButton } from '@material-ui/core'
+import { AppBar, Tabs, Tab, Box, Toolbar, IconButton } from '@mui/material'
 
-import { ArrowRightAlt as ArrowRight, Menu as MenuIcon } from '@material-ui/icons'
+import { ArrowRightAlt as ArrowRight, Menu as MenuIcon } from '@mui/icons-material'
 
 import useStyles from '../../styles'
 import useStyles2 from '../overview/styles'
@@ -36,7 +36,7 @@ const WidgetPage = () => {
             <Typography variant={'body2'}>
                 Header element on your page.
             </Typography>
-            <Code>{`import { AppBar, Toolbar, IconButton } from '@material-ui/core'`}</Code>
+            <Code>{`import { AppBar, Toolbar, IconButton } from '@mui/material'`}</Code>
             <AppBar position="static">
                 <Tabs
                     value={value}
@@ -50,7 +50,12 @@ const WidgetPage = () => {
             <TabPanel index={0} value={value}>
                 <AppBar position="static">
                     <Toolbar>
-                        <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                        <IconButton
+                            edge="start"
+                            className={classes.menuButton}
+                            color="inherit"
+                            aria-label="menu"
+                            size="large">
                             <MenuIcon />
                         </IconButton>
                         <Typography variant="h6" className={classes.title}>

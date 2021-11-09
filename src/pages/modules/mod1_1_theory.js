@@ -1,6 +1,6 @@
 import React from "react";
 import { MTxt, MChap, MImg, MParg, MEq, MRadio, MVid, MNav } from "./typography_short";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 import img1 from "../../images/modules/1_1_pic1.PNG";
 import img2 from "../../images/modules/1_1_pic2.PNG";
 import img3 from "../../images/modules/1_1_pic3.PNG";

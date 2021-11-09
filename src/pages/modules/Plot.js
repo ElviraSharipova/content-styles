@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import {
   Typography
-} from '@material-ui/core';
-import { Grid } from "@material-ui/core";
+} from '@mui/material';
+import { Grid } from "@mui/material";
 import PlotUltrasonic from './components/PlotUltrasonic';
 import PlotInfrared from './components/PlotInfrared';
 import PlotRuler from './components/PlotRuler';

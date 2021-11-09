@@ -2,7 +2,7 @@ import React from "react";
 import {
   LibraryBooks as PagesIcon,
   LocalLibrary as LibsIcon
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 
 const structure = [
   {

@@ -7,14 +7,14 @@ import {
     Breadcrumbs,
     Tabs,
     Tab,
-} from '@material-ui/core'
+} from '@mui/material'
 import { Typography, Button } from '../Wrappers'
 import {
     NavigateNext as NavigateNextIcon,
     CalendarToday as CalendarIcon,
-} from '@material-ui/icons'
+} from '@mui/icons-material'
 import { useLocation } from 'react-router-dom';
-import { withStyles } from '@material-ui/styles'
+import { withStyles } from '@mui/styles'
 
 // styles
 import useStyles from '../Layout/styles'
@@ -98,100 +98,99 @@ const BreadCrumbs = () => {
       }
   }
   return (
-    <Widget
-      disableWidgetMenu
-      inheritHeight
-      className={classes.margin}
-      bodyClass={classes.navPadding}
-    >
-      <Grid
-          container
-          direction="row"
-          justify="space-between"
-          alignItems="center"
-          wrap={'nowrap'}
-          style={{ overflowX: 'auto' }}
+      <Widget
+        disableWidgetMenu
+        inheritHeight
+        className={classes.margin}
+        bodyClass={classes.navPadding}
       >
-          {structure.map(c => {
-              if (
-                  !c.children &&
-                  window.location.hash.includes(c.link) &&
-                  c.link
-              ) {
-                  return (
-                      <Box
-                          display="flex"
-                          alignItems="center"
-                          key={c.id}
-                      >
-                          <Breadcrumbs aria-label="breadcrumb">
-                              <Typography variant="h4">
-                                  {c.label}
-                              </Typography>
-                          </Breadcrumbs>
-                          {window.location.hash.includes(
-                              '/app/dashboard'
-                          ) && (
-                              <Tabs
-                                  value={value}
-                                  onChange={handleChange}
-                                  aria-label="simple tabs example"
-                                  variant="scrollable"
-                                  scrollButtons="auto"
-                                  style={{ marginLeft: 38 }}
-                              >
-                                  <CustomTab
-                                      label="Today"
-                                      {...a11yProps(0)}
-                                  />
-                                  <CustomTab
-                                      label="This week"
-                                      {...a11yProps(1)}
-                                  />
-                                  <CustomTab
-                                      label="This month"
-                                      {...a11yProps(2)}
-                                  />
-                                  <CustomTab
-                                      label="This year"
-                                      {...a11yProps(3)}
-                                  />
-                              </Tabs>
-                          )}
-                      </Box>
-                  )
-              }
-          })}
-          {window.location.hash.includes('/app/dashboard') ? (
-              <Box display="flex" alignItems="center">
-                  <CalendarIcon
-                      className={classes.calendarIcon}
-                  />
-                  <Typography className={classes.date}>
-                      29 Oct 2019, Tuesday
-                  </Typography>
-                  <Button
-                      variant="contained"
-                      color="secondary"
-                      className={classes.button}
-                  >
-                      Latest Reports
-                  </Button>
-              </Box>
-          ) : (
-            <Breadcrumbs
-                separator={
-                  <NavigateNextIcon fontSize="small" />
-              }
-              aria-label="breadcrumb"
-            >
-              {renderBreadCrumbs()}
-            </Breadcrumbs>            
-          )}
-      </Grid>
-  </Widget>
-  
-  )
+        <Grid
+            container
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+            wrap={'nowrap'}
+            style={{ overflowX: 'auto' }}
+        >
+            {structure.map(c => {
+                if (
+                    !c.children &&
+                    window.location.hash.includes(c.link) &&
+                    c.link
+                ) {
+                    return (
+                        <Box
+                            display="flex"
+                            alignItems="center"
+                            key={c.id}
+                        >
+                            <Breadcrumbs aria-label="breadcrumb">
+                                <Typography variant="h4">
+                                    {c.label}
+                                </Typography>
+                            </Breadcrumbs>
+                            {window.location.hash.includes(
+                                '/app/dashboard'
+                            ) && (
+                                <Tabs
+                                    value={value}
+                                    onChange={handleChange}
+                                    aria-label="simple tabs example"
+                                    variant="scrollable"
+                                    scrollButtons="auto"
+                                    style={{ marginLeft: 38 }}
+                                >
+                                    <CustomTab
+                                        label="Today"
+                                        {...a11yProps(0)}
+                                    />
+                                    <CustomTab
+                                        label="This week"
+                                        {...a11yProps(1)}
+                                    />
+                                    <CustomTab
+                                        label="This month"
+                                        {...a11yProps(2)}
+                                    />
+                                    <CustomTab
+                                        label="This year"
+                                        {...a11yProps(3)}
+                                    />
+                                </Tabs>
+                            )}
+                        </Box>
+                    )
+                }
+            })}
+            {window.location.hash.includes('/app/dashboard') ? (
+                <Box display="flex" alignItems="center">
+                    <CalendarIcon
+                        className={classes.calendarIcon}
+                    />
+                    <Typography className={classes.date}>
+                        29 Oct 2019, Tuesday
+                    </Typography>
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        className={classes.button}
+                    >
+                        Latest Reports
+                    </Button>
+                </Box>
+            ) : (
+              <Breadcrumbs
+                  separator={
+                    <NavigateNextIcon fontSize="small" />
+                }
+                aria-label="breadcrumb"
+              >
+                {renderBreadCrumbs()}
+              </Breadcrumbs>            
+            )}
+        </Grid>
+    </Widget>
+  );
 }
 export default BreadCrumbs
                 

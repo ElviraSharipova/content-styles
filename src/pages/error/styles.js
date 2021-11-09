@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@mui/styles";
 
 export default makeStyles(theme => ({
   container: {
@@ -17,7 +17,7 @@ export default makeStyles(theme => ({
     display: "flex",
     alignItems: "center",
     marginBottom: theme.spacing(12),
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down('xl')]: {
       display: "none"
     }
   },

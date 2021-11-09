@@ -7,8 +7,8 @@ import {
   TableRow,
   TableHead,
   Box
-} from "@material-ui/core";
-import { Add as PlusIcon, Remove as MinusIcon } from "@material-ui/icons";
+} from "@mui/material";
+import { Add as PlusIcon, Remove as MinusIcon } from "@mui/icons-material";
 import useStyles from "./styles";
 
 //components

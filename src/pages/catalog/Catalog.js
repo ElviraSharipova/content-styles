@@ -12,10 +12,10 @@ import {
   CardActionArea,
   CardMedia,
   Link
-} from "@material-ui/core";
-import { Star as StarIcon } from "@material-ui/icons";
-import Checkbox from '@material-ui/core/Checkbox';
-import { yellow } from "@material-ui/core/colors/index";
+} from "@mui/material";
+import { Star as StarIcon } from "@mui/icons-material";
+import Checkbox from '@mui/material/Checkbox';
+import { yellow } from "@mui/material/colors/index";
 import useStyles from "./styles";
 
 //components

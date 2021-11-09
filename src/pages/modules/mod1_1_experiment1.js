@@ -1,6 +1,6 @@
 import React from "react";
 import { MTxt, MChap, MImg, MParg, MEq, MRadio, MVid, MNav } from "./typography_short";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 import PlotUltrasonic from './components/PlotUltrasonic';
 import DataStreamButton from "./components/DataStreamButton";
 

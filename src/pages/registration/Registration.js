@@ -6,7 +6,7 @@ import {
   Tab,
   Fade,
   TextField as Input
-} from "@material-ui/core";
+} from "@mui/material";
 import { withRouter, useHistory } from "react-router-dom";
 import classnames from "classnames";
 
@@ -29,7 +29,7 @@ import Header from "../../components/Header/HeaderLanding";
 
 import axios from "axios";
 import Cookies from 'js-cookie';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 const getGreeting = () => {
     return "Регистрация";

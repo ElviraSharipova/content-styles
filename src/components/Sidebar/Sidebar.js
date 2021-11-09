@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { ArrowBack as ArrowBackIcon } from "@material-ui/icons";
-import { Drawer, IconButton, List } from "@material-ui/core";
-import { useTheme } from "@material-ui/styles";
+import { ArrowBack as ArrowBackIcon } from "@mui/icons-material";
+import { Drawer, IconButton, List } from "@mui/material";
+import { useTheme } from "@mui/styles";
 import { withRouter } from "react-router-dom";
 import classNames from "classnames";
 
@@ -70,7 +70,7 @@ function Sidebar({ location, structure }) {
     >
       <div className={classes.toolbar} />
       <div className={classes.mobileBackButton}>
-        <IconButton onClick={() => toggleSidebar(layoutDispatch)}>
+        <IconButton onClick={() => toggleSidebar(layoutDispatch)} size="large">
           <ArrowBackIcon
             classes={{
               root: classNames(classes.headerIcon, classes.headerIconCollapse)

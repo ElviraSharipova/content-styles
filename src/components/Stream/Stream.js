@@ -2,8 +2,7 @@ import React from "react";
 import {
   Button,
   Grid
-} from "@material-ui/core";
-import Chat from "../Chat";
+} from "@mui/material";
 
 export default function Stream(props) {
   return (
@@ -13,7 +12,6 @@ export default function Stream(props) {
           <iframe align="absmiddle" width="100%" height="100%" src={props.src} frameborder="0" allow="fullscreen; accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </Grid>
         <Grid item xs={2}>
-          <Chat height="60vh" />
         </Grid>
       </Grid>
     </div>

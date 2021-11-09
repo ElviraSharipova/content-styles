@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import {
   Typography
-} from '@material-ui/core';
+} from '@mui/material';
 import axios from "axios";
 import useStyles from "./styles";
 

@@ -6,7 +6,7 @@ import {
   TextField,
   Collapse,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 
 
 export default function JsonEditor(props) {
