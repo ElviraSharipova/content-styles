@@ -82,37 +82,40 @@ export default makeStyles(theme => ({
       marginBottom: 0,
       paddingLeft: 24,
       paddingRight: 12,
-      backgroundColor: "#F9F9FC",
       borderStyle: "solid",
       borderRadius: 12,
       borderWidth: 1,
       borderColor: "#E0E0E0",
+      backgroundColor: "#F9F9FC",
     },
     "& > .caption": {
       marginBottom: 18,
       marginTop: 6,
     },
     "& ul": {
-      listStyleType: "disc",
+      
       marginLeft: 24,
       marginTop: 6,
       marginBottom: 18,
+      listStyleType: "disc",
     },
     "& ol": {
-      listStyleType: "decimal",
       marginLeft: 24,
       marginTop: 6,
       marginBottom: 18,
+      listStyleType: "decimal",
     },
     "& li": {
       marginBottom: 6,
     },
     "& h2": {
       marginTop: 48,
+     
     },
-    //"& a": {
-    //  target: "_blank",
-    //  rel: "noopener noreferrer",
-    //},
+    "& a": {
+      target: "_blank",
+      rel: "noopener noreferrer",
+    },
+    
   },
 }));
