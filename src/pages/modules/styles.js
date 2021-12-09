@@ -1,7 +1,10 @@
 import { makeStyles } from "@mui/styles";
 
 export default makeStyles(theme => ({
+<<<<<<< HEAD
 
+=======
+>>>>>>> dima
     paper: {
         margin: "24px 0",
         backgroundColor: "#f3f3f3",
@@ -66,6 +69,7 @@ export default makeStyles(theme => ({
         padding: theme.spacing(1),
     },
     contentText: {
+<<<<<<< HEAD
 
         "& > *": {
             marginBottom: 12,
@@ -80,12 +84,20 @@ export default makeStyles(theme => ({
             marginBottom: 12,
         },
         "& h4": {
+=======
+        "& > *": {
+            marginBottom: 12,
+            fontFamily: "Roboto"
+        },
+        "& > p": {
+>>>>>>> dima
             marginBottom: 12,
             marginTop: 12,
         },
         "& p": {
             marginBottom: 12,
             marginTop: 12,
+<<<<<<< HEAD
             lineHeight: 1.43,
         },
         "& > p": {
@@ -130,10 +142,41 @@ export default makeStyles(theme => ({
             marginLeft: 24,
             marginTop: 6,
             marginBottom: 18,
+=======
+        },
+        "& > .colored-frame": {
+            marginTop: 12,
+            marginBottom: 0,
+            paddingLeft: 24,
+            paddingRight: 12,
+            borderStyle: "solid",
+            borderRadius: 12,
+            borderWidth: 1,
+            borderColor: "#E0E0E0",
+            backgroundColor: "#F9F9FC",
+        },
+        "& > .caption": {
+            marginBottom: 18,
+            marginTop: 6,
+        },
+        "& ul": {
+
+            marginLeft: 24,
+            marginTop: 6,
+            marginBottom: 18,
+            listStyleType: "disc",
+        },
+        "& ol": {
+            marginLeft: 24,
+            marginTop: 6,
+            marginBottom: 18,
+            listStyleType: "decimal",
+>>>>>>> dima
         },
         "& li": {
             marginBottom: 6,
         },
+<<<<<<< HEAD
         "& > .caption": {
             marginBottom: 18,
             marginTop: 6,
@@ -178,4 +221,16 @@ export default makeStyles(theme => ({
         },
 
     }
+=======
+        "& h2": {
+            marginTop: 48,
+
+        },
+        "& a": {
+            target: "_blank",
+            rel: "noopener noreferrer",
+        },
+
+    },
+>>>>>>> dima
 }));
