@@ -1,10 +1,7 @@
 import { makeStyles } from "@mui/styles";
 
 export default makeStyles(theme => ({
-<<<<<<< HEAD
 
-=======
->>>>>>> dima
     paper: {
         margin: "24px 0",
         backgroundColor: "#f3f3f3",
@@ -69,38 +66,33 @@ export default makeStyles(theme => ({
         padding: theme.spacing(1),
     },
     contentText: {
-<<<<<<< HEAD
-
         "& > *": {
             marginBottom: 12,
             fontFamily: "Roboto",
-            boxSizing: "border-box",
-        },
-        "& section": {
-            width: "100%",
-            marginBottom: 40,
-        },
-        "& section:last-child": {
-            marginBottom: 12,
-        },
-        "& h4": {
-=======
-        "& > *": {
-            marginBottom: 12,
-            fontFamily: "Roboto"
+            color: "rgba(49, 52, 56, 1)",
+            backgroundColor: "rgb(249, 249, 252)"
         },
         "& > p": {
->>>>>>> dima
+            fontSize: 18,
+            lineHeight: "155%",
+            marginTop: 18,
+            marginBottom: 18,
             marginBottom: 12,
             marginTop: 12,
         },
         "& p": {
+            fontSize: 18,
+            lineHeight: "155%",
+            marginTop: 18,
+            marginBottom: 18,
             marginBottom: 12,
             marginTop: 12,
-<<<<<<< HEAD
-            lineHeight: 1.43,
         },
         "& > p": {
+            fontSize: 18,
+            lineHeight: "155%",
+            marginTop: 18,
+            marginBottom: 18,
             marginBottom: 12,
             marginTop: 12,
         },
@@ -133,16 +125,19 @@ export default makeStyles(theme => ({
 
         "& ul": {
             listStyleType: "disc",
-            marginLeft: 24,
-            marginTop: 6,
-            marginBottom: 18,
+            marginLeft: 18,
+            marginTop: 0,
+            marginBottom: 0,
+            marginRight: 0,
+
+           
         },
         "& ol": {
-            listStyleType: "decimal",
-            marginLeft: 24,
-            marginTop: 6,
-            marginBottom: 18,
-=======
+            marginLeft: 18,
+            marginTop: 0,
+            marginBottom: 0,
+            marginRight: 0,
+
         },
         "& > .colored-frame": {
             marginTop: 12,
@@ -171,15 +166,21 @@ export default makeStyles(theme => ({
             marginTop: 6,
             marginBottom: 18,
             listStyleType: "decimal",
->>>>>>> dima
+
         },
         "& li": {
             marginBottom: 6,
+            lineHeight: 1.55,
+            marginLeft: 10,
+            marginTop: 0,
+            marginBottom: 0,
+            marginRight: 0,
+            
         },
-<<<<<<< HEAD
-        "& > .caption": {
-            marginBottom: 18,
-            marginTop: 6,
+        "&  figcaption": {
+            textAlign: "center",
+            marginTop: 18,
+            marginBottom: 40
         },
         "& > .colored-frame": {
             marginTop: 12,
@@ -203,6 +204,14 @@ export default makeStyles(theme => ({
             margin: "10px auto",
         },
 
+        "& img": {
+            display: "block",
+            marginTop: 40,
+            marginBottom: 18,
+            border: "1px solid rgba(224, 224, 224, 1)", // #E0E0E0 
+            borderRadius: 6,
+        },
+
         "& table": {
             width: "100%",
             marginBottom: 12,
@@ -215,13 +224,13 @@ export default makeStyles(theme => ({
         },
         "& iframe": {
             width: 800,
-            height: 450,
+            height: "auto",
             align: "absmiddle",
             frameBorder: 0,
         },
 
-    }
-=======
+
+
         "& h2": {
             marginTop: 48,
 
@@ -232,5 +241,5 @@ export default makeStyles(theme => ({
         },
 
     },
->>>>>>> dima
+
 }));
