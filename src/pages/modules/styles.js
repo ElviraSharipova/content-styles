@@ -72,11 +72,7 @@ export default makeStyles(theme => ({
             color: "rgba(49, 52, 56, 1)",
             // backgroundColor: "rgb(249, 249, 252)"
         },
-        "&  .makeStyles-contentText-100": {
-           
-            backgroundColor: "rgb(249, 249, 252)",
-            padding: 40,
-        },
+      
         "& > p": {
             fontSize: 18,
             lineHeight: "155%",
