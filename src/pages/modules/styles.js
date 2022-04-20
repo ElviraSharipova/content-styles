@@ -70,31 +70,33 @@ export default makeStyles(theme => ({
             marginBottom: 12,
             fontFamily: "Roboto",
             color: "rgba(49, 52, 56, 1)",
-            backgroundColor: "rgb(249, 249, 252)"
+            // backgroundColor: "rgb(249, 249, 252)"
+        },
+        "&  .makeStyles-contentText-100": {
+           
+            backgroundColor: "rgb(249, 249, 252)",
+            padding: 40,
         },
         "& > p": {
             fontSize: 18,
             lineHeight: "155%",
             marginTop: 18,
             marginBottom: 18,
-            marginBottom: 12,
-            marginTop: 12,
+           
         },
         "& p": {
             fontSize: 18,
             lineHeight: "155%",
             marginTop: 18,
             marginBottom: 18,
-            marginBottom: 12,
-            marginTop: 12,
+            
         },
         "& > p": {
             fontSize: 18,
             lineHeight: "155%",
             marginTop: 18,
             marginBottom: 18,
-            marginBottom: 12,
-            marginTop: 12,
+            
         },
         "& .code": {
             fontSize: "1rem",
@@ -238,6 +240,7 @@ export default makeStyles(theme => ({
         "& a": {
             target: "_blank",
             rel: "noopener noreferrer",
+            textDecoration: "none",
         },
 
     },
